@@ -75,7 +75,7 @@ const completionLocks = new Map();
 // Channel configuration
 const channels = {
   '🍰 CAKE Official': '-1002586398527',
-  'Tapy Updates': '-1001605359797',
+  'Tapy Updates': '-1002766173882',
   '🍰 CAKE Community': '-1003171934712',
   '🍰 CAKE Discussion': '-1003127994624'
 };
@@ -289,10 +289,10 @@ async function updateUserBalance(userId, amount, transactionData = null) {
 }
 
 // Withdrawal DM function
-async function sendWithdrawalRequestDM(userId, amount, wkcAmount) {
+async function sendWithdrawalRequestDM(userId, amount, CAKEAmount) {
     try {
         const message = `📥 *Withdrawal Request Received*\n\n` +
-                       `💰 *Amount:* ${wkcAmount} WKC (${amount} points)\n` +
+                       `💰 *Amount:* ${CAKEAmount} CAKE (${amount} points)\n` +
                        `⏰ *Requested:* ${new Date().toLocaleString()}\n\n` +
                        `🔄 Your request is in queue and will be processed within 5-15 minutes.\n` +
                        `You will receive another notification when it's completed.`;
@@ -1557,7 +1557,7 @@ app.post('/api/withdrawals/create', async (req, res) => {
         user_id: withdrawalRequest.userId,
         username: withdrawalRequest.username,
         amount: withdrawalRequest.amount,
-        wkc_amount: withdrawalRequest.wkcAmount,
+        CAKE_amount: withdrawalRequest.CAKEAmount,
         wallet: withdrawalRequest.wallet,
         status: 'pending',
         created_at: new Date().toISOString(),
@@ -1566,7 +1566,7 @@ app.post('/api/withdrawals/create', async (req, res) => {
     
     if (error) throw error;
     
-    await sendWithdrawalRequestDM(withdrawalRequest.userId, withdrawalRequest.amount, withdrawalRequest.wkcAmount);
+    await sendWithdrawalRequestDM(withdrawalRequest.userId, withdrawalRequest.amount, withdrawalRequest.CAKEAmount);
     
     res.json({ 
       success: true, 
@@ -3028,7 +3028,7 @@ app.get('/api/config/get-all', async (req, res) => {
 async function sendWithdrawalSuccessDM(userId, request, paymentResult) {
     try {
         const message = `✅ *Withdrawal Completed!*\n\n` +
-                       `💰 *Amount Sent:* ${request.wkc_amount} WKC\n` +
+                       `💰 *Amount Sent:* ${request.CAKE_amount} CAKE\n` +
                        `📍 *Wallet:* \`${request.wallet}\`\n\n` +
                        `✅ Funds have been sent to your wallet!`;
 
@@ -3049,7 +3049,7 @@ async function sendWithdrawalFailureDM(userId, request, errorMessage) {
         console.log(`⚠️ Withdrawal processing delayed for user ${userId}: ${errorMessage}`);
         
         const message = `🔄 *Withdrawal Processing*\n\n` +
-                       `💰 *Amount:* ${request.wkc_amount} WKC\n` +
+                       `💰 *Amount:* ${request.CAKE_amount} CAKE\n` +
                        `📍 *Wallet:* \`${request.wallet}\`\n\n` +
                        `Your withdrawal is being processed and will be completed shortly.`;
 
@@ -3081,8 +3081,8 @@ app.post('/api/withdrawals/approve', async (req, res) => {
         
         const paymentData = {
             address: withdrawal.wallet,
-            amount: withdrawal.wkc_amount.toString(),
-            token: "WKC"
+            amount: withdrawal.CAKE_amount.toString(),
+            token: "CAKE"
         };
         
         console.log('💰 Processing payment:', paymentData);
@@ -3125,7 +3125,7 @@ app.post('/api/withdrawals/approve', async (req, res) => {
             
             res.json({
                 success: true,
-                amount: withdrawal.wkc_amount,
+                amount: withdrawal.CAKE_amount,
                 wallet: withdrawal.wallet,
                 txHash: result.txHash,
                 explorerLink: result.explorerLink
