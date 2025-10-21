@@ -2217,7 +2217,7 @@ video {
                 <div id="amount-error" class="error-message"></div>
               </div>
               <div class="text-center">
-                <p class="text-lg font-semibold" id="withdrawal-amount-display">= 0 WKC</p>
+                <p class="text-lg font-semibold" id="withdrawal-amount-display">= ... CAKE</p>
                 <p class="text-sm text-muted-foreground">Amount to be received</p>
               </div>
               <div class="border rounded-lg p-4 flex justify-between items-center">
@@ -2231,7 +2231,7 @@ video {
             <div class="flex p-6 pt-0 flex-col items-stretch gap-4">
               <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-4 py-2 w-full h-12 text-lg" id="withdraw-button">Place Withdrawal</button>
               <div class="text-center text-sm text-muted-foreground space-y-1">
-                <p id="min-withdrawal-info">Minimum withdrawal: ••• WKC</p>
+                <p id="min-withdrawal-info">Minimum withdrawal: ••• CAKE</p>
                 <p>Processing time: 5-15 minutes</p>
                 <p id="referral-requirement" class="text-red-500 hidden">You need ••• more referrals to withdraw</p>
               </div>
@@ -2389,9 +2389,9 @@ async function loadWithdrawalConfig() {
         const config = data.configs.withdrawal;
         const minWithdrawal = config.minWithdrawal || 100;
         const minReferrals = config.minReferralsToWithdraw || 0;
-        const pointsToWKC = config.pointCurrencyRate || 0.001;
+        const pointsToCAKE = config.pointCurrencyRate || 0.001;
         
-        document.getElementById('min-withdrawal-info').textContent = `Minimum withdrawal: ${minWithdrawal} WKC`;
+        document.getElementById('min-withdrawal-info').textContent = `Minimum withdrawal: ${minWithdrawal} CAKE`;
         
         // Check referral requirement
         const userData = localStorage.getItem('telegramUser');
@@ -2407,7 +2407,7 @@ async function loadWithdrawalConfig() {
           }
         }
         
-        return { minWithdrawal, minReferrals, pointsToWKC };
+        return { minWithdrawal, minReferrals, pointsToCAKE };
       }
     }
   } catch (error) {
@@ -2415,15 +2415,15 @@ async function loadWithdrawalConfig() {
   }
   
   // Fallback to defaults
-  return { minWithdrawal: 100, minReferrals: 0, pointsToWKC: 0.001 };
+  return { minWithdrawal: 100, minReferrals: 0, pointsToCAKE: 0.001 };
 }
 
 // Update withdrawal amount display
 function updateWithdrawalAmount() {
   const amount = parseInt(document.getElementById('amount').value) || 0;
   loadWithdrawalConfig().then(config => {
-    const wkcAmount = (amount * config.pointsToWKC).toFixed(2);
-    document.getElementById('withdrawal-amount-display').textContent = `= ${wkcAmount} WKC`;
+    const CAKEAmount = (amount * config.pointsToCAKE).toFixed(2);
+    document.getElementById('withdrawal-amount-display').textContent = `= ${CAKEAmount} CAKE`;
   });
 }
 
@@ -2510,7 +2510,7 @@ async function placeWithdrawal() {
       userId: user.id,
       username: user.username || user.first_name,
       amount: amount,
-      wkcAmount: (amount * config.pointsToWKC).toFixed(2),
+      CAKEAmount: (amount * config.pointsToCAKE).toFixed(2),
       wallet: walletAddress,
       status: 'pending',
       createdAt: new Date().toISOString(),
@@ -2522,14 +2522,14 @@ async function placeWithdrawal() {
     
     if (saveSuccess) {
       // ✅ LOG WITHDRAWAL TO HISTORY
-      await logWithdrawalHistory(user.id, amount, (amount * config.pointsToWKC).toFixed(2), 'pending');
+      await logWithdrawalHistory(user.id, amount, (amount * config.pointsToCAKE).toFixed(2), 'pending');
       
       // ✅ INSTANT UI UPDATE: Show success immediately
       showSuccess('amount-error', `Withdrawal request submitted successfully! ${amount} points reserved. It will be processed within 5-15 minutes.`);
       
       // Reset form
       document.getElementById('amount').value = '';
-      document.getElementById('withdrawal-amount-display').textContent = '= 0 WKC';
+      document.getElementById('withdrawal-amount-display').textContent = '= 0 CAKE';
       
       // Reload balance to show updated available balance
       await loadUserBalance(user.id);
@@ -2664,11 +2664,11 @@ async function getTotalPendingWithdrawals(userId) {
 }
 
 // Add this function to withdraw.html
-async function logWithdrawalHistory(userId, amount, wkcAmount, status) {
+async function logWithdrawalHistory(userId, amount, CAKEAmount, status) {
   try {
     const withdrawalEntry = {
       amount: amount,
-      wkcAmount: wkcAmount,
+      CAKEAmount: CAKEAmount,
       status: status,
       date: new Date().toISOString()
     };

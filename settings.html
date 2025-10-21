@@ -3037,7 +3037,7 @@ async function loadWithdrawalRequests() {
                             <h4 class="font-bold text-yellow-400">${request.username}</h4>
                             <span class="text-xs px-2 py-1 rounded-full bg-yellow-500 text-black">ID: ${request.userId}</span>
                             </div>
-                            <p class="text-sm text-gray-300">Amount: ${request.amount} points (${request.wkcAmount} WKC)</p>
+                            <p class="text-sm text-gray-300">Amount: ${request.amount} points (${request.CAKEAmount} CAKE)</p>
                             <p class="text-sm text-gray-300">Wallet: ${request.wallet}</p>
                             <p class="text-sm text-gray-300">Requested: ${new Date(request.createdAt).toLocaleString()}</p>
                         </div>
@@ -3262,7 +3262,7 @@ async function rejectTask(taskId, approvalIndex) {
 // Send withdrawal success message to user via bot
 async function sendWithdrawalSuccessMessage(userId, request, paymentResult) {
     try {
-        const message = `✅ Withdrawal Completed!\n\n💵 Amount Sent: ${request.wkcAmount} WKC\n📍 Address: ${request.wallet}\n\n🔗 [View Transaction](${paymentResult.explorerLink})\n\n✅ Funds have been sent to your WKC wallet.`;
+        const message = `✅ Withdrawal Completed!\n\n💵 Amount Sent: ${request.CAKEAmount} CAKE\n📍 Address: ${request.wallet}\n\n🔗 [View Transaction](${paymentResult.explorerLink})\n\n✅ Funds have been sent to your CAKE wallet.`;
         
         const response = await fetch('/api/bot/send-message', {
             method: 'POST',
@@ -3327,7 +3327,7 @@ async function approveWithdrawal(requestId) {
             const data = await response.json();
             if (data.success) {
                 const successMessage = `✅ Withdrawal approved and payment sent!\n\n` +
-                                     `💵 Amount: ${data.amount} WKC\n` +
+                                     `💵 Amount: ${data.amount} CAKE\n` +
                                      `📍 Address: ${data.wallet}\n` +
                                      `🔗 TX Hash: ${data.txHash}\n\n` +
                                      `View on explorer: ${data.explorerLink}\n\n` +
