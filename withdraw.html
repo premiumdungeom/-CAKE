@@ -2211,6 +2211,15 @@ video {
     <div id="balance-display">
         <!-- This will be populated by JavaScript -->
     </div>
+    <!-- Add these informational elements near the withdrawal form -->
+<div id="withdrawal-requirements" class="space-y-2 text-sm">
+    <div id="ads-requirement" class="hidden text-yellow-600">
+        <!-- Will show ads requirement -->
+    </div>
+    <div id="withdrawal-limit" class="hidden text-blue-600">
+        <!-- Will show withdrawal limit -->
+    </div>
+</div>
               <div class="space-y-2">
                 <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="amount">Amount to Withdraw</label>
                 <input type="number" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" id="amount" placeholder="Enter amount">
@@ -2341,6 +2350,7 @@ document.addEventListener('DOMContentLoaded', function() {
       loadUserBalance(user.id);
       loadWalletData(user.id);
       loadWithdrawalConfig();
+      updateWithdrawalRequirements();
       
       // Set up event listeners
       document.getElementById('amount').addEventListener('input', updateWithdrawalAmount);
@@ -2562,36 +2572,116 @@ async function placeWithdrawal() {
 }
 
 // Enhanced validation with additional checks
+// Enhanced validation with additional checks
 async function validateWithdrawal(amount, balance, config, userId) {
-  if (!amount || amount <= 0) {
-    return { valid: false, message: 'Please enter a valid amount' };
-  }
-  
-  if (amount < config.minWithdrawal) {
-    return { valid: false, message: `Minimum withdrawal is ${config.minWithdrawal} points` };
-  }
-  
-  // ✅ STRICTER BALANCE CHECK - Include pending withdrawals from Firebase
-  const totalPending = await getTotalPendingWithdrawals(userId);
-  const availableBalance = balance - totalPending;
-  
-  if (amount > availableBalance) {
-    return { valid: false, message: `Insufficient available balance. You have ${availableBalance} points available (${totalPending} points in pending withdrawals)` };
-  }
-  
-  // Additional safety check - ensure amount doesn't exceed total balance
-  if (amount > balance) {
-    return { valid: false, message: `Amount exceeds your total balance of ${balance} points` };
-  }
-  
-  // Check referral requirement
-  const referralStats = await getReferralStats(userId);
-  const referrals = referralStats.totalInvites || 0;
-  if (referrals < config.minReferrals) {
-    return { valid: false, message: `You need ${config.minReferrals - referrals} more referrals to withdraw` };
-  }
-  
-  return { valid: true, message: '' };
+    if (!amount || amount <= 0) {
+        return { valid: false, message: 'Please enter a valid amount' };
+    }
+    
+    if (amount < config.minWithdrawal) {
+        return { valid: false, message: `Minimum withdrawal is ${config.minWithdrawal} points` };
+    }
+    
+    // ✅ STRICTER BALANCE CHECK - Include pending withdrawals from Firebase
+    const totalPending = await getTotalPendingWithdrawals(userId);
+    const availableBalance = balance - totalPending;
+    
+    if (amount > availableBalance) {
+        return { valid: false, message: `Insufficient available balance. You have ${availableBalance} points available (${totalPending} points in pending withdrawals)` };
+    }
+    
+    // Additional safety check - ensure amount doesn't exceed total balance
+    if (amount > balance) {
+        return { valid: false, message: `Amount exceeds your total balance of ${balance} points` };
+    }
+    
+    // Check referral requirement
+    const referralStats = await getReferralStats(userId);
+    const referrals = referralStats.totalInvites || 0;
+    if (referrals < config.minReferrals) {
+        return { valid: false, message: `You need ${config.minReferrals - referrals} more referrals to withdraw` };
+    }
+    
+    // ✅ NEW: Check minimum ads requirement
+    const todayAdsWatched = await getTodayAdsWatched(userId);
+    const minAdsRequired = config.minAdsToWithdraw || 0;
+    if (todayAdsWatched < minAdsRequired) {
+        return { valid: false, message: `You need to watch ${minAdsRequired - todayAdsWatched} more ads today to withdraw (watched: ${todayAdsWatched})` };
+    }
+    
+    // ✅ NEW: Check daily withdrawal limit
+    const todayWithdrawals = await getTodayWithdrawalsCount(userId);
+    const maxDailyWithdrawals = config.maxWithdrawalsPerDay || 1;
+    if (todayWithdrawals >= maxDailyWithdrawals) {
+        return { valid: false, message: `You have reached your daily withdrawal limit (${maxDailyWithdrawals} per day)` };
+    }
+    
+    return { valid: true, message: '' };
+}
+
+// Function to update withdrawal requirements display
+async function updateWithdrawalRequirements() {
+    const userData = localStorage.getItem('telegramUser');
+    if (!userData) return;
+    
+    const user = JSON.parse(userData);
+    const config = await loadWithdrawalConfig();
+    
+    // Update ads requirement
+    const todayAdsWatched = await getTodayAdsWatched(user.id);
+    const minAdsRequired = config.minAdsToWithdraw || 0;
+    const adsRequirementElement = document.getElementById('ads-requirement');
+    
+    if (minAdsRequired > 0) {
+        adsRequirementElement.textContent = `📺 Ads Required: ${todayAdsWatched}/${minAdsRequired} watched today`;
+        adsRequirementElement.classList.remove('hidden');
+    } else {
+        adsRequirementElement.classList.add('hidden');
+    }
+    
+    // Update withdrawal limit
+    const todayWithdrawals = await getTodayWithdrawalsCount(user.id);
+    const maxDailyWithdrawals = config.maxWithdrawalsPerDay || 1;
+    const withdrawalLimitElement = document.getElementById('withdrawal-limit');
+    
+    withdrawalLimitElement.textContent = `🔄 Withdrawals Today: ${todayWithdrawals}/${maxDailyWithdrawals}`;
+    withdrawalLimitElement.classList.remove('hidden');
+}
+
+// Add these helper functions to withdraw.html
+async function getTodayAdsWatched(userId) {
+    try {
+        const response = await fetch(`/api/user/ads-task-data?userId=${userId}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.adsTaskData) {
+                const today = new Date().toISOString().split('T')[0];
+                // If it's a new day, return 0
+                if (data.adsTaskData.lastAdDate !== today) {
+                    return 0;
+                }
+                return data.adsTaskData.adsToday || 0;
+            }
+        }
+    } catch (error) {
+        console.error('Error getting today ads watched:', error);
+    }
+    return 0;
+}
+
+async function getTodayWithdrawalsCount(userId) {
+    try {
+        const response = await fetch(`/api/withdrawals/today-count?userId=${userId}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                return data.count || 0;
+            }
+        }
+    } catch (error) {
+        console.error('Error getting today withdrawals count:', error);
+    }
+    return 0;
 }
 
 // Add this function to prevent multiple withdrawals for the same user simultaneously
