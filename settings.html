@@ -2076,14 +2076,18 @@ video {
             <label class="text-sm font-medium leading-none">Point Currency Rate (1 point = ?):</label>
             <input type="number" step="0.01" id="point-currency-rate" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="0.01">
           </div>
-          <div>
-            <label class="text-sm font-medium leading-none">Minimum Ads to Watch Before Withdrawal:</label>
-            <input type="number" id="min-ads-to-withdraw" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="3">
-          </div>
-          <div>
-            <label class="text-sm font-medium leading-none">Maximum Withdrawals Per Day:</label>
-            <input type="number" id="max-withdrawals-per-day" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="3">
-          </div>
+          <!-- Add these fields in the withdrawal config section of settings.html -->
+<div class="grid grid-cols-2 gap-4">
+  <div class="space-y-2">
+    <label class="text-sm font-medium">Minimum Ads Watched to Withdraw</label>
+    <input type="number" id="min-ads-to-withdraw" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="0">
+    <p class="text-xs text-muted-foreground">Minimum total ads watched to withdraw today</p>
+  </div>
+  <div class="space-y-2">
+    <label class="text-sm font-medium">Max Withdrawals Per Day</label>
+    <input type="number" id="max-withdrawals-per-day" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="0">
+    <p class="text-xs text-muted-foreground">Maximum number of withdrawals allowed per day (0 = unlimited)</p>
+  </div>
           <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveWithdrawalConfig()">
             Save Withdraw Config
           </button>
@@ -3654,9 +3658,8 @@ async function saveWithdrawalConfig() {
         minReferralsToWithdraw: document.getElementById('min-referrals-to-withdraw').value,
         currencySymbol: document.getElementById('currency-symbol').value,
         pointCurrencyRate: document.getElementById('point-currency-rate').value,
-        // NEW FIELDS
         minAdsToWithdraw: parseInt(document.getElementById('min-ads-to-withdraw').value) || 0,
-        maxWithdrawalsPerDay: parseInt(document.getElementById('max-withdrawals-per-day').value) || 1
+        maxWithdrawalsPerDay: parseInt(document.getElementById('max-withdrawals-per-day').value) || 0
     };
     
     try {
@@ -3820,19 +3823,17 @@ async function loadConfigurations() {
                 }
                 
                 // Load withdrawal config
-                // In loadConfigurations function, add these lines to the withdrawal config section:
-if (configs.withdrawal) {
-    document.getElementById('min-withdrawal').value = configs.withdrawal.minWithdrawal || '';
-    document.getElementById('max-withdrawal').value = configs.withdrawal.maxWithdrawal || '';
-    document.getElementById('withdrawal-fee').value = configs.withdrawal.withdrawalFee || '';
-    document.getElementById('bank-edit-fee').value = configs.withdrawal.bankEditFee || '';
-    document.getElementById('min-referrals-to-withdraw').value = configs.withdrawal.minReferralsToWithdraw || '';
-    document.getElementById('currency-symbol').value = configs.withdrawal.currencySymbol || '';
-    document.getElementById('point-currency-rate').value = configs.withdrawal.pointCurrencyRate || '';
-    // NEW FIELDS
-    document.getElementById('min-ads-to-withdraw').value = configs.withdrawal.minAdsToWithdraw || 0;
-    document.getElementById('max-withdrawals-per-day').value = configs.withdrawal.maxWithdrawalsPerDay || 1;
-}
+                if (configs.withdrawal) {
+                    document.getElementById('min-withdrawal').value = configs.withdrawal.minWithdrawal || '';
+                    document.getElementById('max-withdrawal').value = configs.withdrawal.maxWithdrawal || '';
+                    document.getElementById('withdrawal-fee').value = configs.withdrawal.withdrawalFee || '';
+                    document.getElementById('bank-edit-fee').value = configs.withdrawal.bankEditFee || '';
+                    document.getElementById('min-referrals-to-withdraw').value = configs.withdrawal.minReferralsToWithdraw || '';
+                    document.getElementById('currency-symbol').value = configs.withdrawal.currencySymbol || '';
+                    document.getElementById('point-currency-rate').value = configs.withdrawal.pointCurrencyRate || '';
+                    document.getElementById('max-withdrawals-per-day').value = configs.withdrawal.maxWithdrawalsPerDay || 0;
+                    document.getElementById('min-ads-to-withdraw').value = configs.withdrawal.minAdsToWithdraw || 0;
+                }
                 
                 // Load points config
                 if (configs.points) {
