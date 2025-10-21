@@ -2076,34 +2076,14 @@ video {
             <label class="text-sm font-medium leading-none">Point Currency Rate (1 point = ?):</label>
             <input type="number" step="0.01" id="point-currency-rate" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="0.01">
           </div>
-          <div class="space-y-2">
-        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Minimum Ads to Watch Before Withdrawal
-        </label>
-        <input 
-            type="number" 
-            id="min-ads-to-withdraw" 
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="e.g., 10"
-            min="0"
-        >
-        <p class="text-xs text-muted-foreground">Minimum ads user must watch today to withdraw</p>
-    </div>
-
-    <!-- New: Maximum withdrawals per day -->
-    <div class="space-y-2">
-        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Maximum Withdrawals Per Day
-        </label>
-        <input 
-            type="number" 
-            id="max-withdrawals-per-day" 
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="e.g., 3"
-            min="1"
-        >
-        <p class="text-xs text-muted-foreground">Maximum number of withdrawals allowed per user per day</p>
-    </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Minimum Ads to Watch Before Withdrawal:</label>
+            <input type="number" id="min-ads-to-withdraw" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="3">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Maximum Withdrawals Per Day:</label>
+            <input type="number" id="max-withdrawals-per-day" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="3">
+          </div>
           <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveWithdrawalConfig()">
             Save Withdraw Config
           </button>
