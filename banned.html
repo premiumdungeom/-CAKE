@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Banned - 🍰 CAKE</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: white;
+    }
+    
+    .banned-container {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border: 2px solid #ef4444;
+    }
+    
+    .ban-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: shake 0.5s ease-in-out infinite alternate;
+    }
+    
+    @keyframes shake {
+      0% { transform: translateX(-5px); }
+      100% { transform: translateX(5px); }
+    }
+    
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #ef4444;
+    }
+    
+    .ban-reason {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px 0;
+      font-size: 16px;
+    }
+    
+    .ban-details {
+      text-align: left;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    
+    .contact-info {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .contact-info a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="banned-container">
+    <div class="ban-icon">🚫</div>
+    <h1>ACCOUNT BANNED</h1>
+    
+    <div class="ban-reason" id="banReason">
+      Multiple accounts detected
+    </div>
+    
+    <div class="ban-details">
+      <p><strong>Violation:</strong> <span id="violationType">Multiple Account Usage</span></p>
+      <p><strong>Detection:</strong> Automated security system</p>
+      <p><strong>Action:</strong> Permanent ban applied</p>
+    </div>
+    
+    <p>Your account has been permanently banned from 🍰 CAKE due to violation of our terms of service.</p>
+    
+    <div class="contact-info">
+      <p>If you believe this is a mistake, contact support:</p>
+      <p>📧 <a href="https://t.me/PancakeSwapys"SUPPORT</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Get ban details from URL parameters or localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const reason = urlParams.get('reason') || 'Multiple account violation';
+      const type = urlParams.get('type') || 'multi_account';
+      
+      document.getElementById('banReason').textContent = reason;
+      document.getElementById('violationType').textContent = 
+        type === 'multi_account' ? 'Multiple Account Usage' : 'Terms of Service Violation';
+      
+      // Clear any user data
+      localStorage.removeItem('telegramUser');
+      localStorage.removeItem('verified_' + (tg?.initDataUnsafe?.user?.id || ''));
+      localStorage.removeItem('verification_time');
+    });
+  </script>
+</body>
+</html>

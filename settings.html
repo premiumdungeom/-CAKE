@@ -1,0 +1,4065 @@
+<html lang="en" class="dark">
+ <head>
+  <style>[data-mimo-alpha-selected] {
+  position: relative;
+}
+[data-mimo-alpha-selected]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  outline: 2px dashed #2b5dd1 !important;
+  outline-offset: 3px;
+  transition: outline-offset 0.2s ease-in-out;
+  z-index: 10000;
+  pointer-events: none;
+}
+[data-mimo-alpha-selected--overflow]::before {
+  outline-offset: -5px !important;
+}
+</style>
+  <script type="module">
+import RefreshRuntime from "/@react-refresh"
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true
+</script> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"> 
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"> 
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> 
+  <link rel="manifest" href="/site.webmanifest"> 
+  <meta name="theme-color" content="#ffffff"> 
+  <title>🍰 CAKE</title> 
+  <style>
+    .talos-badge {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      padding: 8px 12px;
+      background-color: #F6F3EF;
+      border-radius: 12px;
+      border: 2px solid #E9E5E2;
+      color: #292928;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: background-color 0.2s ease, opacity 0.4s ease;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0;
+    }
+
+    .talos-badge.talos-badge-visible {
+      opacity: 1;
+    }
+    
+    #login-section {
+    background: linear-gradient(135deg, #000000 0%, #1a2a1a 100%);
+}
+
+.login-input:focus {
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
+}
+    
+    .talos-badge:hover {
+      background-color: #F0EDEA;
+    }
+  </style>
+  <style type="text/css" data-vite-dev-id="/home/app/client/src/index.css">*, ::before, ::after {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}
+
+::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}/*
+! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com
+*//*
+1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
+2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
+*/
+
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */
+}
+
+::before,
+::after {
+  --tw-content: '';
+}
+
+/*
+1. Use a consistent sensible line-height in all browsers.
+2. Prevent adjustments of font size after orientation changes in iOS.
+3. Use a more readable tab size.
+4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
+6. Use the user's configured `sans` font-variation-settings by default.
+7. Disable tap highlights on iOS
+*/
+
+html,
+:host {
+  line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  -moz-tab-size: 4; /* 3 */
+  -o-tab-size: 4;
+     tab-size: 4; /* 3 */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
+}
+
+/*
+1. Remove the margin in all browsers.
+2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+*/
+
+body {
+  margin: 0; /* 1 */
+  line-height: inherit; /* 2 */
+}
+
+/*
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+3. Ensure horizontal rules are visible by default.
+*/
+
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+  border-top-width: 1px; /* 3 */
+}
+
+/*
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr:where([title]) {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+
+/*
+Remove the default font size and weight for headings.
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*
+Reset links to optimize for opt-in styling instead of opt-out.
+*/
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/*
+Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/*
+1. Use the user's configured `mono` font-family by default.
+2. Use the user's configured `mono` font-feature-settings by default.
+3. Use the user's configured `mono` font-variation-settings by default.
+4. Correct the odd `em` font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
+}
+
+/*
+Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/*
+Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+3. Remove gaps between table borders by default.
+*/
+
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+  border-collapse: collapse; /* 3 */
+}
+
+/*
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+3. Remove default padding in all browsers.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-feature-settings: inherit; /* 1 */
+  font-variation-settings: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  font-weight: inherit; /* 1 */
+  line-height: inherit; /* 1 */
+  letter-spacing: inherit; /* 1 */
+  color: inherit; /* 1 */
+  margin: 0; /* 2 */
+  padding: 0; /* 3 */
+}
+
+/*
+Remove the inheritance of text transform in Edge and Firefox.
+*/
+
+button,
+select {
+  text-transform: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Remove default button styles.
+*/
+
+button,
+input:where([type='button']),
+input:where([type='reset']),
+input:where([type='submit']) {
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
+}
+
+/*
+Use the modern Firefox focus style for all focusable elements.
+*/
+
+:-moz-focusring {
+  outline: auto;
+}
+
+/*
+Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+*/
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/*
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/*
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/*
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/*
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to `inherit` in Safari.
+*/
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/*
+Removes the default spacing and border for appropriate elements.
+*/
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+Reset default styling for dialogs.
+*/
+dialog {
+  padding: 0;
+}
+
+/*
+Prevent resizing textareas horizontally by default.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+/*
+1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+2. Set the default placeholder color to the user's configured gray 400 color.
+*/
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
+/*
+Set the default cursor for buttons.
+*/
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+:disabled {
+  cursor: default;
+}
+
+/*
+1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+   This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+/*
+Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Make elements with the HTML hidden attribute stay hidden by default */
+[hidden]:where(:not([hidden="until-found"])) {
+  display: none;
+}
+  ::root {
+  --background: 330 74% 98%;  /* Light pink background */
+  --foreground: 330 74% 5%;   /* Dark pink text */
+  --card: 0 0% 100%;          /* White cards */
+  --card-foreground: 330 74% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 330 74% 10%;
+  --primary: 330 74% 55%;     /* CAKE pink color */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 330 30% 96%;
+  --secondary-foreground: 330 74% 15%;
+  --muted: 330 30% 96%;
+  --muted-foreground: 330 74% 40%;
+  --accent: 330 74% 55%;      /* CAKE pink accent */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 330 30% 90%;
+  --input: 330 30% 90%;
+  --ring: 330 74% 55%;        /* CAKE pink ring */
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 330 74% 5%;   /* Dark pink background */
+  --foreground: 330 74% 98%;  /* Light pink text */
+  --card: 330 74% 8%;
+  --card-foreground: 330 74% 98%;
+  --popover: 330 74% 8%;
+  --popover-foreground: 330 74% 98%;
+  --primary: 330 74% 55%;     /* CAKE pink primary */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 330 74% 15%;
+  --secondary-foreground: 330 74% 98%;
+  --muted: 330 74% 15%;
+  --muted-foreground: 330 74% 70%;
+  --accent: 330 74% 25%;
+  --accent-foreground: 330 74% 98%;
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 330 74% 20%;
+  --input: 330 74% 20%;
+  --ring: 330 74% 55%;        /* CAKE pink ring */
+}
+  * {
+  border-color: hsl(var(--border));
+}
+  body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+.pointer-events-none {
+  pointer-events: none;
+}
+.invisible {
+  visibility: hidden;
+}
+.fixed {
+  position: fixed;
+}
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.inset-0 {
+  inset: 0px;
+}
+.inset-x-0 {
+  left: 0px;
+  right: 0px;
+}
+.left-\[50\%\] {
+  left: 50%;
+}
+.right-2 {
+  right: 0.5rem;
+}
+.right-4 {
+  right: 1rem;
+}
+.top-0 {
+  top: 0px;
+}
+.top-4 {
+  top: 1rem;
+}
+.top-\[50\%\] {
+  top: 50%;
+}
+.z-50 {
+  z-index: 50;
+}
+.-mx-1 {
+  margin-left: -0.25rem;
+  margin-right: -0.25rem;
+}
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mr-2 {
+  margin-right: 0.5rem;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-4 {
+  margin-top: 1rem;
+}
+.mt-6 {
+  margin-top: 1.5rem;
+}
+.mt-8 {
+  margin-top: 2rem;
+}
+.block {
+  display: block;
+}
+.flex {
+  display: flex;
+}
+.inline-flex {
+  display: inline-flex;
+}
+.table {
+  display: table;
+}
+.grid {
+  display: grid;
+}
+.contents {
+  display: contents;
+}
+.hidden {
+  display: none;
+}
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+.size-4 {
+  width: 1rem;
+  height: 1rem;
+}
+.size-\[--cell-size\] {
+  width: var(--cell-size);
+  height: var(--cell-size);
+}
+.h-1\.5 {
+  height: 0.375rem;
+}
+.h-10 {
+  height: 2.5rem;
+}
+.h-2 {
+  height: 0.5rem;
+}
+.h-3\.5 {
+  height: 0.875rem;
+}
+.h-4 {
+  height: 1rem;
+}
+.h-5 {
+  height: 1.25rem;
+}
+.h-8 {
+  height: 2rem;
+}
+.h-9 {
+  height: 2.25rem;
+}
+.h-\[--cell-size\] {
+  height: var(--cell-size);
+}
+.h-\[var\(--radix-select-trigger-height\)\] {
+  height: var(--radix-select-trigger-height);
+}
+.h-auto {
+  height: auto;
+}
+.h-full {
+  height: 100%;
+}
+.h-px {
+  height: 1px;
+}
+.max-h-96 {
+  max-height: 24rem;
+}
+.max-h-\[300px\] {
+  max-height: 300px;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.min-h-\[80px\] {
+  min-height: 80px;
+}
+.w-3\.5 {
+  width: 0.875rem;
+}
+.w-4 {
+  width: 1rem;
+}
+.w-72 {
+  width: 18rem;
+}
+.w-9 {
+  width: 2.25rem;
+}
+.w-\[--cell-size\] {
+  width: var(--cell-size);
+}
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.w-full {
+  width: 100%;
+}
+.w-5 {
+  width: 1.25rem;
+}
+.min-w-10 {
+  min-width: 2.5rem;
+}
+.min-w-8 {
+  min-width: 2rem;
+}
+.min-w-9 {
+  min-width: 2.25rem;
+}
+.min-w-\[--cell-size\] {
+  min-width: var(--cell-size);
+}
+.min-w-\[8rem\] {
+  min-width: 8rem;
+}
+.min-w-\[var\(--radix-select-trigger-width\)\] {
+  min-width: var(--radix-select-trigger-width);
+}
+.max-w-lg {
+  max-width: 32rem;
+}
+.max-w-2xl {
+  max-width: 42rem;
+}
+.flex-1 {
+  flex: 1 1 0%;
+}
+.shrink-0 {
+  flex-shrink: 0;
+}
+.grow {
+  flex-grow: 1;
+}
+.caption-bottom {
+  caption-side: bottom;
+}
+.border-collapse {
+  border-collapse: collapse;
+}
+.translate-x-\[-50\%\] {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.translate-y-\[-50\%\] {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.cursor-default {
+  cursor: default;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.touch-none {
+  touch-action: none;
+}
+.select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+.items-center {
+  align-items: center;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-1 {
+  gap: 0.25rem;
+}
+.gap-1\.5 {
+  gap: 0.375rem;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.gap-4 {
+  gap: 1rem;
+}
+.space-y-1\.5 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.375rem * var(--tw-space-y-reverse));
+}
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-y-auto {
+  overflow-y: auto;
+}
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+.rounded-lg {
+  border-radius: var(--radius);
+}
+.rounded-md {
+  border-radius: calc(var(--radius) - 2px);
+}
+.rounded-none {
+  border-radius: 0px;
+}
+.rounded-sm {
+  border-radius: calc(var(--radius) - 4px);
+}
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+.rounded-l-md {
+  border-top-left-radius: calc(var(--radius) - 2px);
+  border-bottom-left-radius: calc(var(--radius) - 2px);
+}
+.rounded-r-md {
+  border-top-right-radius: calc(var(--radius) - 2px);
+  border-bottom-right-radius: calc(var(--radius) - 2px);
+}
+.border {
+  border-width: 1px;
+}
+.border-2 {
+  border-width: 2px;
+}
+.border-b {
+  border-bottom-width: 1px;
+}
+.border-t {
+  border-top-width: 1px;
+}
+.border-input {
+  border-color: hsl(var(--input));
+}
+.border-primary {
+  border-color: hsl(var(--primary));
+}
+.border-primary\/50 {
+  border-color: hsl(var(--primary) / 0.5);
+}
+.border-transparent {
+  border-color: transparent;
+}
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));
+}
+.border-gray-700 {
+  --tw-border-opacity: 1;
+  border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
+}
+.bg-accent {
+  background-color: hsl(var(--accent));
+}
+.bg-background {
+  background-color: hsl(var(--background));
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+.bg-black\/80 {
+  background-color: rgb(0 0 0 / 0.8);
+}
+.bg-border {
+  background-color: hsl(var(--border));
+}
+.bg-card {
+  background-color: hsl(var(--card));
+}
+.bg-destructive {
+  background-color: hsl(var(--destructive));
+}
+.bg-gray-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+}
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
+}
+.bg-muted {
+  background-color: hsl(var(--muted));
+}
+.bg-muted\/50 {
+  background-color: hsl(var(--muted) / 0.5);
+}
+.bg-popover {
+  background-color: hsl(var(--popover));
+}
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+.bg-primary\/20 {
+  background-color: hsl(var(--primary) / 0.2);
+}
+.bg-secondary {
+  background-color: hsl(var(--secondary));
+}
+.bg-transparent {
+  background-color: transparent;
+}
+.bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+.from-green-900 {
+  --tw-gradient-from: #14532d var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(20 83 45 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.to-black {
+  --tw-gradient-to: #000 var(--tw-gradient-to-position);
+}
+.p-0 {
+  padding: 0px;
+}
+.p-1 {
+  padding: 0.25rem;
+}
+.p-2 {
+  padding: 0.5rem;
+}
+.p-3 {
+  padding: 0.75rem;
+}
+.p-4 {
+  padding: 1rem;
+}
+.p-6 {
+  padding: 1.5rem;
+}
+.p-8 {
+  padding: 2rem;
+}
+.px-1\.5 {
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+}
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.px-\[--cell-size\] {
+  padding-left: var(--cell-size);
+  padding-right: var(--cell-size);
+}
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.pl-2 {
+  padding-left: 0.5rem;
+}
+.pr-1 {
+  padding-right: 0.25rem;
+}
+.pr-8 {
+  padding-right: 2rem;
+}
+.pt-0 {
+  padding-top: 0px;
+}
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.align-middle {
+  vertical-align: middle;
+}
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+.text-6xl {
+  font-size: 3.75rem;
+  line-height: 1;
+}
+.text-\[0\.8rem\] {
+  font-size: 0.8rem;
+}
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-normal {
+  font-weight: 400;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.leading-none {
+  line-height: 1;
+}
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+.tracking-widest {
+  letter-spacing: 0.1em;
+}
+.text-accent-foreground {
+  color: hsl(var(--accent-foreground));
+}
+.text-blue-300 {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity, 1));
+}
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity, 1));
+}
+.text-card-foreground {
+  color: hsl(var(--card-foreground));
+}
+.text-current {
+  color: currentColor;
+}
+.text-destructive-foreground {
+  color: hsl(var(--destructive-foreground));
+}
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+}
+.text-green-500 {
+  --tw-text-opacity: 1;
+  color: rgb(34 197 94 / var(--tw-text-opacity, 1));
+}
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+.text-orange-400 {
+  --tw-text-opacity: 1;
+  color: rgb(251 146 60 / var(--tw-text-opacity, 1));
+}
+.text-popover-foreground {
+  color: hsl(var(--popover-foreground));
+}
+.text-primary {
+  color: hsl(var(--primary));
+}
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
+}
+.text-secondary-foreground {
+  color: hsl(var(--secondary-foreground));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+.text-yellow-200 {
+  --tw-text-opacity: 1;
+  color: rgb(254 240 138 / var(--tw-text-opacity, 1));
+}
+.text-yellow-400 {
+  --tw-text-opacity: 1;
+  color: rgb(250 204 21 / var(--tw-text-opacity, 1));
+}
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+}
+.text-green-400 {
+  --tw-text-opacity: 1;
+  color: rgb(74 222 128 / var(--tw-text-opacity, 1));
+}
+.underline-offset-4 {
+  text-underline-offset: 4px;
+}
+.opacity-0 {
+  opacity: 0;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
+.opacity-70 {
+  opacity: 0.7;
+}
+.shadow {
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-lg {
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-md {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.outline-none {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.outline {
+  outline-style: solid;
+}
+.ring-0 {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+.ring-offset-background {
+  --tw-ring-offset-color: hsl(var(--background));
+}
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.duration-200 {
+  transition-duration: 200ms;
+}
+@keyframes enter {
+
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+  }
+}
+@keyframes exit {
+
+  to {
+    opacity: var(--tw-exit-opacity, 1);
+    transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
+  }
+}
+.animate-in {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+.fade-in-0 {
+  --tw-enter-opacity: 0;
+}
+.zoom-in-95 {
+  --tw-enter-scale: .95;
+}
+.duration-200 {
+  animation-duration: 200ms;
+}
+.\[--cell-size\:2rem\] {
+  --cell-size: 2rem;
+}
+.file\:border-0::file-selector-button {
+  border-width: 0px;
+}
+.file\:bg-transparent::file-selector-button {
+  background-color: transparent;
+}
+.file\:text-sm::file-selector-button {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.file\:font-medium::file-selector-button {
+  font-weight: 500;
+}
+.file\:text-foreground::file-selector-button {
+  color: hsl(var(--foreground));
+}
+.placeholder\:text-muted-foreground::-moz-placeholder {
+  color: hsl(var(--muted-foreground));
+}
+.placeholder\:text-muted-foreground::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+.hover\:bg-accent:hover {
+  background-color: hsl(var(--accent));
+}
+.hover\:bg-destructive\/90:hover {
+  background-color: hsl(var(--destructive) / 0.9);
+}
+.hover\:bg-muted:hover {
+  background-color: hsl(var(--muted));
+}
+.hover\:bg-muted\/50:hover {
+  background-color: hsl(var(--muted) / 0.5);
+}
+.hover\:bg-primary\/90:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+.hover\:bg-secondary\/80:hover {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+.hover\:bg-green-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+}
+.hover\:text-accent-foreground:hover {
+  color: hsl(var(--accent-foreground));
+}
+.hover\:text-muted-foreground:hover {
+  color: hsl(var(--muted-foreground));
+}
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+.hover\:opacity-100:hover {
+  opacity: 1;
+}
+.focus\:bg-accent:focus {
+  background-color: hsl(var(--accent));
+}
+.focus\:text-accent-foreground:focus {
+  color: hsl(var(--accent-foreground));
+}
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.focus\:ring-1:focus {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+.focus\:ring-2:focus {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+.focus\:ring-ring:focus {
+  --tw-ring-color: hsl(var(--ring));
+}
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
+}
+.focus-visible\:outline-none:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.focus-visible\:ring-1:focus-visible {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+.focus-visible\:ring-2:focus-visible {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+.focus-visible\:ring-ring:focus-visible {
+  --tw-ring-color: hsl(var(--ring));
+}
+.focus-visible\:ring-offset-2:focus-visible {
+  --tw-ring-offset-width: 2px;
+}
+.focus-visible\:ring-offset-background:focus-visible {
+  --tw-ring-offset-color: hsl(var(--background));
+}
+.disabled\:pointer-events-none:disabled {
+  pointer-events: none;
+}
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
+}
+.disabled\:opacity-50:disabled {
+  opacity: 0.5;
+}
+.peer:disabled ~ .peer-disabled\:cursor-not-allowed {
+  cursor: not-allowed;
+}
+.peer:disabled ~ .peer-disabled\:opacity-70 {
+  opacity: 0.7;
+}
+.aria-disabled\:opacity-50[aria-disabled="true"] {
+  opacity: 0.5;
+}
+.aria-selected\:text-muted-foreground[aria-selected="true"] {
+  color: hsl(var(--muted-foreground));
+}
+.data-\[disabled\=true\]\:pointer-events-none[data-disabled="true"] {
+  pointer-events: none;
+}
+.data-\[disabled\]\:pointer-events-none[data-disabled] {
+  pointer-events: none;
+}
+.data-\[side\=bottom\]\:translate-y-1[data-side="bottom"] {
+  --tw-translate-y: 0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.data-\[side\=left\]\:-translate-x-1[data-side="left"] {
+  --tw-translate-x: -0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.data-\[side\=right\]\:translate-x-1[data-side="right"] {
+  --tw-translate-x: 0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.data-\[side\=top\]\:-translate-y-1[data-side="top"] {
+  --tw-translate-y: -0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.data-\[state\=checked\]\:translate-x-4[data-state="checked"] {
+  --tw-translate-x: 1rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.data-\[state\=unchecked\]\:translate-x-0[data-state="unchecked"] {
+  --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.data-\[range-end\=true\]\:rounded-md[data-range-end="true"] {
+  border-radius: calc(var(--radius) - 2px);
+}
+.data-\[range-middle\=true\]\:rounded-none[data-range-middle="true"] {
+  border-radius: 0px;
+}
+.data-\[range-start\=true\]\:rounded-md[data-range-start="true"] {
+  border-radius: calc(var(--radius) - 2px);
+}
+.data-\[selected\=true\]\:rounded-none[data-selected="true"] {
+  border-radius: 0px;
+}
+.data-\[range-end\=true\]\:bg-primary[data-range-end="true"] {
+  background-color: hsl(var(--primary));
+}
+.data-\[range-middle\=true\]\:bg-accent[data-range-middle="true"] {
+  background-color: hsl(var(--accent));
+}
+.data-\[range-start\=true\]\:bg-primary[data-range-start="true"] {
+  background-color: hsl(var(--primary));
+}
+.data-\[selected-single\=true\]\:bg-primary[data-selected-single="true"] {
+  background-color: hsl(var(--primary));
+}
+.data-\[selected\=true\]\:bg-accent[data-selected="true"] {
+  background-color: hsl(var(--accent));
+}
+.data-\[state\=checked\]\:bg-primary[data-state="checked"] {
+  background-color: hsl(var(--primary));
+}
+.data-\[state\=on\]\:bg-accent[data-state="on"] {
+  background-color: hsl(var(--accent));
+}
+.data-\[state\=open\]\:bg-accent[data-state="open"] {
+  background-color: hsl(var(--accent));
+}
+.data-\[state\=selected\]\:bg-muted[data-state="selected"] {
+  background-color: hsl(var(--muted));
+}
+.data-\[state\=unchecked\]\:bg-input[data-state="unchecked"] {
+  background-color: hsl(var(--input));
+}
+.data-\[range-end\=true\]\:text-primary-foreground[data-range-end="true"] {
+  color: hsl(var(--primary-foreground));
+}
+.data-\[range-middle\=true\]\:text-accent-foreground[data-range-middle="true"] {
+  color: hsl(var(--accent-foreground));
+}
+.data-\[range-start\=true\]\:text-primary-foreground[data-range-start="true"] {
+  color: hsl(var(--primary-foreground));
+}
+.data-\[selected-single\=true\]\:text-primary-foreground[data-selected-single="true"] {
+  color: hsl(var(--primary-foreground));
+}
+.data-\[selected\=true\]\:text-accent-foreground[data-selected="true"] {
+  color: hsl(var(--accent-foreground));
+}
+.data-\[state\=checked\]\:text-primary-foreground[data-state="checked"] {
+  color: hsl(var(--primary-foreground));
+}
+.data-\[state\=on\]\:text-accent-foreground[data-state="on"] {
+  color: hsl(var(--accent-foreground));
+}
+.data-\[state\=open\]\:text-muted-foreground[data-state="open"] {
+  color: hsl(var(--muted-foreground));
+}
+.data-\[disabled\=true\]\:opacity-50[data-disabled="true"] {
+  opacity: 0.5;
+}
+.data-\[disabled\]\:opacity-50[data-disabled] {
+  opacity: 0.5;
+}
+.data-\[state\=open\]\:animate-in[data-state="open"] {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+.data-\[state\=closed\]\:animate-out[data-state="closed"] {
+  animation-name: exit;
+  animation-duration: 150ms;
+  --tw-exit-opacity: initial;
+  --tw-exit-scale: initial;
+  --tw-exit-rotate: initial;
+  --tw-exit-translate-x: initial;
+  --tw-exit-translate-y: initial;
+}
+.data-\[state\=closed\]\:fade-out-0[data-state="closed"] {
+  --tw-exit-opacity: 0;
+}
+.data-\[state\=open\]\:fade-in-0[data-state="open"] {
+  --tw-enter-opacity: 0;
+}
+.data-\[state\=closed\]\:zoom-out-95[data-state="closed"] {
+  --tw-exit-scale: .95;
+}
+.data-\[state\=open\]\:zoom-in-95[data-state="open"] {
+  --tw-enter-scale: .95;
+}
+.data-\[side\=bottom\]\:slide-in-from-top-2[data-side="bottom"] {
+  --tw-enter-translate-y: -0.5rem;
+}
+.data-\[side\=left\]\:slide-in-from-right-2[data-side="left"] {
+  --tw-enter-translate-x: 0.5rem;
+}
+.data-\[side\=right\]\:slide-in-from-left-2[data-side="right"] {
+  --tw-enter-translate-x: -0.5rem;
+}
+.data-\[side\=top\]\:slide-in-from-bottom-2[data-side="top"] {
+  --tw-enter-translate-y: 0.5rem;
+}
+.data-\[state\=closed\]\:slide-out-to-left-1\/2[data-state="closed"] {
+  --tw-exit-translate-x: -50%;
+}
+.data-\[state\=closed\]\:slide-out-to-top-\[48\%\][data-state="closed"] {
+  --tw-exit-translate-y: -48%;
+}
+.data-\[state\=open\]\:slide-in-from-left-1\/2[data-state="open"] {
+  --tw-enter-translate-x: -50%;
+}
+.data-\[state\=open\]\:slide-in-from-top-\[48\%\][data-state="open"] {
+  --tw-enter-translate-y: -48%;
+}
+.group\/day[data-focused="true"] .group-data-\[focused\=true\]\/day\:relative {
+  position: relative;
+}
+.group\/day[data-focused="true"] .group-data-\[focused\=true\]\/day\:z-10 {
+  z-index: 10;
+}
+.group\/day[data-focused="true"] .group-data-\[focused\=true\]\/day\:border-ring {
+  border-color: hsl(var(--ring));
+}
+.group\/day[data-focused="true"] .group-data-\[focused\=true\]\/day\:ring-\[3px\] {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+.group\/day[data-focused="true"] .group-data-\[focused\=true\]\/day\:ring-ring\/50 {
+  --tw-ring-color: hsl(var(--ring) / 0.5);
+}
+@media (min-width: 640px) {
+
+  .sm\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:justify-end {
+    justify-content: flex-end;
+  }
+
+  .sm\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .sm\:rounded-lg {
+    border-radius: var(--radius);
+  }
+
+  .sm\:text-left {
+    text-align: left;
+  }
+}
+@media (min-width: 768px) {
+
+  .md\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+@media (min-width: 1024px) {
+
+  .lg\:grid-cols-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+.\[\&\:first-child\[data-selected\=true\]_button\]\:rounded-l-md:first-child[data-selected=true] button {
+  border-top-left-radius: calc(var(--radius) - 2px);
+  border-bottom-left-radius: calc(var(--radius) - 2px);
+}
+.\[\&\:has\(\[role\=checkbox\]\)\]\:pr-0:has([role=checkbox]) {
+  padding-right: 0px;
+}
+.\[\&\:last-child\[data-selected\=true\]_button\]\:rounded-r-md:last-child[data-selected=true] button {
+  border-top-right-radius: calc(var(--radius) - 2px);
+  border-bottom-right-radius: calc(var(--radius) - 2px);
+}
+.\[\&\>\[role\=checkbox\]\]\:translate-y-\[2px\]>[role=checkbox] {
+  --tw-translate-y: 2px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.\[\&\>span\]\:line-clamp-1>span {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.\[\&\>span\]\:text-xs>span {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.\[\&\>span\]\:opacity-70>span {
+  opacity: 0.7;
+}
+.\[\&\>svg\]\:size-3\.5>svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.\[\&\>svg\]\:text-muted-foreground>svg {
+  color: hsl(var(--muted-foreground));
+}
+.\[\&\>tr\]\:last\:border-b-0:last-child>tr {
+  border-bottom-width: 0px;
+}
+.\[\&_\[cmdk-group-heading\]\]\:px-2 [cmdk-group-heading] {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.\[\&_\[cmdk-group-heading\]\]\:py-1\.5 [cmdk-group-heading] {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+.\[\&_\[cmdk-group-heading\]\]\:text-xs [cmdk-group-heading] {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.\[\&_\[cmdk-group-heading\]\]\:font-medium [cmdk-group-heading] {
+  font-weight: 500;
+}
+.\[\&_\[cmdk-group-heading\]\]\:text-muted-foreground [cmdk-group-heading] {
+  color: hsl(var(--muted-foreground));
+}
+.\[\&_\[cmdk-group\]\:not\(\[hidden\]\)_\~\[cmdk-group\]\]\:pt-0 [cmdk-group]:not([hidden]) ~[cmdk-group] {
+  padding-top: 0px;
+}
+.\[\&_\[cmdk-group\]\]\:px-2 [cmdk-group] {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.\[\&_\[cmdk-input-wrapper\]_svg\]\:h-5 [cmdk-input-wrapper] svg {
+  height: 1.25rem;
+}
+.\[\&_\[cmdk-input-wrapper\]_svg\]\:w-5 [cmdk-input-wrapper] svg {
+  width: 1.25rem;
+}
+.\[\&_\[cmdk-input\]\]\:h-12 [cmdk-input] {
+  height: 3rem;
+}
+.\[\&_\[cmdk-item\]\]\:px-2 [cmdk-item] {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.\[\&_\[cmdk-item\]\]\:py-3 [cmdk-item] {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+.\[\&_\[cmdk-item\]_svg\]\:h-5 [cmdk-item] svg {
+  height: 1.25rem;
+}
+.\[\&_\[cmdk-item\]_svg\]\:w-5 [cmdk-item] svg {
+  width: 1.25rem;
+}
+.\[\&_svg\]\:pointer-events-none svg {
+  pointer-events: none;
+}
+.\[\&_svg\]\:size-4 svg {
+  width: 1rem;
+  height: 1rem;
+}
+.\[\&_svg\]\:shrink-0 svg {
+  flex-shrink: 0;
+}
+.\[\&_tr\:last-child\]\:border-0 tr:last-child {
+  border-width: 0px;
+}
+.\[\&_tr\]\:border-b tr {
+  border-bottom-width: 1px;
+}
+[data-slot=card-content] .\[\[data-slot\=card-content\]_\&\]\:bg-transparent {
+  background-color: transparent;
+}
+[data-slot=popover-content] .\[\[data-slot\=popover-content\]_\&\]\:bg-transparent {
+  background-color: transparent;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJmaWxlIjoiL2hvbWUvYXBwL2NsaWVudC9zcmMvaW5kZXguY3NzIiwibWFwcGluZ3MiOiJBQUFBO0VBQUEsd0JBQWM7RUFBZCx3QkFBYztFQUFkLG1CQUFjO0VBQWQsbUJBQWM7RUFBZCxjQUFjO0VBQWQsY0FBYztFQUFkLGNBQWM7RUFBZCxlQUFjO0VBQWQsZUFBYztFQUFkLGFBQWM7RUFBZCxhQUFjO0VBQWQsa0JBQWM7RUFBZCxzQ0FBYztFQUFkLDhCQUFjO0VBQWQsNkJBQWM7RUFBZCw0QkFBYztFQUFkLGVBQWM7RUFBZCxvQkFBYztFQUFkLHNCQUFjO0VBQWQsdUJBQWM7RUFBZCx3QkFBYztFQUFkLGtCQUFjO0VBQWQsMkJBQWM7RUFBZCw0QkFBYztFQUFkLHNDQUFjO0VBQWQsa0NBQWM7RUFBZCwyQkFBYztFQUFkLHNCQUFjO0VBQWQsOEJBQWM7RUFBZCxZQUFjO0VBQWQsa0JBQWM7RUFBZCxnQkFBYztFQUFkLGlCQUFjO0VBQWQsa0JBQWM7RUFBZCxjQUFjO0VBQWQsZ0JBQWM7RUFBZCxhQUFjO0VBQWQsbUJBQWM7RUFBZCxxQkFBYztFQUFkLDJCQUFjO0VBQWQseUJBQWM7RUFBZCwwQkFBYztFQUFkLDJCQUFjO0VBQWQsdUJBQWM7RUFBZCx3QkFBYztFQUFkLHlCQUFjO0VBQWQsc0JBQWM7RUFBZCxvQkFBYztFQUFkLHNCQUFjO0VBQWQscUJBQWM7RUFBZDtBQUFjOztBQUFkO0VBQUEsd0JBQWM7RUFBZCx3QkFBYztFQUFkLG1CQUFjO0VBQWQsbUJBQWM7RUFBZCxjQUFjO0VBQWQsY0FBYztFQUFkLGNBQWM7RUFBZCxlQUFjO0VBQWQsZUFBYztFQUFkLGFBQWM7RUFBZCxhQUFjO0VBQWQsa0JBQWM7RUFBZCxzQ0FBYztFQUFkLDhCQUFjO0VBQWQsNkJBQWM7RUFBZCw0QkFBYztFQUFkLGVBQWM7RUFBZCxvQkFBYztFQUFkLHNCQUFjO0VBQWQsdUJBQWM7RUFBZCx3QkFBYztFQUFkLGtCQUFjO0VBQWQsMkJBQWM7RUFBZCw0QkFBYztFQUFkLHNDQUFjO0VBQWQsa0NBQWM7RUFBZCwyQkFBYztFQUFkLHNCQUFjO0VBQWQsOEJBQWM7RUFBZCxZQUFjO0VBQWQsa0JBQWM7RUFBZCxnQkFBYztFQUFkLGlCQUFjO0VBQWQsa0JBQWM7RUFBZCxjQUFjO0VBQWQsZ0JBQWM7RUFBZCxhQUFjO0VBQWQsbUJBQWM7RUFBZCxxQkFBYztFQUFkLDJCQUFjO0VBQWQseUJBQWM7RUFBZCwwQkFBYztFQUFkLDJCQUFjO0VBQWQsdUJBQWM7RUFBZCx3QkFBYztFQUFkLHlCQUFjO0VBQWQsc0JBQWM7RUFBZCxvQkFBYztFQUFkLHNCQUFjO0VBQWQscUJBQWM7RUFBZDtBQUFjLENBQWQ7O0NBQWMsQ0FBZDs7O0NBQWM7O0FBQWQ7OztFQUFBLHNCQUFjLEVBQWQsTUFBYztFQUFkLGVBQWMsRUFBZCxNQUFjO0VBQWQsbUJBQWMsRUFBZCxNQUFjO0VBQWQscUJBQWMsRUFBZCxNQUFjO0FBQUE7O0FBQWQ7O0VBQUEsZ0JBQWM7QUFBQTs7QUFBZDs7Ozs7Ozs7Q0FBYzs7QUFBZDs7RUFBQSxnQkFBYyxFQUFkLE1BQWM7RUFBZCw4QkFBYyxFQUFkLE1BQWM7RUFBZCxnQkFBYyxFQUFkLE1BQWM7RUFBZCxjQUFjO0tBQWQsV0FBYyxFQUFkLE1BQWM7RUFBZCwrSEFBYyxFQUFkLE1BQWM7RUFBZCw2QkFBYyxFQUFkLE1BQWM7RUFBZCwrQkFBYyxFQUFkLE1BQWM7RUFBZCx3Q0FBYyxFQUFkLE1BQWM7QUFBQTs7QUFBZDs7O0NBQWM7O0FBQWQ7RUFBQSxTQUFjLEVBQWQsTUFBYztFQUFkLG9CQUFjLEVBQWQsTUFBYztBQUFBOztBQUFkOzs7O0NBQWM7O0FBQWQ7RUFBQSxTQUFjLEVBQWQsTUFBYztFQUFkLGNBQWMsRUFBZCxNQUFjO0VBQWQscUJBQWMsRUFBZCxNQUFjO0FBQUE7O0FBQWQ7O0NBQWM7O0FBQWQ7RUFBQSx5Q0FBYztVQUFkLGlDQUFjO0FBQUE7O0FBQWQ7O0NBQWM7O0FBQWQ7Ozs7OztFQUFBLGtCQUFjO0VBQWQsb0JBQWM7QUFBQTs7QUFBZDs7Q0FBYzs7QUFBZDtFQUFBLGNBQWM7RUFBZCx3QkFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkOztFQUFBLG1CQUFjO0FBQUE7O0FBQWQ7Ozs7O0NBQWM7O0FBQWQ7Ozs7RUFBQSwrR0FBYyxFQUFkLE1BQWM7RUFBZCw2QkFBYyxFQUFkLE1BQWM7RUFBZCwrQkFBYyxFQUFkLE1BQWM7RUFBZCxjQUFjLEVBQWQsTUFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkO0VBQUEsY0FBYztBQUFBOztBQUFkOztDQUFjOztBQUFkOztFQUFBLGNBQWM7RUFBZCxjQUFjO0VBQWQsa0JBQWM7RUFBZCx3QkFBYztBQUFBOztBQUFkO0VBQUEsZUFBYztBQUFBOztBQUFkO0VBQUEsV0FBYztBQUFBOztBQUFkOzs7O0NBQWM7O0FBQWQ7RUFBQSxjQUFjLEVBQWQsTUFBYztFQUFkLHFCQUFjLEVBQWQsTUFBYztFQUFkLHlCQUFjLEVBQWQsTUFBYztBQUFBOztBQUFkOzs7O0NBQWM7O0FBQWQ7Ozs7O0VBQUEsb0JBQWMsRUFBZCxNQUFjO0VBQWQsOEJBQWMsRUFBZCxNQUFjO0VBQWQsZ0NBQWMsRUFBZCxNQUFjO0VBQWQsZUFBYyxFQUFkLE1BQWM7RUFBZCxvQkFBYyxFQUFkLE1BQWM7RUFBZCxvQkFBYyxFQUFkLE1BQWM7RUFBZCx1QkFBYyxFQUFkLE1BQWM7RUFBZCxjQUFjLEVBQWQsTUFBYztFQUFkLFNBQWMsRUFBZCxNQUFjO0VBQWQsVUFBYyxFQUFkLE1BQWM7QUFBQTs7QUFBZDs7Q0FBYzs7QUFBZDs7RUFBQSxvQkFBYztBQUFBOztBQUFkOzs7Q0FBYzs7QUFBZDs7OztFQUFBLDBCQUFjLEVBQWQsTUFBYztFQUFkLDZCQUFjLEVBQWQsTUFBYztFQUFkLHNCQUFjLEVBQWQsTUFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkO0VBQUEsYUFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkO0VBQUEsZ0JBQWM7QUFBQTs7QUFBZDs7Q0FBYzs7QUFBZDtFQUFBLHdCQUFjO0FBQUE7O0FBQWQ7O0NBQWM7O0FBQWQ7O0VBQUEsWUFBYztBQUFBOztBQUFkOzs7Q0FBYzs7QUFBZDtFQUFBLDZCQUFjLEVBQWQsTUFBYztFQUFkLG9CQUFjLEVBQWQsTUFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkO0VBQUEsd0JBQWM7QUFBQTs7QUFBZDs7O0NBQWM7O0FBQWQ7RUFBQSwwQkFBYyxFQUFkLE1BQWM7RUFBZCxhQUFjLEVBQWQsTUFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkO0VBQUEsa0JBQWM7QUFBQTs7QUFBZDs7Q0FBYzs7QUFBZDs7Ozs7Ozs7Ozs7OztFQUFBLFNBQWM7QUFBQTs7QUFBZDtFQUFBLFNBQWM7RUFBZCxVQUFjO0FBQUE7O0FBQWQ7RUFBQSxVQUFjO0FBQUE7O0FBQWQ7OztFQUFBLGdCQUFjO0VBQWQsU0FBYztFQUFkLFVBQWM7QUFBQTs7QUFBZDs7Q0FBYztBQUFkO0VBQUEsVUFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkO0VBQUEsZ0JBQWM7QUFBQTs7QUFBZDs7O0NBQWM7O0FBQWQ7RUFBQSxVQUFjLEVBQWQsTUFBYztFQUFkLGNBQWMsRUFBZCxNQUFjO0FBQUE7O0FBQWQ7O0VBQUEsVUFBYyxFQUFkLE1BQWM7RUFBZCxjQUFjLEVBQWQsTUFBYztBQUFBOztBQUFkOztDQUFjOztBQUFkOztFQUFBLGVBQWM7QUFBQTs7QUFBZDs7Q0FBYztBQUFkO0VBQUEsZUFBYztBQUFBOztBQUFkOzs7O0NBQWM7O0FBQWQ7Ozs7Ozs7O0VBQUEsY0FBYyxFQUFkLE1BQWM7RUFBZCxzQkFBYyxFQUFkLE1BQWM7QUFBQTs7QUFBZDs7Q0FBYzs7QUFBZDs7RUFBQSxlQUFjO0VBQWQsWUFBYztBQUFBOztBQUFkLHdFQUFjO0FBQWQ7RUFBQSxhQUFjO0FBQUE7RUFBZDtJQUFBLHVCQUFjO0lBQWQscUJBQWM7SUFBZCxpQkFBYztJQUFkLCtCQUFjO0lBQWQsb0JBQWM7SUFBZCxrQ0FBYztJQUFkLHVCQUFjO0lBQWQsOEJBQWM7SUFBZCwyQkFBYztJQUFkLG9DQUFjO0lBQWQsdUJBQWM7SUFBZCxrQ0FBYztJQUFkLHdCQUFjO0lBQWQsaUNBQWM7SUFBZCw0QkFBYztJQUFkLGtDQUFjO0lBQWQsc0JBQWM7SUFBZCxxQkFBYztJQUFkLG9CQUFjO0lBQWQscUJBQWM7SUFBZCxzQkFBYztJQUFkLHNCQUFjO0lBQWQscUJBQWM7SUFBZCxxQkFBYztJQUFkLGdCQUFjO0VBQUE7RUFBZDtJQUFBLHFCQUFjO0lBQWQsdUJBQWM7SUFBZCxvQkFBYztJQUFkLDJCQUFjO0lBQWQsdUJBQWM7SUFBZCw4QkFBYztJQUFkLG1CQUFjO0lBQWQsa0NBQWM7SUFBZCwyQkFBYztJQUFkLGdDQUFjO0lBQWQsdUJBQWM7SUFBZCxnQ0FBYztJQUFkLHdCQUFjO0lBQWQsNkJBQWM7SUFBZCw0QkFBYztJQUFkLGtDQUFjO0lBQWQsd0JBQWM7SUFBZCx1QkFBYztJQUFkLHNCQUFjO0lBQWQsc0JBQWM7SUFBZCxzQkFBYztJQUFkLHFCQUFjO0lBQWQsc0JBQWM7SUFBZCxzQkFBYztFQUFBO0VBQWQ7RUFBQTtBQUFjO0VBQWQ7RUFBQSx3Q0FBYztFQUFkO0FBQWM7QUFFZDtFQUFBLGtCQUFtQjtFQUFuQixVQUFtQjtFQUFuQixXQUFtQjtFQUFuQixVQUFtQjtFQUFuQixZQUFtQjtFQUFuQixnQkFBbUI7RUFBbkIsc0JBQW1CO0VBQW5CLG1CQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBLFNBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxxQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxtQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxXQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLHVCQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUEsdUJBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUEsc0JBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUEsc0JBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSx5QkFBbUI7S0FBbkIsc0JBQW1CO1VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBLHVCQUFtQjtFQUFuQixnRUFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSx1QkFBbUI7RUFBbkIsOERBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBLGlEQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLGtEQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxzQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxzQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUEsa0JBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxrQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxrQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUEsNERBQW1CO0VBQW5CLGtFQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxzQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxzQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxxQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxrQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxrQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSw4QkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxxQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxtQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxtQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxpQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUEsbUJBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUEsa0JBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxlQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLG1CQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLG1CQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLGtCQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLGtCQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBLG9CQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLG9CQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUEsb0JBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUEsb0JBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSxvQkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBLDBFQUFtQjtFQUFuQiw4RkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSwrRUFBbUI7RUFBbkIsbUdBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUEsNkVBQW1CO0VBQW5CLGlHQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLDBDQUFtQjtFQUFuQix1REFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSw4QkFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBLDJHQUFtQjtFQUFuQix5R0FBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBLHdCQUFtQjtFQUFuQix3REFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQSwrRkFBbUI7RUFBbkIsd0RBQW1CO0VBQW5CO0FBQW1CO0FBQW5CO0VBQUEsNEJBQW1CO0VBQW5CLHdEQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBLDhCQUFtQjtFQUFuQix3REFBbUI7RUFBbkI7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjs7RUFBQTtJQUFBLG1DQUFtQjtJQUFuQjtFQUFtQjtBQUFBO0FBQW5COztFQUFBO0lBQUEsa0NBQW1CO0lBQW5CO0VBQW1CO0FBQUE7QUFBbkI7RUFBQSxxQkFBbUI7RUFBbkIseUJBQW1CO0VBQW5CLDJCQUFtQjtFQUFuQix5QkFBbUI7RUFBbkIsMEJBQW1CO0VBQW5CLCtCQUFtQjtFQUFuQjtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBQW5CO0VBQUE7QUFBbUI7QUFBbkI7RUFBQTtBQUFtQjtBQUFuQjtFQUFBO0FBQW1CO0FBRm5CO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBLG1CQW1FQTtFQW5FQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsa0JBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsOEJBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUEsMkdBbUVBO0VBbkVBLHlHQW1FQTtFQW5FQTtBQW1FQTtBQW5FQTtFQUFBLDJHQW1FQTtFQW5FQSx5R0FtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsOEJBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUEsMkdBbUVBO0VBbkVBLHlHQW1FQTtFQW5FQTtBQW1FQTtBQW5FQTtFQUFBLDJHQW1FQTtFQW5FQSx5R0FtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQSx5QkFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQSwwQkFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQSx5QkFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQSwwQkFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQSxzQkFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQSxxQkFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQSxxQkFtRUE7RUFuRUEseUJBbUVBO0VBbkVBLDJCQW1FQTtFQW5FQSx5QkFtRUE7RUFuRUEsMEJBbUVBO0VBbkVBLCtCQW1FQTtFQW5FQTtBQW1FQTtBQW5FQTtFQUFBLG9CQW1FQTtFQW5FQSx5QkFtRUE7RUFuRUEsMEJBbUVBO0VBbkVBLHdCQW1FQTtFQW5FQSx5QkFtRUE7RUFuRUEsOEJBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsMkdBbUVBO0VBbkVBLHlHQW1FQTtFQW5FQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBOztFQUFBO0lBQUE7RUFtRUE7O0VBbkVBO0lBQUE7RUFtRUE7O0VBbkVBO0lBQUE7RUFtRUE7O0VBbkVBO0lBQUEsdUJBbUVBO0lBbkVBLHNEQW1FQTtJQW5FQTtFQW1FQTs7RUFuRUE7SUFBQTtFQW1FQTs7RUFuRUE7SUFBQTtFQW1FQTtBQUFBO0FBbkVBOztFQUFBO0lBQUE7RUFtRUE7O0VBbkVBO0lBQUE7RUFtRUE7O0VBbkVBO0lBQUEsbUJBbUVBO0lBbkVBO0VBbUVBO0FBQUE7QUFuRUE7O0VBQUE7SUFBQTtFQW1FQTtBQUFBO0FBbkVBO0VBQUEsaURBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQSxrREFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQSxxQkFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQSxnQkFtRUE7RUFuRUEsb0JBbUVBO0VBbkVBLDRCQW1FQTtFQW5FQTtBQW1FQTtBQW5FQTtFQUFBLGtCQW1FQTtFQW5FQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsZUFtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsb0JBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUEscUJBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUEsa0JBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsb0JBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsb0JBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUEsb0JBbUVBO0VBbkVBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUEsV0FtRUE7RUFuRUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBO0FBbkVBO0VBQUE7QUFtRUE7QUFuRUE7RUFBQTtBQW1FQTtBQW5FQTtFQUFBO0FBbUVBIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2FwcC9jbGllbnQvc3JjL2luZGV4LmNzcyJdLCJzb3VyY2VzQ29udGVudCI6WyJAdGFpbHdpbmQgYmFzZTtcbkB0YWlsd2luZCBjb21wb25lbnRzO1xuQHRhaWx3aW5kIHV0aWxpdGllcztcblxuQGxheWVyIGJhc2Uge1xuICA6cm9vdCB7XG4gICAgLS1iYWNrZ3JvdW5kOiAwIDAlIDEwMCU7XG4gICAgLS1mb3JlZ3JvdW5kOiAwIDAlIDAlO1xuICAgIC0tY2FyZDogMCAwJSAxMDAlO1xuICAgIC0tY2FyZC1mb3JlZ3JvdW5kOiAyNDAgMTAlIDMuOSU7XG4gICAgLS1wb3BvdmVyOiAwIDAlIDEwMCU7XG4gICAgLS1wb3BvdmVyLWZvcmVncm91bmQ6IDI0MCAxMCUgMy45JTtcbiAgICAtLXByaW1hcnk6IDI0MCA1LjklIDEwJTtcbiAgICAtLXByaW1hcnktZm9yZWdyb3VuZDogMCAwJSA5OCU7XG4gICAgLS1zZWNvbmRhcnk6IDI0MCA0LjglIDk1LjklO1xuICAgIC0tc2Vjb25kYXJ5LWZvcmVncm91bmQ6IDI0MCA1LjklIDEwJTtcbiAgICAtLW11dGVkOiAyNDAgNC44JSA5NS45JTtcbiAgICAtLW11dGVkLWZvcmVncm91bmQ6IDI0MCAzLjglIDQ2LjElO1xuICAgIC0tYWNjZW50OiAyNDAgNC44JSA5NS45JTtcbiAgICAtLWFjY2VudC1mb3JlZ3JvdW5kOiAyNDAgNS45JSAxMCU7XG4gICAgLS1kZXN0cnVjdGl2ZTogMCA4NC4yJSA2MC4yJTtcbiAgICAtLWRlc3RydWN0aXZlLWZvcmVncm91bmQ6IDAgMCUgOTglO1xuICAgIC0tYm9yZGVyOiAyNDAgNS45JSA5MCU7XG4gICAgLS1pbnB1dDogMjQwIDUuOSUgOTAlO1xuICAgIC0tcmluZzogMjQwIDEwJSAzLjklO1xuICAgIC0tY2hhcnQtMTogMTIgNzYlIDYxJTtcbiAgICAtLWNoYXJ0LTI6IDE3MyA1OCUgMzklO1xuICAgIC0tY2hhcnQtMzogMTk3IDM3JSAyNCU7XG4gICAgLS1jaGFydC00OiA0MyA3NCUgNjYlO1xuICAgIC0tY2hhcnQtNTogMjcgODclIDY3JTtcbiAgICAtLXJhZGl1czogMC41cmVtO1xuICB9XG4gIC5kYXJrIHtcbiAgICAtLWJhY2tncm91bmQ6IDAgMCUgMCU7XG4gICAgLS1mb3JlZ3JvdW5kOiAwIDAlIDEwMCU7XG4gICAgLS1jYXJkOiAyNDAgMTAlIDMuOSU7XG4gICAgLS1jYXJkLWZvcmVncm91bmQ6IDAgMCUgOTglO1xuICAgIC0tcG9wb3ZlcjogMjQwIDEwJSAzLjklO1xuICAgIC0tcG9wb3Zlci1mb3JlZ3JvdW5kOiAwIDAlIDk4JTtcbiAgICAtLXByaW1hcnk6IDAgMCUgOTglO1xuICAgIC0tcHJpbWFyeS1mb3JlZ3JvdW5kOiAyNDAgNS45JSAxMCU7XG4gICAgLS1zZWNvbmRhcnk6IDI0MCAzLjclIDE1LjklO1xuICAgIC0tc2Vjb25kYXJ5LWZvcmVncm91bmQ6IDAgMCUgOTglO1xuICAgIC0tbXV0ZWQ6IDI0MCAzLjclIDE1LjklO1xuICAgIC0tbXV0ZWQtZm9yZWdyb3VuZDogMjQwIDUlIDY0LjklO1xuICAgIC0tYWNjZW50OiAyNDAgMy43JSAxNS45JTtcbiAgICAtLWFjY2VudC1mb3JlZ3JvdW5kOiAwIDAlIDk4JTtcbiAgICAtLWRlc3RydWN0aXZlOiAwIDYyLjglIDMwLjYlO1xuICAgIC0tZGVzdHJ1Y3RpdmUtZm9yZWdyb3VuZDogMCAwJSA5OCU7XG4gICAgLS1ib3JkZXI6IDI0MCAzLjclIDE1LjklO1xuICAgIC0taW5wdXQ6IDI0MCAzLjclIDE1LjklO1xuICAgIC0tcmluZzogMjQwIDQuOSUgODMuOSU7XG4gICAgLS1jaGFydC0xOiAyMjAgNzAlIDUwJTtcbiAgICAtLWNoYXJ0LTI6IDE2MCA2MCUgNDUlO1xuICAgIC0tY2hhcnQtMzogMzAgODAlIDU1JTtcbiAgICAtLWNoYXJ0LTQ6IDI4MCA2NSUgNjAlO1xuICAgIC0tY2hhcnQtNTogMzQwIDc1JSA1NSU7XG4gIH1cbn1cbkBsYXllciBiYXNlIHtcbiAgKiB7XG4gICAgQGFwcGx5IGJvcmRlci1ib3JkZXI7XG4gIH1cbiAgYm9keSB7XG4gICAgQGFwcGx5IGJnLWJhY2tncm91bmQgdGV4dC1mb3JlZ3JvdW5kO1xuICB9XG59XG4iXSwidmVyc2lvbiI6M30= */</style>
+ </head> 
+ <body>
+ <!-- Password Protection -->
+<div id="login-section" class="min-h-screen bg-black flex items-center justify-center p-4">
+  <div class="bg-gray-800 p-8 rounded-lg border border-green-500 max-w-md w-full">
+    <h2 class="text-2xl font-bold text-green-400 text-center mb-6">Admin Panel Login</h2>
+    <p class="text-gray-400 text-center mb-6">Access restricted to authorized users only</p>
+    
+    <div class="space-y-4">
+      <div>
+        <label class="text-sm font-medium text-gray-300">Telegram User ID</label>
+        <input type="text" id="login-user-id" class="flex h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 mt-1" placeholder="Enter your Telegram ID">
+      </div>
+      
+      <div>
+        <label class="text-sm font-medium text-gray-300">One-Time Password</label>
+        <input type="password" id="login-password" class="flex h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 mt-1" placeholder="Enter one-time password">
+      </div>
+      
+      <button onclick="handleLogin()" class="w-full bg-green-500 text-black font-semibold py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
+        Login to Admin Panel
+      </button>
+      
+      <div class="text-center">
+        <button onclick="requestPassword()" class="text-green-400 hover:text-green-300 text-sm underline">
+          Get One-Time Password via Bot
+        </button>
+      </div>
+    </div>
+    
+    <div id="login-error" class="mt-4 p-3 bg-red-500/20 border border-red-500 rounded-md text-red-400 text-sm hidden"></div>
+  </div>
+</div>
+  <div id="root" class="contents">
+   <div class="min-h-screen bg-black">
+    <div class="bg-gradient-to-b from-green-900 to-black p-8 text-white">
+     <p class="font-bold">🍰 CAKE</p>
+     <h1 class="text-3xl mt-2">🍰 CAKE CONSOLE</h1>
+     <p class="text-gray-400 text-sm mt-1">Manage your bot configuration and monitor activity</p>
+    </div>
+    <main>
+    <!-- Add this in the header section after the title -->
+<div class="absolute top-4 right-4">
+  <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors text-sm">
+    Logout
+  </button>
+</div>
+     <div class="p-4 bg-black">
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-4">
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showDashboard()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-column-increasing text-white">
+         <line x1="12" x2="12" y1="20" y2="10"></line>
+         <line x1="18" x2="18" y1="20" y2="4"></line>
+         <line x1="6" x2="6" y1="20" y2="16"></line>
+        </svg>
+        <span class="text-white text-sm">Dashboard</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-green-500 cursor-pointer" onclick="showConfiguration()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings text-white">
+         <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+         <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span class="text-white text-sm">Configuration</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showTasks()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list text-yellow-200">
+         <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+         <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+         <path d="M12 11h4"></path>
+         <path d="M12 16h4"></path>
+         <path d="M8 11h.01"></path>
+         <path d="M8 16h.01"></path>
+        </svg>
+        <span class="text-white text-sm">Tasks</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showUsers()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-blue-300">
+         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+         <circle cx="9" cy="7" r="4"></circle>
+         <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span class="text-white text-sm">Users</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showWithdrawals()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-landmark text-yellow-400">
+         <line x1="3" x2="21" y1="22" y2="22"></line>
+         <line x1="6" x2="6" y1="18" y2="11"></line>
+         <line x1="10" x2="10" y1="18" y2="11"></line>
+         <line x1="14" x2="14" y1="18" y2="11"></line>
+         <line x1="18" x2="18" y1="18" y2="11"></line>
+         <polygon points="12 2 20 7 4 7"></polygon>
+        </svg>
+        <span class="text-white text-sm">Withdrawals</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showChannels()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor text-blue-300">
+         <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+         <line x1="8" x2="16" y1="21" y2="21"></line>
+         <line x1="12" x2="12" y1="17" y2="21"></line>
+        </svg>
+        <span class="text-white text-sm">Channels</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showGroups()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-blue-500">
+         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+         <circle cx="9" cy="7" r="4"></circle>
+         <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span class="text-white text-sm">Groups</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showSocialTasks()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe text-blue-500">
+         <circle cx="12" cy="12" r="10"></circle>
+         <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+         <path d="M2 12h20"></path>
+        </svg>
+        <span class="text-white text-sm">Social Tasks</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showAds()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-magnet text-red-500">
+         <path d="m6 15-4-4 6.75-6.77a7.79 7.79 0 0 1 11 11L13 22l-4-4 6.39-6.36a2.14 2.14 0 0 0-3-3L6 15"></path>
+         <path d="m5 8 4 4"></path>
+         <path d="m12 15 4 4"></path>
+        </svg>
+        <span class="text-white text-sm">Ads</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showModeration()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield text-gray-400">
+         <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+        </svg>
+        <span class="text-white text-sm">Moderation</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showBroadcast()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone text-red-500">
+         <path d="m3 11 18-5v12L3 14v-3z"></path>
+         <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
+        </svg>
+        <span class="text-white text-sm">Broadcast</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showOnboarding()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big text-green-500">
+         <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+         <path d="m9 11 3 3L22 4"></path>
+        </svg>
+        <span class="text-white text-sm">Onboarding</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showReferralAudit()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search text-gray-400">
+         <circle cx="11" cy="11" r="8"></circle>
+         <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <span class="text-white text-sm">Referral Audit</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-center bg-gray-800 cursor-pointer" onclick="showUserLedger()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book text-orange-400">
+         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"></path>
+        </svg>
+        <span class="text-white text-sm">User Ledger</span>
+       </div>
+      </div>
+     </div>
+     
+     <!-- Configuration Content (initially hidden) -->
+     <div id="configuration-content" class="hidden bg-black p-8 text-white">
+      <!-- Daily Claims Configuration -->
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Daily Claims Configuration</h2>
+        <div class="space-y-4 max-w-2xl">
+          <div>
+            <label class="text-sm font-medium leading-none">Daily Claims Limit:</label>
+            <input type="number" id="daily-claims-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="5">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Minimum Claim Amount:</label>
+            <input type="number" id="min-claim-amount" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="10">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Maximum Claim Amount:</label>
+            <input type="number" id="max-claim-amount" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="100">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Bonus Claims per Friends:</label>
+            <input type="number" id="bonus-claims-per-friend" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="1">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Friends Required for Bonus:</label>
+            <input type="number" id="friends-required-for-bonus" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="5">
+          </div>
+          <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveClaimsConfig()">
+            Save Claims Config
+          </button>
+        </div>
+      </div>
+      
+      <!-- Withdrawal Configuration -->
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Withdrawal Configuration</h2>
+        <div class="space-y-4 max-w-2xl">
+          <div>
+            <label class="text-sm font-medium leading-none">Minimum Withdrawal:</label>
+            <input type="number" id="min-withdrawal" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="100">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Maximum Withdrawal:</label>
+            <input type="number" id="max-withdrawal" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="10000">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Withdrawal Fee (%):</label>
+            <input type="number" id="withdrawal-fee" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="5">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Bank Edit Fee (Points):</label>
+            <input type="number" id="bank-edit-fee" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="10">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Min Successful Referrals To Withdraw:</label>
+            <input type="number" id="min-referrals-to-withdraw" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="3">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Currency Symbol:</label>
+            <input type="text" id="currency-symbol" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="$">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Point Currency Rate (1 point = ?):</label>
+            <input type="number" step="0.01" id="point-currency-rate" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="0.01">
+          </div>
+          <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveWithdrawalConfig()">
+            Save Withdraw Config
+          </button>
+        </div>
+      </div>
+      
+      <!-- Points Configuration -->
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Points Configuration</h2>
+        <div class="space-y-4 max-w-2xl">
+          <div>
+            <label class="text-sm font-medium leading-none">Channel Join Points:</label>
+            <input type="number" id="channel-join-points" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="50">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Group Join Points:</label>
+            <input type="number" id="group-join-points" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="30">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Friend Invite Points:</label>
+            <input type="number" id="friend-invite-points" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="20">
+          </div>
+          <div>
+            <label class="text-sm font-medium leading-none">Daily Task Limit:</label>
+            <input type="number" id="daily-task-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="10">
+          </div>
+          <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="savePointsConfig()">
+            Save Points Config
+          </button>
+        </div>
+      </div>
+      
+      <!-- Support & Payout Configuration -->
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Support & Payout Configuration</h2>
+        <div class="space-y-4 max-w-2xl">
+          <div>
+            <label class="text-sm font-medium leading-none">Support Username:</label>
+            <input type="text" id="support-username" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="@SupportAdmin">
+          </div>
+          
+          <h3 class="text-lg font-medium mt-6">Support Admins (Usernames & Descriptions)</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 1 Username:</label>
+              <input type="text" id="admin1-username" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="@Admin1">
+            </div>
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 1 Description:</label>
+              <input type="text" id="admin1-description" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g. Withdrawal">
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 2 Username:</label>
+              <input type="text" id="admin2-username" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="@Admin2">
+            </div>
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 2 Description:</label>
+              <input type="text" id="admin2-description" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g. Tasks">
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 3 Username:</label>
+              <input type="text" id="admin3-username" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="@Admin3">
+            </div>
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 3 Description:</label>
+              <input type="text" id="admin3-description" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g. General Support">
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 4 Username:</label>
+              <input type="text" id="admin4-username" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="@Admin4">
+            </div>
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 4 Description:</label>
+              <input type="text" id="admin4-description" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g. General Support">
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 5 Username:</label>
+              <input type="text" id="admin5-username" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="@Admin5">
+            </div>
+            <div>
+              <label class="text-sm font-medium leading-none">Admin 5 Description:</label>
+              <input type="text" id="admin5-description" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g. General Support">
+            </div>
+          </div>
+          
+          <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveSupportConfig()">
+            Save Support Config
+          </button>
+        </div>
+      </div>
+      
+      <!-- App Configuration -->
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">App Configuration</h2>
+        <div class="space-y-4 max-w-2xl">
+          <div>
+            <label class="text-sm font-medium leading-none">App Name:</label>
+            <input type="text" id="app-name" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="CAKE">
+          </div>
+          <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveAppConfig()">
+            Save App Config
+          </button>
+        </div>
+      </div>
+      
+      <!-- Ads SDK Configuration -->
+      <!-- In settings.html, in the Monetag Ads section -->
+<div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Ads Configuration</h2>
+    <div class="space-y-4 max-w-2xl">
+        <p class="text-green-400">Configure both Monetag and AdsGram ads</p>
+        
+        <!-- AdsGram Configuration -->
+        <div class="bg-gray-900 p-4 rounded-md border border-blue-500">
+            <h3 class="text-lg font-semibold text-blue-400 mb-3">AdsGram Configuration</h3>
+            <div class="mb-3">
+                <label class="text-sm font-medium leading-none">AdsGram Block ID:</label>
+                <input type="text" id="adsgram-block-id" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-blue-400" placeholder="Enter your AdsGram Block ID">
+            </div>
+        </div>
+
+        <!-- Monetag Configuration -->
+        <div class="bg-gray-900 p-4 rounded-md border border-green-500">
+            <h3 class="text-lg font-semibold text-green-400 mb-3">Monetag Configuration</h3>
+            <div class="mb-3">
+                <label class="text-sm font-medium leading-none">Fixed Reward Points (per completed ad):</label>
+                <input type="number" id="reward-points-per-ad" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="">
+            </div>
+            <div class="mb-3">
+                <label class="text-sm font-medium leading-none">Zone ID/ SDK ID (numbers):</label>
+                <input type="text" id="zone-id" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="">
+            </div>
+            <div class="mb-3">
+                <label class="text-sm font-medium leading-none">Mini App ID(optional):</label>
+                <input type="text" id="mini-app-id" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="">
+            </div>
+            <div class="mb-3">
+                <label class="text-sm font-medium leading-none">SDK Script Snippet(paste full &lt;script&gt; tag):</label>
+                <textarea id="sdk-script" class="flex min-h-[60px] w-full rounded-md border px-3 py-2 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" rows="3"></textarea>
+            </div>
+        </div>
+        
+        <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveAdsConfig()">
+            Save Ads Configuration
+        </button>
+    </div>
+</div>
+<!-- Add this in the configuration-content section of settings.html -->
+<div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Ads Task Configuration</h2>
+    <div class="space-y-4 max-w-2xl">
+        <div>
+            <label class="text-sm font-medium leading-none">Daily Ads Limit:</label>
+            <input type="number" id="daily-ads-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="60">
+        </div>
+        <div>
+            <label class="text-sm font-medium leading-none">Hourly Ads Limit:</label>
+            <input type="number" id="hourly-ads-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" value="20">
+        </div>
+        <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveAdsTaskConfig()">
+            Save Ads Task Config
+        </button>
+    </div>
+</div>
+
+<!-- Channel Tasks Management -->
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">Channel Tasks Management</h2>
+  <div class="space-y-4 max-w-2xl">
+    <div>
+      <label class="text-sm font-medium leading-none">Title:</label>
+      <input type="text" id="channel-task-title" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., FTearning72">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Description:</label>
+      <textarea id="channel-task-description" class="flex min-h-[60px] w-full rounded-md border px-3 py-2 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Earn daily with us, no investment needed"></textarea>
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Amount:</label>
+      <input type="number" id="channel-task-amount" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 40">
+    </div>
+    <div>
+    <label class="text-sm font-medium leading-none">Task Limit (Max Completions):</label>
+    <input type="number" id="channel-task-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 100 (0 = unlimited)" value="0">
+</div>
+    <div>
+      <label class="text-sm font-medium leading-none">Verification:</label>
+      <select id="channel-task-verification" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400">
+        <option value="on">Channel Verification ON</option>
+        <option value="off">Channel Verification OFF</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Channel Link:</label>
+      <input type="text" id="channel-task-link" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., https://t.me/FTearning72">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Channel ID:</label>
+      <input type="text" id="channel-task-id" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., -1001234567890">
+    </div>
+    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveChannelTask()">
+      Save Channel Task
+    </button>
+  </div>
+  
+  <!-- Saved Channel Tasks -->
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold mb-4">Saved Channel Tasks</h3>
+    <div id="saved-channel-tasks" class="space-y-4">
+      <!-- Channel tasks will be populated here -->
+    </div>
+  </div>
+</div>
+
+<!-- Group Tasks Management -->
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">Group Tasks Management</h2>
+  <div class="space-y-4 max-w-2xl">
+    <div>
+      <label class="text-sm font-medium leading-none">Title:</label>
+      <input type="text" id="group-task-title" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., wealthcodetv">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Description:</label>
+      <textarea id="group-task-description" class="flex min-h-[60px] w-full rounded-md border px-3 py-2 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Join the group and be active"></textarea>
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Amount:</label>
+      <input type="number" id="group-task-amount" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 80">
+    </div>
+    <div>
+    <label class="text-sm font-medium leading-none">Task Limit (Max Completions):</label>
+    <input type="number" id="group-task-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 100 (0 = unlimited)" value="0">
+</div>
+    <div>
+      <label class="text-sm font-medium leading-none">Verification:</label>
+      <select id="group-task-verification" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400">
+        <option value="on">Group Verification ON</option>
+        <option value="off">Group Verification OFF</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Group Link:</label>
+      <input type="text" id="group-task-link" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., https://t.me/wealthcodetv">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Group ID:</label>
+      <input type="text" id="group-task-id" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., -1001234567890">
+    </div>
+    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveGroupTask()">
+      Save Group Task
+    </button>
+  </div>
+  
+  <!-- Saved Group Tasks -->
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold mb-4">Saved Group Tasks</h3>
+    <div id="saved-group-tasks" class="space-y-4">
+      <!-- Group tasks will be populated here -->
+    </div>
+  </div>
+</div>
+
+<!-- Add this in the configuration-content section of settings.html -->
+
+<!-- WhatsApp Tasks Management -->
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">WhatsApp Tasks Management</h2>
+  <div class="space-y-4 max-w-2xl">
+    <div>
+      <label class="text-sm font-medium leading-none">Title:</label>
+      <input type="text" id="whatsapp-task-title" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Join our WhatsApp group">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Description:</label>
+      <textarea id="whatsapp-task-description" class="flex min-h-[60px] w-full rounded-md border px-3 py-2 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Join our community WhatsApp group"></textarea>
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Amount:</label>
+      <input type="number" id="whatsapp-task-amount" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 50">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Task Limit (Max Completions):</label>
+      <input type="number" id="whatsapp-task-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 100 (0 = unlimited)" value="0">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">WhatsApp Group Link:</label>
+      <input type="text" id="whatsapp-task-link" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., https://chat.whatsapp.com/yourgroup">
+    </div>
+    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveWhatsAppTask()">
+      Save WhatsApp Task
+    </button>
+  </div>
+  
+  <!-- Saved WhatsApp Tasks -->
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold mb-4">Saved WhatsApp Tasks</h3>
+    <div id="saved-whatsapp-tasks" class="space-y-4">
+      <!-- WhatsApp tasks will be populated here -->
+    </div>
+  </div>
+</div>
+
+<!-- TikTok Tasks Management -->
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">TikTok Tasks Management</h2>
+  <div class="space-y-4 max-w-2xl">
+    <div>
+      <label class="text-sm font-medium leading-none">Title:</label>
+      <input type="text" id="tiktok-task-title" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Follow our TikTok">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Description:</label>
+      <textarea id="tiktok-task-description" class="flex min-h-[60px] w-full rounded-md border px-3 py-2 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Follow our TikTok account and like videos"></textarea>
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Amount:</label>
+      <input type="number" id="tiktok-task-amount" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 40">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Task Limit (Max Completions):</label>
+      <input type="number" id="tiktok-task-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 100 (0 = unlimited)" value="0">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">TikTok Profile Link:</label>
+      <input type="text" id="tiktok-task-link" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., https://tiktok.com/@username">
+    </div>
+    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveTikTokTask()">
+      Save TikTok Task
+    </button>
+  </div>
+  
+  <!-- Saved TikTok Tasks -->
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold mb-4">Saved TikTok Tasks</h3>
+    <div id="saved-tiktok-tasks" class="space-y-4">
+      <!-- TikTok tasks will be populated here -->
+    </div>
+  </div>
+</div>
+
+<!-- X (Twitter) Tasks Management -->
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">X (Twitter) Tasks Management</h2>
+  <div class="space-y-4 max-w-2xl">
+    <div>
+      <label class="text-sm font-medium leading-none">Title:</label>
+      <input type="text" id="twitter-task-title" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Follow us on X">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Description:</label>
+      <textarea id="twitter-task-description" class="flex min-h-[60px] w-full rounded-md border px-3 py-2 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., Follow our X account and retweet"></textarea>
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Amount:</label>
+      <input type="number" id="twitter-task-amount" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 35">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">Task Limit (Max Completions):</label>
+      <input type="number" id="twitter-task-limit" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., 100 (0 = unlimited)" value="0">
+    </div>
+    <div>
+      <label class="text-sm font-medium leading-none">X Profile Link:</label>
+      <input type="text" id="twitter-task-link" class="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-2 bg-gray-800 border-gray-700 text-green-400" placeholder="e.g., https://x.com/username">
+    </div>
+    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-green-500 text-black border border-black hover:bg-green-600 px-4 py-2" onclick="saveTwitterTask()">
+      Save X Task
+    </button>
+  </div>
+  
+  <!-- Saved X Tasks -->
+  <div class="mt-6">
+    <h3 class="text-lg font-semibold mb-4">Saved X Tasks</h3>
+    <div id="saved-twitter-tasks" class="space-y-4">
+      <!-- X tasks will be populated here -->
+    </div>
+  </div>
+</div>
+
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">Withdrawal Requests</h2>
+  <div class="bg-gray-800 p-6 rounded-lg border border-yellow-500">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-yellow-400">Pending Withdrawals</h3>
+      <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-yellow-500 text-black border border-black hover:bg-yellow-600 px-4 py-2" onclick="loadWithdrawalRequests()">
+        🔄 Refresh Withdrawals
+      </button>
+    </div>
+    <div id="withdrawal-requests-container" class="space-y-4">
+      <!-- Withdrawal requests will be loaded here -->
+    </div>
+    <div id="no-withdrawals-message" class="text-center py-8 text-gray-400 hidden">
+      <p>No pending withdrawal requests at the moment.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Moderation Panel -->
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">Task Moderation Panel</h2>
+  <div class="bg-gray-800 p-6 rounded-lg border border-yellow-500">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-yellow-400">Pending Approvals</h3>
+      <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-yellow-500 text-black border border-black hover:bg-yellow-600 px-4 py-2" onclick="loadPendingApprovals()">
+        🔄 Refresh Pending
+      </button>
+    </div>
+    <div id="pending-approvals-container" class="space-y-4">
+      <!-- Pending approvals will be loaded here -->
+    </div>
+    <div id="no-pending-message" class="text-center py-8 text-gray-400 hidden">
+      <p>No pending approvals at the moment.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Add this in the configuration-content section of settings.html -->
+<div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">User Statistics</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl">
+        <div class="bg-gray-800 p-4 rounded-lg border border-green-500">
+            <p class="text-gray-400 text-sm">Total Users</p>
+            <p class="text-2xl font-bold text-green-400" id="total-users-count">0</p>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg border border-blue-500">
+            <p class="text-gray-400 text-sm">Active Today</p>
+            <p class="text-2xl font-bold text-blue-400" id="active-users-count">0</p>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg border border-yellow-500">
+            <p class="text-gray-400 text-sm">Notification Reach</p>
+            <p class="text-2xl font-bold text-yellow-400" id="notification-reach">0</p>
+        </div>
+    </div>
+    <button class="mt-4 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 bg-blue-500 text-white border border-black hover:bg-blue-600 px-4 py-2" onclick="loadUserStatistics()">
+        🔄 Refresh Stats
+    </button>
+</div>
+     
+     <!-- Default Dashboard Content (shown initially) -->
+     <div id="dashboard-content" class="bg-black p-8 text-white">
+      <h2 class="text-xl font-semibold mb-4">Dashboard Overview</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <p class="text-gray-400">Total Users</p>
+          <p class="text-2xl font-bold text-green-400">1,234</p>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <p class="text-gray-400">Active Today</p>
+          <p class="text-2xl font-bold text-green-400">567</p>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <p class="text-gray-400">Total Withdrawals</p>
+          <p class="text-2xl font-bold text-green-400">$12,345</p>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <p class="text-gray-400">Pending Withdrawals</p>
+          <p class="text-2xl font-bold text-green-400">$1,234</p>
+        </div>
+      </div>
+     </div>
+    </main>
+   </div>
+  </div>
+<script>  
+// Firestore task management functions
+const ALLOWED_USER_IDS = ['5650788149', '7659022836'];
+let currentSession = null;
+let sessionTimeout = null;
+
+// Password generation and storage
+function generateOneTimePassword() {
+    return Math.random().toString(36).substring(2, 10).toUpperCase(); // 8-character random code
+}
+
+// Store passwords with expiration
+const activePasswords = new Map();
+
+function cleanupExpiredPasswords() {
+    const now = Date.now();
+    for (const [userId, data] of activePasswords.entries()) {
+        if (now - data.timestamp > 5 * 60 * 1000) { // 5 minutes
+            activePasswords.delete(userId);
+        }
+    }
+}
+
+// Check authentication status on page load
+function checkAuthStatus() {
+    const savedSession = localStorage.getItem('admin_session');
+    if (savedSession) {
+        const session = JSON.parse(savedSession);
+        if (Date.now() - session.loginTime < 30 * 60 * 1000) { // 30 minute session
+            currentSession = session;
+            showAdminPanel();
+            return;
+        } else {
+            localStorage.removeItem('admin_session');
+        }
+    }
+    showLoginScreen();
+}
+
+// Show/hide functions
+function showLoginScreen() {
+    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('root').classList.add('hidden');
+}
+
+function showAdminPanel() {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('root').classList.remove('hidden');
+    
+    // Set session timeout for 30 minutes
+    if (sessionTimeout) clearTimeout(sessionTimeout);
+    sessionTimeout = setTimeout(logout, 30 * 60 * 1000);
+}
+
+// Login handler
+async function handleLogin() {
+    const userId = document.getElementById('login-user-id').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+    const errorDiv = document.getElementById('login-error');
+    
+    errorDiv.classList.add('hidden');
+    
+    if (!userId || !password) {
+        showError('Please enter both User ID and Password');
+        return;
+    }
+    
+    if (!ALLOWED_USER_IDS.includes(userId)) {
+        showError('Access denied. User ID not authorized.');
+        return;
+    }
+    
+    // Check password
+    cleanupExpiredPasswords();
+    const passwordData = activePasswords.get(userId);
+    
+    if (!passwordData || passwordData.password !== password) {
+        showError('Invalid or expired password. Please request a new one.');
+        return;
+    }
+    
+    // Check if password is expired (5 minutes)
+    if (Date.now() - passwordData.timestamp > 5 * 60 * 1000) {
+        showError('Password has expired. Please request a new one.');
+        activePasswords.delete(userId);
+        return;
+    }
+    
+    // Successful login
+    currentSession = {
+        userId: userId,
+        loginTime: Date.now()
+    };
+    
+    // Save session to localStorage
+    localStorage.setItem('admin_session', JSON.stringify(currentSession));
+    
+    // Clear used password
+    activePasswords.delete(userId);
+    
+    showAdminPanel();
+    
+    // Load configurations
+    loadConfigurations();
+}
+
+// Request password via bot
+async function requestPassword() {
+    const userId = document.getElementById('login-user-id').value.trim();
+    
+    if (!userId) {
+        showError('Please enter your Telegram User ID first');
+        return;
+    }
+    
+    if (!ALLOWED_USER_IDS.includes(userId)) {
+        showError('Access denied. User ID not authorized.');
+        return;
+    }
+    
+    try {
+        // Generate one-time password
+        const password = generateOneTimePassword();
+        const timestamp = Date.now();
+        
+        // Store password with timestamp
+        activePasswords.set(userId, {
+            password: password,
+            timestamp: timestamp
+        });
+        
+        // Send password via bot
+        const response = await fetch('/api/admin/send-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                password: password
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                showSuccess('✅ Password sent to your Telegram! Check your messages.');
+                document.getElementById('login-password').focus();
+            } else {
+                showError('Failed to send password: ' + data.error);
+            }
+        } else {
+            showError('Failed to communicate with server');
+        }
+    } catch (error) {
+        console.error('Error requesting password:', error);
+        showError('Error requesting password. Please try again.');
+    }
+}
+
+// Logout function
+function logout() {
+    currentSession = null;
+    if (sessionTimeout) {
+        clearTimeout(sessionTimeout);
+        sessionTimeout = null;
+    }
+    localStorage.removeItem('admin_session');
+    showLoginScreen();
+    
+    // Clear form
+    document.getElementById('login-user-id').value = '';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-error').classList.add('hidden');
+}
+
+// Helper functions
+function showError(message) {
+    const errorDiv = document.getElementById('login-error');
+    errorDiv.textContent = message;
+    errorDiv.classList.remove('hidden');
+}
+
+function showSuccess(message) {
+    const errorDiv = document.getElementById('login-error');
+    errorDiv.textContent = message;
+    errorDiv.classList.remove('hidden');
+    errorDiv.classList.remove('bg-red-500/20', 'border-red-500', 'text-red-400');
+    errorDiv.classList.add('bg-green-500/20', 'border-green-500', 'text-green-400');
+    
+    // Revert back to error styling after 3 seconds
+    setTimeout(() => {
+        errorDiv.classList.remove('bg-green-500/20', 'border-green-500', 'text-green-400');
+        errorDiv.classList.add('bg-red-500/20', 'border-red-500', 'text-red-400');
+    }, 3000);
+}
+
+async function saveChannelTask() {
+    const task = {
+        id: Date.now().toString(),
+        title: document.getElementById('channel-task-title').value,
+        description: document.getElementById('channel-task-description').value,
+        amount: parseInt(document.getElementById('channel-task-amount').value),
+        verification: document.getElementById('channel-task-verification').value,
+        link: document.getElementById('channel-task-link').value,
+        channelId: document.getElementById('channel-task-id').value,
+        taskLimit: parseInt(document.getElementById('channel-task-limit').value) || 0,
+        completions: 0,
+        completedBy: [],
+        type: 'channel',
+        status: 'active',
+        createdAt: new Date().toISOString()
+    };
+    
+    // Validate required fields
+    if (!task.title || !task.amount || !task.link) {
+        alert('Please fill in all required fields: Title, Amount, and Link');
+        return;
+    }
+    
+    try {
+        // Save task to Firestore
+        const saveResult = await saveTaskToDatabase(task);
+        
+        // Send notification to all users
+        const notificationResult = await sendTaskNotification(task);
+        
+        if (saveResult.success && notificationResult.success) {
+            alert(`✅ Channel task saved successfully!\n📢 Notification sent to ${notificationResult.data.sent} users`);
+        } else if (saveResult.success) {
+            alert('✅ Channel task saved, but failed to send notifications.');
+        } else {
+            alert('❌ Failed to save channel task.');
+        }
+    } catch (error) {
+        console.error('Error saving channel task:', error);
+        alert('❌ Error saving channel task.');
+    }
+    
+    await loadChannelTasks();
+    clearChannelForm();
+}
+
+async function saveGroupTask() {
+    const task = {
+        id: Date.now().toString(),
+        title: document.getElementById('group-task-title').value,
+        description: document.getElementById('group-task-description').value,
+        amount: parseInt(document.getElementById('group-task-amount').value),
+        verification: document.getElementById('group-task-verification').value,
+        link: document.getElementById('group-task-link').value,
+        channelId: document.getElementById('group-task-id').value,
+        taskLimit: parseInt(document.getElementById('group-task-limit').value) || 0,
+        completions: 0,
+        completedBy: [],
+        type: 'group',
+        status: 'active',
+        createdAt: new Date().toISOString()
+    };
+    
+    // Validate required fields
+    if (!task.title || !task.amount || !task.link) {
+        alert('Please fill in all required fields: Title, Amount, and Link');
+        return;
+    }
+    
+    try {
+        // Save task to Firestore
+        const saveResult = await saveTaskToDatabase(task);
+        
+        // Send notification to all users
+        const notificationResult = await sendTaskNotification(task);
+        
+        if (saveResult.success && notificationResult.success) {
+            alert(`✅ Group task saved successfully!\n📢 Notification sent to ${notificationResult.data.sent} users`);
+        } else if (saveResult.success) {
+            alert('✅ Group task saved, but failed to send notifications.');
+        } else {
+            alert('❌ Failed to save group task.');
+        }
+    } catch (error) {
+        console.error('Error saving group task:', error);
+        alert('❌ Error saving group task.');
+    }
+    
+    await loadGroupTasks();
+    clearGroupForm();
+}
+
+async function saveWhatsAppTask() {
+    const task = {
+        id: Date.now().toString(),
+        title: document.getElementById('whatsapp-task-title').value,
+        description: document.getElementById('whatsapp-task-description').value,
+        amount: parseInt(document.getElementById('whatsapp-task-amount').value),
+        link: document.getElementById('whatsapp-task-link').value,
+        taskLimit: parseInt(document.getElementById('whatsapp-task-limit').value) || 0,
+        completions: 0,
+        completedBy: [],
+        pendingApprovals: [],
+        type: 'whatsapp',
+        status: 'active',
+        createdAt: new Date().toISOString()
+    };
+    
+    if (!task.title || !task.amount || !task.link) {
+        alert('Please fill in all required fields: Title, Amount, and Link');
+        return;
+    }
+    
+    try {
+        const saveResult = await saveTaskToDatabase(task);
+        const notificationResult = await sendTaskNotification(task);
+        
+        if (saveResult.success && notificationResult.success) {
+            alert(`✅ WhatsApp task saved successfully!\n📢 Notification sent to ${notificationResult.data.sent} users`);
+        } else if (saveResult.success) {
+            alert('✅ WhatsApp task saved, but failed to send notifications.');
+        } else {
+            alert('❌ Failed to save WhatsApp task.');
+        }
+    } catch (error) {
+        console.error('Error saving WhatsApp task:', error);
+        alert('❌ Error saving WhatsApp task.');
+    }
+    
+    await loadWhatsAppTasks();
+    clearWhatsAppForm();
+}
+
+async function saveTikTokTask() {
+    const task = {
+        id: Date.now().toString(),
+        title: document.getElementById('tiktok-task-title').value,
+        description: document.getElementById('tiktok-task-description').value,
+        amount: parseInt(document.getElementById('tiktok-task-amount').value),
+        link: document.getElementById('tiktok-task-link').value,
+        taskLimit: parseInt(document.getElementById('tiktok-task-limit').value) || 0,
+        completions: 0,
+        completedBy: [],
+        pendingApprovals: [],
+        type: 'tiktok',
+        status: 'active',
+        createdAt: new Date().toISOString()
+    };
+    
+    if (!task.title || !task.amount || !task.link) {
+        alert('Please fill in all required fields: Title, Amount, and Link');
+        return;
+    }
+    
+    try {
+        const saveResult = await saveTaskToDatabase(task);
+        const notificationResult = await sendTaskNotification(task);
+        
+        if (saveResult.success && notificationResult.success) {
+            alert(`✅ TikTok task saved successfully!\n📢 Notification sent to ${notificationResult.data.sent} users`);
+        } else if (saveResult.success) {
+            alert('✅ TikTok task saved, but failed to send notifications.');
+        } else {
+            alert('❌ Failed to save TikTok task.');
+        }
+    } catch (error) {
+        console.error('Error saving TikTok task:', error);
+        alert('❌ Error saving TikTok task.');
+    }
+    
+    await loadTikTokTasks();
+    clearTikTokForm();
+}
+
+async function saveTwitterTask() {
+    const task = {
+        id: Date.now().toString(),
+        title: document.getElementById('twitter-task-title').value,
+        description: document.getElementById('twitter-task-description').value,
+        amount: parseInt(document.getElementById('twitter-task-amount').value),
+        link: document.getElementById('twitter-task-link').value,
+        taskLimit: parseInt(document.getElementById('twitter-task-limit').value) || 0,
+        completions: 0,
+        completedBy: [],
+        pendingApprovals: [],
+        type: 'twitter',
+        status: 'active',
+        createdAt: new Date().toISOString()
+    };
+    
+    if (!task.title || !task.amount || !task.link) {
+        alert('Please fill in all required fields: Title, Amount, and Link');
+        return;
+    }
+    
+    try {
+        const saveResult = await saveTaskToDatabase(task);
+        const notificationResult = await sendTaskNotification(task);
+        
+        if (saveResult.success && notificationResult.success) {
+            alert(`✅ X task saved successfully!\n📢 Notification sent to ${notificationResult.data.sent} users`);
+        } else if (saveResult.success) {
+            alert('✅ X task saved, but failed to send notifications.');
+        } else {
+            alert('❌ Failed to save X task.');
+        }
+    } catch (error) {
+        console.error('Error saving Twitter task:', error);
+        alert('❌ Error saving Twitter task.');
+    }
+    
+    await loadTwitterTasks();
+    clearTwitterForm();
+}
+
+// Save task to Firestore
+async function saveTaskToDatabase(task) {
+    try {
+        const response = await fetch('/api/tasks/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(task)
+        });
+        
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error saving task to Firestore:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Function to send task notification via API
+async function sendTaskNotification(task) {
+    try {
+        const response = await fetch('/api/tasks/send-notification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                taskId: task.id,
+                title: task.title,
+                amount: task.amount,
+                type: task.type
+            })
+        });
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error sending task notification:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Load tasks from Firestore
+async function loadTasksFromDatabase(type = null) {
+    try {
+        const url = type ? `/api/tasks/get?type=${type}` : '/api/tasks/get';
+        const response = await fetch(url);
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data.success ? data.tasks : [];
+        }
+    } catch (error) {
+        console.error('Error loading tasks from Firestore:', error);
+    }
+    return [];
+}
+
+async function loadWithdrawalRequests() {
+    try {
+        const response = await fetch('/api/withdrawals/pending');
+        if (response.ok) {
+            const data = await response.json();
+            const container = document.getElementById('withdrawal-requests-container');
+            const noWithdrawalsMessage = document.getElementById('no-withdrawals-message');
+            
+            if (data.success && data.withdrawals.length > 0) {
+                container.innerHTML = '';
+                noWithdrawalsMessage.classList.add('hidden');
+                
+                let html = '';
+                data.withdrawals.forEach((request) => {
+                    html += `
+                    <div class="bg-gray-700 p-4 rounded-lg border border-yellow-500">
+                        <div class="flex justify-between items-start mb-3">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                            <h4 class="font-bold text-yellow-400">${request.username}</h4>
+                            <span class="text-xs px-2 py-1 rounded-full bg-yellow-500 text-black">ID: ${request.userId}</span>
+                            </div>
+                            <p class="text-sm text-gray-300">Amount: ${request.amount} points (${request.wkcAmount} WKC)</p>
+                            <p class="text-sm text-gray-300">Wallet: ${request.wallet}</p>
+                            <p class="text-sm text-gray-300">Requested: ${new Date(request.createdAt).toLocaleString()}</p>
+                        </div>
+                        <div class="flex gap-2 ml-4">
+                            <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-green-500 text-white shadow hover:bg-green-600 h-8 px-3" onclick="approveWithdrawal('${request.id}')">
+                            ✅ Approve & Pay
+                            </button>
+                            <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-red-500 text-white shadow hover:bg-red-600 h-8 px-3" onclick="rejectWithdrawal('${request.id}')">
+                            ❌ Reject
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '';
+                noWithdrawalsMessage.classList.remove('hidden');
+            }
+        }
+    } catch (error) {
+        console.error('Error loading withdrawal requests:', error);
+    }
+}
+
+async function loadChannelTasks() {
+    const channelTasks = await loadTasksFromDatabase('channel');
+    const container = document.getElementById('saved-channel-tasks');
+    
+    container.innerHTML = channelTasks.map(task => `
+        <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2 mb-1">
+                        <h4 class="font-bold text-green-400">${task.title}</h4>
+                        <span class="text-xs px-2 py-1 rounded-full ${task.status === 'active' ? 'bg-green-500' : 'bg-red-500'}">${task.status}</span>
+                    </div>
+                    <p class="text-sm text-gray-400">${task.description}</p>
+                    <p class="text-sm text-yellow-400">Amount: ${task.amount} points</p>
+                    <p class="text-sm text-blue-400">Verification: ${task.verification.toUpperCase()}</p>
+                    <p class="text-sm text-gray-400">Completions: ${task.completions || 0}/${task.taskLimit || 'Unlimited'}</p>
+                    <p class="text-sm text-gray-400">Created: ${new Date(task.createdAt).toLocaleDateString()}</p>
+                    ${task.notificationSent ? '<p class="text-xs text-green-400">✓ Notification Sent</p>' : ''}
+                </div>
+                <div class="flex gap-2 ml-4">
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-blue-500 text-white shadow hover:bg-blue-600 h-8 px-3" onclick="editTask('${task.id}')">Edit</button>
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-red-500 text-white shadow hover:bg-red-600 h-8 px-3" onclick="deleteTask('${task.id}')">Delete</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function loadGroupTasks() {
+    const groupTasks = await loadTasksFromDatabase('group');
+    const container = document.getElementById('saved-group-tasks');
+    
+    container.innerHTML = groupTasks.map(task => `
+        <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-grow">
+                    <h4 class="font-bold text-green-400">${task.title}</h4>
+                    <p class="text-sm text-gray-400">${task.description}</p>
+                    <p class="text-sm text-yellow-400">Amount: ${task.amount} points</p>
+                    <p class="text-sm text-blue-400">Verification: ${task.verification.toUpperCase()}</p>
+                    <p class="text-sm text-gray-400">Created: ${new Date(task.createdAt).toLocaleDateString()}</p>
+                    ${task.notificationSent ? '<p class="text-xs text-green-400">✓ Notification Sent</p>' : ''}
+                </div>
+                <div class="flex gap-2 ml-4">
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-blue-500 text-white shadow hover:bg-blue-600 h-8 px-3" onclick="editTask('${task.id}')">Edit</button>
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-red-500 text-white shadow hover:bg-red-600 h-8 px-3" onclick="deleteTask('${task.id}')">Delete</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function loadWhatsAppTasks() {
+    const whatsappTasks = await loadTasksFromDatabase('whatsapp');
+    const container = document.getElementById('saved-whatsapp-tasks');
+    
+    container.innerHTML = whatsappTasks.map(task => `
+        <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2 mb-1">
+                        <h4 class="font-bold text-green-400">${task.title}</h4>
+                        <span class="text-xs px-2 py-1 rounded-full ${task.status === 'active' ? 'bg-green-500' : 'bg-red-500'}">${task.status}</span>
+                    </div>
+                    <p class="text-sm text-gray-400">${task.description}</p>
+                    <p class="text-sm text-yellow-400">Amount: ${task.amount} points</p>
+                    <p class="text-sm text-gray-400">Completions: ${task.completions || 0}/${task.taskLimit || 'Unlimited'}</p>
+                    <p class="text-sm text-gray-400">Pending: ${task.pendingApprovals ? task.pendingApprovals.length : 0}</p>
+                    <p class="text-sm text-gray-400">Created: ${new Date(task.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div class="flex gap-2 ml-4">
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-blue-500 text-white shadow hover:bg-blue-600 h-8 px-3" onclick="editTask('${task.id}')">Edit</button>
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-red-500 text-white shadow hover:bg-red-600 h-8 px-3" onclick="deleteTask('${task.id}')">Delete</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function loadTikTokTasks() {
+    const tiktokTasks = await loadTasksFromDatabase('tiktok');
+    const container = document.getElementById('saved-tiktok-tasks');
+    
+    container.innerHTML = tiktokTasks.map(task => `
+        <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2 mb-1">
+                        <h4 class="font-bold text-green-400">${task.title}</h4>
+                        <span class="text-xs px-2 py-1 rounded-full ${task.status === 'active' ? 'bg-green-500' : 'bg-red-500'}">${task.status}</span>
+                    </div>
+                    <p class="text-sm text-gray-400">${task.description}</p>
+                    <p class="text-sm text-yellow-400">Amount: ${task.amount} points</p>
+                    <p class="text-sm text-gray-400">Completions: ${task.completions || 0}/${task.taskLimit || 'Unlimited'}</p>
+                    <p class="text-sm text-gray-400">Pending: ${task.pendingApprovals ? task.pendingApprovals.length : 0}</p>
+                    <p class="text-sm text-gray-400">Created: ${new Date(task.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div class="flex gap-2 ml-4">
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-blue-500 text-white shadow hover:bg-blue-600 h-8 px-3" onclick="editTask('${task.id}')">Edit</button>
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-red-500 text-white shadow hover:bg-red-600 h-8 px-3" onclick="deleteTask('${task.id}')">Delete</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function loadTwitterTasks() {
+    const twitterTasks = await loadTasksFromDatabase('twitter');
+    const container = document.getElementById('saved-twitter-tasks');
+    
+    container.innerHTML = twitterTasks.map(task => `
+        <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2 mb-1">
+                        <h4 class="font-bold text-green-400">${task.title}</h4>
+                        <span class="text-xs px-2 py-1 rounded-full ${task.status === 'active' ? 'bg-green-500' : 'bg-red-500'}">${task.status}</span>
+                    </div>
+                    <p class="text-sm text-gray-400">${task.description}</p>
+                    <p class="text-sm text-yellow-400">Amount: ${task.amount} points</p>
+                    <p class="text-sm text-gray-400">Completions: ${task.completions || 0}/${task.taskLimit || 'Unlimited'}</p>
+                    <p class="text-sm text-gray-400">Pending: ${task.pendingApprovals ? task.pendingApprovals.length : 0}</p>
+                    <p class="text-sm text-gray-400">Created: ${new Date(task.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div class="flex gap-2 ml-4">
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-blue-500 text-white shadow hover:bg-blue-600 h-8 px-3" onclick="editTask('${task.id}')">Edit</button>
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-red-500 text-white shadow hover:bg-red-600 h-8 px-3" onclick="deleteTask('${task.id}')">Delete</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function approveTask(taskId, approvalIndex) {
+    try {
+        const response = await fetch('/api/tasks/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                taskId: taskId,
+                approvalIndex: approvalIndex
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert(`✅ Task approved! User received ${data.pointsAwarded} points.`);
+                await loadPendingApprovals();
+                await loadChannelTasks();
+                await loadGroupTasks();
+                await loadWhatsAppTasks();
+                await loadTikTokTasks();
+                await loadTwitterTasks();
+            } else {
+                alert('❌ Failed to approve task: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error approving task:', error);
+        alert('❌ Error approving task.');
+    }
+}
+
+async function rejectTask(taskId, approvalIndex) {
+    try {
+        const response = await fetch('/api/tasks/reject', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                taskId: taskId,
+                approvalIndex: approvalIndex
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('❌ Task rejected! User was notified.');
+                await loadPendingApprovals();
+            } else {
+                alert('❌ Failed to reject task: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error rejecting task:', error);
+        alert('❌ Error rejecting task.');
+    }
+}
+
+// Send withdrawal success message to user via bot
+async function sendWithdrawalSuccessMessage(userId, request, paymentResult) {
+    try {
+        const message = `✅ Withdrawal Completed!\n\n💵 Amount Sent: ${request.wkcAmount} WKC\n📍 Address: ${request.wallet}\n\n🔗 [View Transaction](${paymentResult.explorerLink})\n\n✅ Funds have been sent to your WKC wallet.`;
+        
+        const response = await fetch('/api/bot/send-message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                message: message
+            })
+        });
+        
+        console.log('📤 Withdrawal success message sent to user:', userId);
+    } catch (error) {
+        console.error('❌ Failed to send success message:', error);
+    }
+}
+
+async function rejectWithdrawal(requestId) {
+    try {
+        const response = await fetch('/api/withdrawals/reject', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                requestId: requestId
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert(`❌ Withdrawal rejected! ${data.refundedAmount} points refunded to user.`);
+                await loadWithdrawalRequests();
+            } else {
+                alert('❌ Failed to reject withdrawal: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error rejecting withdrawal:', error);
+        alert('❌ Error rejecting withdrawal.');
+    }
+}
+
+async function approveWithdrawal(requestId) {
+    try {
+        // Show processing message
+        alert(`🔄 Processing withdrawal payment...`);
+        
+        const response = await fetch('/api/withdrawals/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                requestId: requestId
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                const successMessage = `✅ Withdrawal approved and payment sent!\n\n` +
+                                     `💵 Amount: ${data.amount} WKC\n` +
+                                     `📍 Address: ${data.wallet}\n` +
+                                     `🔗 TX Hash: ${data.txHash}\n\n` +
+                                     `View on explorer: ${data.explorerLink}\n\n` +
+                                     `📨 User has been notified via DM.`;
+                
+                alert(successMessage);
+                await loadWithdrawalRequests();
+            } else {
+                alert(`❌ Payment failed: ${data.error}\n\nPoints have been refunded to the user and they have been notified.`);
+            }
+        } else {
+            const errorData = await response.json();
+            alert(`❌ Error: ${errorData.error}\n\nUser has been notified via DM.`);
+        }
+    } catch (error) {
+        console.error('Error approving withdrawal:', error);
+        alert('❌ Error processing withdrawal. User has been notified via DM.');
+    }
+}
+
+async function editTask(taskId) {
+    try {
+        const response = await fetch(`/api/tasks/get?id=${taskId}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.task) {
+                const task = data.task;
+                
+                if (task.type === 'channel') {
+                    document.getElementById('channel-task-title').value = task.title;
+                    document.getElementById('channel-task-description').value = task.description;
+                    document.getElementById('channel-task-amount').value = task.amount;
+                    document.getElementById('channel-task-verification').value = task.verification;
+                    document.getElementById('channel-task-link').value = task.link;
+                    document.getElementById('channel-task-id').value = task.channelId;
+                    
+                    await deleteTask(taskId);
+                } else if (task.type === 'group') {
+                    document.getElementById('group-task-title').value = task.title;
+                    document.getElementById('group-task-description').value = task.description;
+                    document.getElementById('group-task-amount').value = task.amount;
+                    document.getElementById('group-task-verification').value = task.verification;
+                    document.getElementById('group-task-link').value = task.link;
+                    document.getElementById('group-task-id').value = task.channelId;
+                    
+                    await deleteTask(taskId);
+                } else if (task.type === 'whatsapp') {
+                    document.getElementById('whatsapp-task-title').value = task.title;
+                    document.getElementById('whatsapp-task-description').value = task.description;
+                    document.getElementById('whatsapp-task-amount').value = task.amount;
+                    document.getElementById('whatsapp-task-link').value = task.link;
+                    document.getElementById('whatsapp-task-limit').value = task.taskLimit || 0;
+                    
+                    await deleteTask(taskId);
+                } else if (task.type === 'tiktok') {
+                    document.getElementById('tiktok-task-title').value = task.title;
+                    document.getElementById('tiktok-task-description').value = task.description;
+                    document.getElementById('tiktok-task-amount').value = task.amount;
+                    document.getElementById('tiktok-task-link').value = task.link;
+                    document.getElementById('tiktok-task-limit').value = task.taskLimit || 0;
+                    
+                    await deleteTask(taskId);
+                } else if (task.type === 'twitter') {
+                    document.getElementById('twitter-task-title').value = task.title;
+                    document.getElementById('twitter-task-description').value = task.description;
+                    document.getElementById('twitter-task-amount').value = task.amount;
+                    document.getElementById('twitter-task-link').value = task.link;
+                    document.getElementById('twitter-task-limit').value = task.taskLimit || 0;
+                    
+                    await deleteTask(taskId);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error editing task:', error);
+        alert('❌ Error loading task for editing.');
+    }
+}
+
+async function deleteTask(taskId) {
+    try {
+        const response = await fetch('/api/tasks/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                taskId: taskId
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('Task deleted successfully!');
+                await loadChannelTasks();
+                await loadGroupTasks();
+                await loadWhatsAppTasks();
+                await loadTikTokTasks();
+                await loadTwitterTasks();
+            } else {
+                alert('Failed to delete task: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error deleting task:', error);
+        alert('Error deleting task.');
+    }
+}
+
+async function loadPendingApprovals() {
+    try {
+        const response = await fetch('/api/tasks/pending-approvals');
+        if (response.ok) {
+            const data = await response.json();
+            const container = document.getElementById('pending-approvals-container');
+            const noPendingMessage = document.getElementById('no-pending-message');
+            
+            if (data.success && data.approvals.length > 0) {
+                container.innerHTML = '';
+                noPendingMessage.classList.add('hidden');
+                
+                let approvalsHTML = '';
+                data.approvals.forEach((approval) => {
+                    approvalsHTML += `
+                    <div class="bg-gray-700 p-4 rounded-lg border border-yellow-500">
+                        <div class="flex justify-between items-start mb-3">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                            <h4 class="font-bold text-yellow-400">${approval.taskTitle}</h4>
+                            <span class="text-xs px-2 py-1 rounded-full bg-yellow-500 text-black">${approval.taskType.toUpperCase()}</span>
+                            </div>
+                            <p class="text-sm text-gray-300">User: ${approval.userData?.username || 'Unknown'} (ID: ${approval.userId})</p>
+                            <p class="text-sm text-gray-300">Submitted: ${new Date(approval.submittedAt).toLocaleString()}</p>
+                            ${approval.phoneNumber ? `<p class="text-sm text-gray-300">Phone: ${approval.phoneNumber}</p>` : ''}
+                            ${approval.username ? `<p class="text-sm text-gray-300">Username: ${approval.username}</p>` : ''}
+                            <p class="text-sm text-green-400 mt-2">Reward: ${approval.taskAmount} points</p>
+                        </div>
+                        <div class="flex gap-2 ml-4">
+                            <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-green-500 text-white shadow hover:bg-green-600 h-8 px-3" onclick="approveTask('${approval.taskId}', ${approval.index})">
+                            ✅ Approve
+                            </button>
+                            <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-red-500 text-white shadow hover:bg-red-600 h-8 px-3" onclick="rejectTask('${approval.taskId}', ${approval.index})">
+                            ❌ Reject
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                    `;
+                });
+                
+                container.innerHTML = approvalsHTML;
+            } else {
+                container.innerHTML = '';
+                noPendingMessage.classList.remove('hidden');
+            }
+        }
+    } catch (error) {
+        console.error('Error loading pending approvals:', error);
+    }
+}
+
+function clearChannelForm() {
+    document.getElementById('channel-task-title').value = '';
+    document.getElementById('channel-task-description').value = '';
+    document.getElementById('channel-task-amount').value = '';
+    document.getElementById('channel-task-verification').value = 'on';
+    document.getElementById('channel-task-link').value = '';
+    document.getElementById('channel-task-id').value = '';
+    document.getElementById('channel-task-limit').value = '0';
+}
+
+function clearGroupForm() {
+    document.getElementById('group-task-title').value = '';
+    document.getElementById('group-task-description').value = '';
+    document.getElementById('group-task-amount').value = '';
+    document.getElementById('group-task-verification').value = 'on';
+    document.getElementById('group-task-link').value = '';
+    document.getElementById('group-task-id').value = '';
+    document.getElementById('group-task-limit').value = '0';
+}
+
+function clearWhatsAppForm() {
+    document.getElementById('whatsapp-task-title').value = '';
+    document.getElementById('whatsapp-task-description').value = '';
+    document.getElementById('whatsapp-task-amount').value = '';
+    document.getElementById('whatsapp-task-link').value = '';
+    document.getElementById('whatsapp-task-limit').value = '0';
+}
+
+function clearTikTokForm() {
+    document.getElementById('tiktok-task-title').value = '';
+    document.getElementById('tiktok-task-description').value = '';
+    document.getElementById('tiktok-task-amount').value = '';
+    document.getElementById('tiktok-task-link').value = '';
+    document.getElementById('tiktok-task-limit').value = '0';
+}
+
+function clearTwitterForm() {
+    document.getElementById('twitter-task-title').value = '';
+    document.getElementById('twitter-task-description').value = '';
+    document.getElementById('twitter-task-amount').value = '';
+    document.getElementById('twitter-task-link').value = '';
+    document.getElementById('twitter-task-limit').value = '0';
+}
+
+// Configuration management with Firestore
+async function saveAdsConfig() {
+    const config = {
+        adsgramBlockId: document.getElementById('adsgram-block-id').value,
+        rewardPointsPerAd: document.getElementById('reward-points-per-ad').value,
+        zoneId: document.getElementById('zone-id').value,
+        miniAppId: document.getElementById('mini-app-id').value,
+        sdkScript: document.getElementById('sdk-script').value
+    };
+    
+    try {
+        const response = await fetch('/api/config/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: 'ads',
+                config: config
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('Ads configuration saved successfully!');
+            } else {
+                alert('Failed to save ads configuration: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving ads config:', error);
+        alert('Error saving ads configuration.');
+    }
+}
+
+async function saveClaimsConfig() {
+    const config = {
+        dailyClaimsLimit: parseInt(document.getElementById('daily-claims-limit').value) || 2,
+        minClaimAmount: parseInt(document.getElementById('min-claim-amount').value) || 10,
+        maxClaimAmount: parseInt(document.getElementById('max-claim-amount').value) || 100,
+        bonusClaimsPerFriend: parseInt(document.getElementById('bonus-claims-per-friend').value) || 1,
+        friendsRequiredForBonus: parseInt(document.getElementById('friends-required-for-bonus').value) || 5
+    };
+    
+    try {
+        const response = await fetch('/api/config/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: 'claims',
+                config: config
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('Claims configuration saved successfully!');
+            } else {
+                alert('Failed to save claims configuration: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving claims config:', error);
+        alert('Error saving claims configuration.');
+    }
+}
+
+async function saveAdsTaskConfig() {
+    const config = {
+        dailyAdsLimit: parseInt(document.getElementById('daily-ads-limit').value) || 60,
+        hourlyAdsLimit: parseInt(document.getElementById('hourly-ads-limit').value) || 20
+    };
+    
+    try {
+        const response = await fetch('/api/config/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: 'adsTask',
+                config: config
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('Ads Task configuration saved successfully!');
+            } else {
+                alert('Failed to save ads task configuration: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving ads task config:', error);
+        alert('Error saving ads task configuration.');
+    }
+}
+
+async function saveWithdrawalConfig() {
+    const config = {
+        minWithdrawal: document.getElementById('min-withdrawal').value,
+        maxWithdrawal: document.getElementById('max-withdrawal').value,
+        withdrawalFee: document.getElementById('withdrawal-fee').value,
+        bankEditFee: document.getElementById('bank-edit-fee').value,
+        minReferralsToWithdraw: document.getElementById('min-referrals-to-withdraw').value,
+        currencySymbol: document.getElementById('currency-symbol').value,
+        pointCurrencyRate: document.getElementById('point-currency-rate').value
+    };
+    
+    try {
+        const response = await fetch('/api/config/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: 'withdrawal',
+                config: config
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('Withdrawal configuration saved successfully!');
+            } else {
+                alert('Failed to save withdrawal configuration: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving withdrawal config:', error);
+        alert('Error saving withdrawal configuration.');
+    }
+}
+
+async function savePointsConfig() {
+    const config = {
+        channelJoinPoints: document.getElementById('channel-join-points').value,
+        groupJoinPoints: document.getElementById('group-join-points').value,
+        friendInvitePoints: document.getElementById('friend-invite-points').value,
+        dailyTaskLimit: document.getElementById('daily-task-limit').value
+    };
+    
+    try {
+        const response = await fetch('/api/config/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: 'points',
+                config: config
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('Points configuration saved successfully!');
+            } else {
+                alert('Failed to save points configuration: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving points config:', error);
+        alert('Error saving points configuration.');
+    }
+}
+
+async function saveSupportConfig() {
+    const config = {
+        supportUsername: document.getElementById('support-username').value,
+        admin1: {
+            username: document.getElementById('admin1-username').value,
+            description: document.getElementById('admin1-description').value
+        },
+        admin2: {
+            username: document.getElementById('admin2-username').value,
+            description: document.getElementById('admin2-description').value
+        },
+        admin3: {
+            username: document.getElementById('admin3-username').value,
+            description: document.getElementById('admin3-description').value
+        },
+        admin4: {
+            username: document.getElementById('admin4-username').value,
+            description: document.getElementById('admin4-description').value
+        },
+        admin5: {
+            username: document.getElementById('admin5-username').value,
+            description: document.getElementById('admin5-description').value
+        }
+    };
+    
+    try {
+        const response = await fetch('/api/config/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: 'support',
+                config: config
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('Support configuration saved successfully!');
+            } else {
+                alert('Failed to save support configuration: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving support config:', error);
+        alert('Error saving support configuration.');
+    }
+}
+
+async function saveAppConfig() {
+    const config = {
+        appName: document.getElementById('app-name').value
+    };
+    
+    try {
+        const response = await fetch('/api/config/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: 'app',
+                config: config
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                alert('App configuration saved successfully!');
+            } else {
+                alert('Failed to save app configuration: ' + data.error);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving app config:', error);
+        alert('Error saving app configuration.');
+    }
+}
+
+// Load configurations from Firestore
+async function loadConfigurations() {
+    try {
+        const response = await fetch('/api/config/get-all');
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                const configs = data.configs;
+                
+                // Load claims config
+                if (configs.claims) {
+                    document.getElementById('daily-claims-limit').value = configs.claims.dailyClaimsLimit || 2;
+                    document.getElementById('min-claim-amount').value = configs.claims.minClaimAmount || 10;
+                    document.getElementById('max-claim-amount').value = configs.claims.maxClaimAmount || 100;
+                    document.getElementById('bonus-claims-per-friend').value = configs.claims.bonusClaimsPerFriend || 1;
+                    document.getElementById('friends-required-for-bonus').value = configs.claims.friendsRequiredForBonus || 5;
+                }
+                
+                // Load withdrawal config
+                if (configs.withdrawal) {
+                    document.getElementById('min-withdrawal').value = configs.withdrawal.minWithdrawal || '';
+                    document.getElementById('max-withdrawal').value = configs.withdrawal.maxWithdrawal || '';
+                    document.getElementById('withdrawal-fee').value = configs.withdrawal.withdrawalFee || '';
+                    document.getElementById('bank-edit-fee').value = configs.withdrawal.bankEditFee || '';
+                    document.getElementById('min-referrals-to-withdraw').value = configs.withdrawal.minReferralsToWithdraw || '';
+                    document.getElementById('currency-symbol').value = configs.withdrawal.currencySymbol || '';
+                    document.getElementById('point-currency-rate').value = configs.withdrawal.pointCurrencyRate || '';
+                }
+                
+                // Load points config
+                if (configs.points) {
+                    document.getElementById('channel-join-points').value = configs.points.channelJoinPoints || '';
+                    document.getElementById('group-join-points').value = configs.points.groupJoinPoints || '';
+                    document.getElementById('friend-invite-points').value = configs.points.friendInvitePoints || '';
+                    document.getElementById('daily-task-limit').value = configs.points.dailyTaskLimit || '';
+                }
+                
+                // Load ads task config
+                if (configs.adsTask) {
+                    document.getElementById('daily-ads-limit').value = configs.adsTask.dailyAdsLimit || 60;
+                    document.getElementById('hourly-ads-limit').value = configs.adsTask.hourlyAdsLimit || 20;
+                }
+                
+                // Load support config
+                if (configs.support) {
+                    document.getElementById('support-username').value = configs.support.supportUsername || '';
+                    if (configs.support.admin1) {
+                        document.getElementById('admin1-username').value = configs.support.admin1.username || '';
+                        document.getElementById('admin1-description').value = configs.support.admin1.description || '';
+                    }
+                    if (configs.support.admin2) {
+                        document.getElementById('admin2-username').value = configs.support.admin2.username || '';
+                        document.getElementById('admin2-description').value = configs.support.admin2.description || '';
+                    }
+                    if (configs.support.admin3) {
+                        document.getElementById('admin3-username').value = configs.support.admin3.username || '';
+                        document.getElementById('admin3-description').value = configs.support.admin3.description || '';
+                    }
+                    if (configs.support.admin4) {
+                        document.getElementById('admin4-username').value = configs.support.admin4.username || '';
+                        document.getElementById('admin4-description').value = configs.support.admin4.description || '';
+                    }
+                    if (configs.support.admin5) {
+                        document.getElementById('admin5-username').value = configs.support.admin5.username || '';
+                        document.getElementById('admin5-description').value = configs.support.admin5.description || '';
+                    }
+                }
+                
+                // Load app config
+                if (configs.app) {
+                    document.getElementById('app-name').value = configs.app.appName || '';
+                }
+                
+                // Load ads config
+                if (configs.ads) {
+                    document.getElementById('adsgram-block-id').value = configs.ads.adsgramBlockId || '';
+                    document.getElementById('reward-points-per-ad').value = configs.ads.rewardPointsPerAd || '';
+                    document.getElementById('zone-id').value = configs.ads.zoneId || '';
+                    document.getElementById('mini-app-id').value = configs.ads.miniAppId || '';
+                    document.getElementById('sdk-script').value = configs.ads.sdkScript || '';
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error loading configurations:', error);
+    }
+    
+    await loadUserStatistics();
+    await loadChannelTasks();
+    await loadGroupTasks();
+    await loadWhatsAppTasks();
+    await loadTikTokTasks();
+    await loadTwitterTasks();
+    await loadWithdrawalRequests();
+    await loadPendingApprovals();
+}
+
+// Function to show configuration section
+function showConfiguration() {
+    document.getElementById('dashboard-content').classList.add('hidden');
+    document.getElementById('configuration-content').classList.remove('hidden');
+    
+    loadUserStatistics();
+    
+    // Update menu highlighting
+    const menuItems = document.querySelectorAll('.grid > div');
+    menuItems.forEach(item => {
+        item.classList.remove('bg-green-500');
+        item.classList.add('bg-gray-800');
+    });
+    event.currentTarget.classList.remove('bg-gray-800');
+    event.currentTarget.classList.add('bg-green-500');
+}
+
+// Function to show dashboard
+function showDashboard() {
+    if (!currentSession) {
+       showLoginScreen();
+       return;
+    }
+    
+    document.getElementById('configuration-content').classList.add('hidden');
+    document.getElementById('dashboard-content').classList.remove('hidden');
+    
+    // Update menu highlighting
+    const menuItems = document.querySelectorAll('.grid > div');
+    menuItems.forEach(item => {
+        item.classList.remove('bg-green-500');
+        item.classList.add('bg-gray-800');
+    });
+    event.currentTarget.classList.remove('bg-gray-800');
+    event.currentTarget.classList.add('bg-green-500');
+}
+
+// Load user statistics
+async function loadUserStatistics() {
+    try {
+        const response = await fetch('/api/users/count');
+        const data = await response.json();
+        
+        if (data.success) {
+            document.getElementById('total-users-count').textContent = data.userCount;
+            document.getElementById('active-users-count').textContent = data.activeUsers || data.userCount;
+            document.getElementById('notification-reach').textContent = data.userCount;
+        } else {
+            document.getElementById('total-users-count').textContent = 'Error';
+            document.getElementById('active-users-count').textContent = 'Error';
+            document.getElementById('notification-reach').textContent = 'Error';
+        }
+    } catch (error) {
+        console.error('Error loading user statistics:', error);
+        document.getElementById('total-users-count').textContent = 'Error';
+        document.getElementById('active-users-count').textContent = 'Error';
+        document.getElementById('notification-reach').textContent = 'Error';
+    }
+}
+
+// Other menu functions (unchanged)
+function showTasks() {
+    alert('Tasks section would be shown here');
+}
+
+function showUsers() {
+    alert('Users section would be shown here');
+}
+
+function showWithdrawals() {
+    alert('Withdrawals section would be shown here');
+}
+
+function showChannels() {
+    showConfiguration();
+    document.getElementById('channel-task-title').scrollIntoView({ behavior: 'smooth' });
+}
+
+function showGroups() {
+    showConfiguration();
+    document.getElementById('group-task-title').scrollIntoView({ behavior: 'smooth' });
+}
+
+function showSocialTasks() {
+    alert('Social Tasks section would be shown here');
+}
+
+function showAds() {
+    alert('Ads section would be shown here');
+}
+
+function showModeration() {
+    alert('Moderation section would be shown here');
+}
+
+function showBroadcast() {
+    alert('Broadcast section would be shown here');
+}
+
+function showOnboarding() {
+    alert('Onboarding section would be shown here');
+}
+
+function showReferralAudit() {
+    alert('Referral Audit section would be shown here');
+}
+
+function showUserLedger() {
+    alert('User Ledger section would be shown here');
+}
+
+// Load configurations when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuthStatus();
+    
+    loadConfigurations();
+    
+    // Add get password button to the main interface for easy access
+    const header = document.querySelector('.bg-gradient-to-b');
+    if (header) {
+        const getPasswordBtn = document.createElement('button');
+        getPasswordBtn.className = 'bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 ml-2';
+        getPasswordBtn.textContent = 'Get Password';
+        getPasswordBtn.onclick = function() {
+            if (currentSession) {
+                requestPasswordForCurrentUser();
+            }
+        };
+        
+        const logoutBtn = document.createElement('button');
+        logoutBtn.className = 'bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 ml-2';
+        logoutBtn.textContent = 'Logout';
+        logoutBtn.onclick = logout;
+        
+        header.appendChild(getPasswordBtn);
+        header.appendChild(logoutBtn);
+    }
+});
+
+// Function to request password for currently logged in user
+async function requestPasswordForCurrentUser() {
+    if (!currentSession) return;
+    
+    try {
+        const password = generateOneTimePassword();
+        const timestamp = Date.now();
+        
+        activePasswords.set(currentSession.userId, {
+            password: password,
+            timestamp: timestamp
+        });
+        
+        const response = await fetch('/api/admin/send-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: currentSession.userId,
+                password: password
+            })
+        });
+        
+        if (response.ok) {
+            alert('✅ New password sent to your Telegram!');
+        } else {
+            alert('❌ Failed to send password. Please use /getcode in the bot.');
+        }
+    } catch (error) {
+        console.error('Error requesting password:', error);
+        alert('❌ Error requesting password. Please use /getcode in the bot.');
+    }
+}
+</script>
+</body>
+</html>

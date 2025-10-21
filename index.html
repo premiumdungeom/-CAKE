@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍰 CAKE - Channel Checking</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      padding: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .card-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .logo-icon {
+      font-size: 28px;
+      color: white;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .user-info {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .user-id {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    .card-content {
+      padding: 24px;
+    }
+
+    .channels-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .channel-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .channel-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .channel-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+      color: #60a5fa;
+    }
+
+    .channel-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .channel-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+
+    .channel-status.joined {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+    }
+
+    .channel-status i {
+      font-size: 10px;
+    }
+
+    .join-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .join-btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .verify-section {
+      text-align: center;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .verify-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 240px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .verify-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    }
+
+    .verify-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .verify-btn.success {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    }
+
+    .status-message {
+      margin-top: 16px;
+      font-size: 14px;
+      min-height: 20px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .status-success {
+      color: #4ade80;
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    .status-error {
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .status-info {
+      color: #60a5fa;
+      background: rgba(37, 99, 235, 0.1);
+    }
+
+    .loading {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    .instructions {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .instructions ol {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+
+    .instructions li {
+      margin-bottom: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .channels-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .card-header {
+        padding: 20px;
+      }
+      
+      .card-content {
+        padding: 20px;
+      }
+    }
+  </style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <div class="logo">
+          <i class="fas fa-broadcast-tower logo-icon"></i>
+          <span class="logo-text">🍰 CAKE</span>
+        </div>
+        <h1 class="card-title">Channel Verification</h1>
+        <p class="card-subtitle">Join our channels to access the platform</p>
+      </div>
+      
+      <div class="user-info">
+        <div class="user-avatar">
+          <!-- Avatar will be populated by JavaScript -->
+        </div>
+        <div class="user-name" id="user-name">♧☬𝔓𝔯𝔢𝔪𝔦𝔲𝔪 𓆪 ᥫᩣꪶꫂ ✞ ∆ 🦋 𝔇𝔲𝔫𝔤𝔢𝔬𝔫 ☬♧ 🪬 ✶ ࿌ 𓆏 𓃥 🦋</div>
+        <div class="user-id" id="user-id">ID: 5650788149</div>
+      </div>
+      
+      <div class="card-content">
+        <div class="channels-grid">
+          <div class="channel-card">
+            <i class="fab fa-telegram channel-icon"></i>
+            <div class="channel-name">🍰 CAKE</div>
+            <div class="channel-status joined" id="status-channel1">
+              <i class="fas fa-check-circle"></i> Joined
+            </div>
+            <a href="https://t.me/echoearn" class="join-btn" target="_blank">
+              <i class="fab fa-telegram"></i> Join Channel
+            </a>
+          </div>
+          
+          <div class="channel-card">
+            <i class="fab fa-telegram channel-icon"></i>
+            <div class="channel-name">Tapy Updates</div>
+            <div class="channel-status joined" id="status-channel2">
+              <i class="fas fa-check-circle"></i> Joined
+            </div>
+            <a href="https://t.me/ComeOEXOfficial" class="join-btn" target="_blank">
+              <i class="fab fa-telegram"></i> Join Channel
+            </a>
+          </div>
+          
+          <div class="channel-card">
+            <i class="fab fa-telegram channel-icon"></i>
+            <div class="channel-name">🍰 CAKE Community</div>
+            <div class="channel-status" id="status-channel3">
+              <i class="fas fa-times-circle"></i> Not Joined
+            </div>
+            <a href="https://t.me/echoearn_of" class="join-btn" target="_blank">
+              <i class="fab fa-telegram"></i> Join Group
+            </a>
+          </div>
+          
+          <div class="channel-card">
+            <i class="fab fa-telegram channel-icon"></i>
+            <div class="channel-name">🍰 CAKE Discussion</div>
+            <div class="channel-status" id="status-channel4">
+              <i class="fas fa-times-circle"></i> Not Joined
+            </div>
+            <a href="https://t.me/echodiscussion" class="join-btn" target="_blank">
+              <i class="fab fa-telegram"></i> Join Channel
+            </a>
+          </div>
+        </div>
+        
+        <div class="verify-section">
+          <button id="verify-button" class="verify-btn">
+            <i class="fas fa-check-circle"></i> Verify Membership
+          </button>
+          
+          <div id="status-message" class="status-message status-error">
+            Please join: Echo Community, Echo Discussion
+          </div>
+        </div>
+        
+        <div class="instructions">
+          <p><strong>How to verify:</strong></p>
+          <ol>
+            <li>Click "Join Channel" for each channel above</li>
+            <li>Join the channel in Telegram</li>
+            <li>Return to this page and click "Verify Membership"</li>
+            <li>You'll be redirected automatically once verified</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let tg = window.Telegram.WebApp;
+      let user = null;
+      let isChecking = false;
+      
+      // Initialize Telegram Web App
+      tg.expand();
+      tg.enableClosingConfirmation();
+      
+      // Get user data from Telegram
+      if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        user = tg.initDataUnsafe.user;
+        updateUserInfo();
+        
+        // Store user data for the home page
+        localStorage.setItem('telegramUser', JSON.stringify(user));
+      } else {
+        // Not in Telegram Mini App context - use demo data
+        user = {
+          id: 5650788149,
+          first_name: "♧☬𝔓𝔯𝔢𝔪𝔦𝔲𝔪 𓆪 ᥫᩣꪶꫂ ✞ ∆ 🦋 𝔇𝔲𝔫𝔤𝔢𝔬𝔫 ☬♧ 🪬 ✶ ࿌ 𓆏 𓃥 🦋",
+          last_name: "",
+          username: "premium_user"
+        };
+        updateUserInfo();
+      }
+      
+      // Channel IDs for verification (4 channels)
+      // Replace these with your actual channel IDs
+      const channelIds = [
+        '-1002586398527',  // 
+        '-1001605359797',  // Tapy Updates  
+        '-1003171934712',  // Echo Community (NEW - replace with actual ID)
+        '-1003127994624'   // Echo Discussion (NEW - replace with actual ID)
+      ];
+      
+      const channelMap = {
+        '-1002586398527': { 
+          name: '🍰 CAKE', 
+          element: 'status-channel1',
+          link: 'https://t.me/echoearn'
+        },
+        '-1001605359797': { 
+          name: 'Tapy Updates', 
+          element: 'status-channel2',
+          link: 'https://t.me/ComeOEXOfficial'
+        },
+        '-1003171934712': { 
+          name: '🍰 CAKE Community', 
+          element: 'status-channel3',
+          link: 'https://t.me/echoearn_of'  // Replace with actual group link
+        },
+        '-1003127994624': { 
+          name: '🍰 CAKE Discussion', 
+          element: 'status-channel4',
+          link: 'https://t.me/echodiscussion'  // Replace with actual channel link
+        }
+      };
+      
+      // Update UI with user info
+      function updateUserInfo() {
+        const userNameEl = document.getElementById('user-name');
+        const userIdEl = document.getElementById('user-id');
+        const userAvatarEl = document.querySelector('.user-avatar');
+        
+        if (user && userNameEl && userIdEl) {
+          const displayName = `${user.first_name} ${user.last_name || ''}`.trim();
+          userNameEl.textContent = displayName;
+          userIdEl.textContent = `ID: ${user.id}`;
+          
+          // Set user avatar if available
+          if (user.photo_url) {
+            userAvatarEl.innerHTML = `<img src="${user.photo_url}" alt="${displayName}">`;
+          } else {
+            // Create a default avatar with initials
+            const initials = user.first_name ? user.first_name.charAt(0).toUpperCase() : 'U';
+            userAvatarEl.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#2563eb;color:white;font-weight:bold;font-size:24px;">${initials}</div>`;
+          }
+        }
+      }
+      
+      // Show status message
+      function showStatus(message, type = 'info') {
+        const statusEl = document.getElementById('status-message');
+        if (statusEl) {
+          statusEl.textContent = message;
+          statusEl.className = `status-message status-${type}`;
+        }
+      }
+      
+      // Update channel status indicators
+      function updateChannelStatuses(membershipData) {
+        let allJoined = true;
+        const notJoinedChannels = [];
+        
+        Object.entries(membershipData).forEach(([channelId, isMember]) => {
+          const channel = channelMap[channelId];
+          if (channel) {
+            const statusEl = document.getElementById(channel.element);
+            if (statusEl) {
+              if (isMember) {
+                statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Joined';
+                statusEl.className = 'channel-status joined';
+              } else {
+                statusEl.innerHTML = '<i class="fas fa-times-circle"></i> Not Joined';
+                statusEl.className = 'channel-status';
+                allJoined = false;
+                notJoinedChannels.push(channel.name);
+              }
+            }
+          }
+        });
+        
+        return { allJoined, notJoinedChannels };
+      }
+
+      // Check user verification status from backend
+      async function checkUserVerification() {
+        try {
+          const response = await fetch(`/api/telegram/verify-user?userId=${user.id}`);
+          if (response.ok) {
+            const data = await response.json();
+            return data.verified || false;
+          }
+          return false;
+        } catch (error) {
+          console.error('Error checking user verification:', error);
+          return false;
+        }
+      }
+      
+      // Check membership function with retry logic
+      async function checkMembershipWithRetry(maxRetries = 3, delay = 1000) {
+        let retries = 0;
+        
+        while (retries < maxRetries) {
+          try {
+            const apiUrl = `/api/telegram/check-membership?userId=${user.id}&channelIds=${encodeURIComponent(JSON.stringify(channelIds))}`;
+            
+            console.log('Checking membership for all 4 channels:', channelIds);
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            
+            const response = await fetch(apiUrl, {
+              signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (response.ok) {
+              const data = await response.json();
+              console.log('Membership check response:', data);
+              return data;
+            } else {
+              throw new Error(`HTTP ${response.status}`);
+            }
+          } catch (error) {
+            retries++;
+            console.warn(`Retry ${retries}/${maxRetries} after error:`, error.message);
+            if (retries >= maxRetries) {
+              throw error;
+            }
+            await new Promise(resolve => setTimeout(resolve, delay * retries));
+          }
+        }
+      }
+      
+      // Handle verify button click
+      document.getElementById('verify-button').addEventListener('click', async function() {
+        if (isChecking) return;
+        
+        const verifyBtn = this;
+        const originalText = verifyBtn.innerHTML;
+        
+        // Show loading state
+        verifyBtn.innerHTML = '<span class="loading"></span> Checking...';
+        verifyBtn.disabled = true;
+        isChecking = true;
+        showStatus('Checking your membership in all 4 channels...', 'info');
+        
+        try {
+          // Check if user has joined all channels
+          console.log('Checking membership for all 4 channels:', channelIds);
+          
+          const data = await checkMembershipWithRetry();
+          console.log('Membership response:', data);
+          
+          if (data && data.membership) {
+            // Update channel status indicators and check if all are joined
+            const { allJoined, notJoinedChannels } = updateChannelStatuses(data.membership);
+            
+            if (allJoined) {
+              // Store verification status in localStorage (temporary cache)
+              localStorage.setItem('verified_' + user.id, 'true');
+              localStorage.setItem('verification_time', Date.now().toString());
+              
+              // Update button to show success
+              verifyBtn.className = 'verify-btn success';
+              verifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verified!';
+              showStatus('Success! All channels verified. Redirecting...', 'success');
+              
+              // Notify server without closing the app
+              try {
+                await fetch('/api/telegram/notify-joined', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    userId: user.id,
+                    action: 'channels_joined'
+                  })
+                });
+              } catch (notifyError) {
+                console.error('Notification error:', notifyError);
+              }
+              
+              // Redirect to home page after a short delay
+              setTimeout(() => {
+                window.location.href = 'home.html';
+              }, 1500);
+            } else {
+              // Some channels not joined
+              showStatus(`Please join: ${notJoinedChannels.join(', ')}`, 'error');
+              verifyBtn.innerHTML = originalText;
+            }
+          } else {
+            throw new Error('Invalid response format from server');
+          }
+        } catch (error) {
+          console.error('Verification error:', error);
+          showStatus('Failed to verify. Please try again.', 'error');
+          verifyBtn.innerHTML = '<i class="fas fa-redo"></i> Retry Verification';
+        } finally {
+          // Restore button state
+          verifyBtn.disabled = false;
+          isChecking = false;
+        }
+      });
+      
+      // Initial check when page loads
+      async function initialCheck() {
+        try {
+          // Check if we already verified this user recently (within 5 minutes)
+          const verificationTime = localStorage.getItem('verification_time');
+          if (verificationTime && (Date.now() - parseInt(verificationTime)) < 5 * 60 * 1000) {
+            if (localStorage.getItem('verified_' + user.id) === 'true') {
+              // Double-check with backend to ensure user is still verified
+              const backendVerified = await checkUserVerification();
+              if (backendVerified) {
+                window.location.href = 'home.html';
+                return;
+              } else {
+                // Backend says not verified, clear local cache
+                localStorage.removeItem('verified_' + user.id);
+                localStorage.removeItem('verification_time');
+              }
+            }
+          }
+          
+          console.log('Initial check for all 4 channels:', channelIds);
+          showStatus('Checking your current status in all channels...', 'info');
+          
+          const data = await checkMembershipWithRetry(2, 500);
+          
+          if (data && data.membership) {
+            const { allJoined, notJoinedChannels } = updateChannelStatuses(data.membership);
+            
+            if (allJoined) {
+              // Store verification status in localStorage (temporary cache)
+              localStorage.setItem('verified_' + user.id, 'true');
+              localStorage.setItem('verification_time', Date.now().toString());
+              
+              showStatus('Already verified! Redirecting...', 'success');
+              setTimeout(() => {
+                window.location.href = 'home.html';
+              }, 1000);
+            } else {
+              showStatus(`Please join all channels to continue: ${notJoinedChannels.join(', ')}`, 'info');
+            }
+          }
+        } catch (error) {
+          console.error('Initial check error:', error);
+          showStatus('Unable to check status. Please verify manually.', 'error');
+        }
+      }
+
+      // Set up links for the new channels
+      function setupChannelLinks() {
+        // Update the href attributes for the new channels
+        const channel3Link = document.querySelector('.channel-card:nth-child(3) .join-btn');
+        const channel4Link = document.querySelector('.channel-card:nth-child(4) .join-btn');
+        
+        if (channel3Link) channel3Link.href = channelMap['-1002586398528'].link;
+        if (channel4Link) channel4Link.href = channelMap['-1001605359798'].link;
+      }
+
+      // Run initial check
+      initialCheck();
+      setupChannelLinks();
+
+      // For demo purposes - simulate the current state
+      showStatus('Please join: Echo Community, Echo Discussion', 'error');
+    });
+  </script>
+</body>
+</html>
