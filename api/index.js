@@ -1557,7 +1557,7 @@ app.post('/api/withdrawals/create', async (req, res) => {
         user_id: withdrawalRequest.userId,
         username: withdrawalRequest.username,
         amount: withdrawalRequest.amount,
-        CAKE_amount: withdrawalRequest.CAKEAmount,
+        cake_amount: withdrawalRequest.CAKEAmount,
         wallet: withdrawalRequest.wallet,
         status: 'pending',
         created_at: new Date().toISOString(),
@@ -3062,7 +3062,7 @@ app.get('/api/config/get-all', async (req, res) => {
 async function sendWithdrawalSuccessDM(userId, request, paymentResult) {
     try {
         const message = `✅ *Withdrawal Completed!*\n\n` +
-                       `💰 *Amount Sent:* ${request.CAKE_amount} CAKE\n` +
+                       `💰 *Amount Sent:* ${request.cake_amount} CAKE\n` +
                        `📍 *Wallet:* \`${request.wallet}\`\n\n` +
                        `✅ Funds have been sent to your wallet!`;
 
@@ -3083,7 +3083,7 @@ async function sendWithdrawalFailureDM(userId, request, errorMessage) {
         console.log(`⚠️ Withdrawal processing delayed for user ${userId}: ${errorMessage}`);
         
         const message = `🔄 *Withdrawal Processing*\n\n` +
-                       `💰 *Amount:* ${request.CAKE_amount} CAKE\n` +
+                       `💰 *Amount:* ${request.cake_amount} CAKE\n` +
                        `📍 *Wallet:* \`${request.wallet}\`\n\n` +
                        `Your withdrawal is being processed and will be completed shortly.`;
 
@@ -3115,7 +3115,7 @@ app.post('/api/withdrawals/approve', async (req, res) => {
         
         const paymentData = {
             address: withdrawal.wallet,
-            amount: withdrawal.CAKE_amount.toString(),
+            amount: withdrawal.cake_amount.toString(),
             token: "CAKE"
         };
         
@@ -3159,7 +3159,7 @@ app.post('/api/withdrawals/approve', async (req, res) => {
             
             res.json({
                 success: true,
-                amount: withdrawal.CAKE_amount,
+                amount: withdrawal.cake_amount,
                 wallet: withdrawal.wallet,
                 txHash: result.txHash,
                 explorerLink: result.explorerLink
