@@ -227,6 +227,57 @@ async function updateUserVerification(userId, status) {
   }
 }
 
+// Add this function to check daily withdrawal count
+async function getTodayWithdrawalsCount(userId) {
+    try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayStart = today.toISOString();
+        
+        const { data: withdrawals, error } = await supabase
+            .from('withdrawals')
+            .select('created_at')
+            .eq('user_id', userId.toString())
+            .gte('created_at', todayStart)
+            .in('status', ['pending', 'approved']);
+        
+        if (error) throw error;
+        
+        return withdrawals ? withdrawals.length : 0;
+    } catch (error) {
+        console.error('Error getting today withdrawals count:', error);
+        return 0;
+    }
+}
+
+// Add this function to get today's ads watched count
+async function getTodayAdsWatched(userId) {
+    try {
+        const user = await getUser(userId.toString());
+        if (!user || !user.ads_task_data) {
+            return 0;
+        }
+        
+        const today = getTodayDateString();
+        const taskData = user.ads_task_data;
+        
+        // If it's a new day, return 0
+        if (taskData.lastAdDate !== today) {
+            return 0;
+        }
+        
+        return taskData.adsToday || 0;
+    } catch (error) {
+        console.error('Error getting today ads watched:', error);
+        return 0;
+    }
+}
+
+function getTodayDateString() {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+}
+
 async function updateUserBalance(userId, amount, transactionData = null) {
   try {
     console.log(`💰 Updating balance for user ${userId}: +${amount} points`);
@@ -998,6 +1049,39 @@ app.get('/api/users/count', async (req, res) => {
             success: false,
             error: 'Failed to get user count'
         });
+    }
+});
+
+// API endpoint to get today's withdrawal count for a user
+app.get('/api/withdrawals/today-count', async (req, res) => {
+    try {
+        const { userId } = req.query;
+        
+        if (!userId) {
+            return res.status(400).json({ success: false, error: 'Missing userId parameter' });
+        }
+        
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayStart = today.toISOString();
+        
+        const { data: withdrawals, error } = await supabase
+            .from('withdrawals')
+            .select('created_at')
+            .eq('user_id', userId.toString())
+            .gte('created_at', todayStart)
+            .in('status', ['pending', 'approved']);
+        
+        if (error) throw error;
+        
+        res.json({
+            success: true,
+            count: withdrawals ? withdrawals.length : 0,
+            userId: userId
+        });
+    } catch (error) {
+        console.error('Error getting today withdrawals count:', error);
+        res.status(500).json({ success: false, error: 'Failed to get today withdrawals count' });
     }
 });
 
