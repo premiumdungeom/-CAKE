@@ -227,221 +227,6 @@ async function updateUserVerification(userId, status) {
   }
 }
 
-// Add this function to check daily withdrawal count
-async function getTodayWithdrawalsCount(userId) {
-    try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const todayStart = today.toISOString();
-        
-        const { data: withdrawals, error } = await supabase
-            .from('withdrawals')
-            .select('created_at')
-            .eq('user_id', userId.toString())
-            .gte('created_at', todayStart)
-            .in('status', ['pending', 'approved']);
-        
-        if (error) throw error;
-        
-        return withdrawals ? withdrawals.length : 0;
-    } catch (error) {
-        console.error('Error getting today withdrawals count:', error);
-        return 0;
-    }
-}
-
-// Add this function to get today's ads watched count
-async function getTodayAdsWatched(userId) {
-    try {
-        const user = await getUser(userId.toString());
-        if (!user || !user.ads_task_data) {
-            return 0;
-        }
-        
-        const today = getTodayDateString();
-        const taskData = user.ads_task_data;
-        
-        // If it's a new day, return 0
-        if (taskData.lastAdDate !== today) {
-            return 0;
-        }
-        
-        return taskData.adsToday || 0;
-    } catch (error) {
-        console.error('Error getting today ads watched:', error);
-        return 0;
-    }
-}
-
-function getTodayDateString() {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-}
-
-// API endpoint to create withdrawal request
-// Backend validation function
-async function validateWithdrawalBackend(userId, amount) {
-  try {
-    // Get user balance
-    const user = await getUser(userId.toString());
-    if (!user) {
-      return { valid: false, message: 'User not found' };
-    }
-    
-    const balance = user.balance || 0;
-    
-    // Get withdrawal config
-    const { data: configData, error } = await supabase
-      .from('configurations')
-      .select('config')
-      .eq('id', 'withdrawal')
-      .single();
-    
-    const config = configData ? configData.config : {};
-    
-    // Check minimum withdrawal
-    const minWithdrawal = config.minWithdrawal || 100;
-    if (amount < minWithdrawal) {
-      return { valid: false, message: `Minimum withdrawal is ${minWithdrawal} points` };
-    }
-    
-    // Check balance
-    if (amount > balance) {
-      return { valid: false, message: `Insufficient balance. You have ${balance} points` };
-    }
-    
-    // Check pending withdrawals
-    const totalPending = await getTotalPendingWithdrawalsBackend(userId);
-    const availableBalance = balance - totalPending;
-    
-    if (amount > availableBalance) {
-      return { valid: false, message: `Insufficient available balance. You have ${availableBalance} points available (${totalPending} points in pending withdrawals)` };
-    }
-    
-    // Check referral requirement
-    const minReferrals = config.minReferralsToWithdraw || 0;
-    if (minReferrals > 0) {
-      const referralStats = await getReferralStatsBackend(userId);
-      const referrals = referralStats.totalInvites || 0;
-      if (referrals < minReferrals) {
-        return { valid: false, message: `You need ${minReferrals - referrals} more referrals to withdraw` };
-      }
-    }
-    
-    // Check ads requirement
-    const minAdsRequired = config.minAdsToWithdraw || 0;
-    if (minAdsRequired > 0) {
-      const todayAdsWatched = await getTodayAdsWatchedBackend(userId);
-      if (todayAdsWatched < minAdsRequired) {
-        return { valid: false, message: `You need to watch ${minAdsRequired - todayAdsWatched} more ads today to withdraw (watched: ${todayAdsWatched})` };
-      }
-    }
-    
-    // Check daily withdrawal limit
-    const maxDailyWithdrawals = config.maxWithdrawalsPerDay || 1;
-    if (maxDailyWithdrawals > 0) {
-      const todayWithdrawals = await getTodayWithdrawalsCountBackend(userId);
-      if (todayWithdrawals >= maxDailyWithdrawals) {
-        return { valid: false, message: `You have reached your daily withdrawal limit (${maxDailyWithdrawals} per day)` };
-      }
-    }
-    
-    return { valid: true, message: '' };
-    
-  } catch (error) {
-    console.error('Error validating withdrawal:', error);
-    return { valid: false, message: 'Validation error' };
-  }
-}
-
-// Backend helper functions
-async function getTotalPendingWithdrawalsBackend(userId) {
-  try {
-    const { data: withdrawals, error } = await supabase
-      .from('withdrawals')
-      .select('amount')
-      .eq('user_id', userId.toString())
-      .eq('status', 'pending');
-    
-    if (error) throw error;
-    
-    let totalPending = 0;
-    withdrawals.forEach(withdrawal => {
-      totalPending += withdrawal.amount || 0;
-    });
-    
-    return totalPending;
-  } catch (error) {
-    console.error('Error getting pending withdrawals:', error);
-    return 0;
-  }
-}
-
-async function getTodayAdsWatchedBackend(userId) {
-  try {
-    const user = await getUser(userId.toString());
-    if (!user || !user.ads_task_data) {
-      return 0;
-    }
-    
-    const today = new Date().toISOString().split('T')[0];
-    const taskData = user.ads_task_data;
-    
-    // If it's a new day, return 0
-    if (taskData.lastAdDate !== today) {
-      return 0;
-    }
-    
-    return taskData.adsToday || 0;
-  } catch (error) {
-    console.error('Error getting today ads watched:', error);
-    return 0;
-  }
-}
-
-async function getTodayWithdrawalsCountBackend(userId) {
-  try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayStart = today.toISOString();
-    
-    const { data: withdrawals, error } = await supabase
-      .from('withdrawals')
-      .select('created_at')
-      .eq('user_id', userId.toString())
-      .gte('created_at', todayStart)
-      .in('status', ['pending', 'approved']);
-    
-    if (error) throw error;
-    
-    return withdrawals ? withdrawals.length : 0;
-  } catch (error) {
-    console.error('Error getting today withdrawals count:', error);
-    return 0;
-  }
-}
-
-async function getReferralStatsBackend(userId) {
-  try {
-    const user = await getUser(userId.toString());
-    if (!user) {
-      return { totalInvites: 0, totalEarnings: 0 };
-    }
-    
-    const totalInvites = user.referral_count || 0;
-    const bonusPerFriend = 20; // Default value
-    
-    return {
-      totalInvites: totalInvites,
-      totalEarnings: totalInvites * bonusPerFriend,
-      bonusPerFriend: bonusPerFriend
-    };
-  } catch (error) {
-    console.error('Error getting referral stats:', error);
-    return { totalInvites: 0, totalEarnings: 0, bonusPerFriend: 20 };
-  }
-}
-
 async function updateUserBalance(userId, amount, transactionData = null) {
   try {
     console.log(`💰 Updating balance for user ${userId}: +${amount} points`);
@@ -1216,39 +1001,6 @@ app.get('/api/users/count', async (req, res) => {
     }
 });
 
-// API endpoint to get today's withdrawal count for a user
-app.get('/api/withdrawals/today-count', async (req, res) => {
-    try {
-        const { userId } = req.query;
-        
-        if (!userId) {
-            return res.status(400).json({ success: false, error: 'Missing userId parameter' });
-        }
-        
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const todayStart = today.toISOString();
-        
-        const { data: withdrawals, error } = await supabase
-            .from('withdrawals')
-            .select('created_at')
-            .eq('user_id', userId.toString())
-            .gte('created_at', todayStart)
-            .in('status', ['pending', 'approved']);
-        
-        if (error) throw error;
-        
-        res.json({
-            success: true,
-            count: withdrawals ? withdrawals.length : 0,
-            userId: userId
-        });
-    } catch (error) {
-        console.error('Error getting today withdrawals count:', error);
-        res.status(500).json({ success: false, error: 'Failed to get today withdrawals count' });
-    }
-});
-
 // API endpoint to get user balance
 app.get('/api/user/balance', async (req, res) => {
     const { userId } = req.query;
@@ -1828,52 +1580,29 @@ app.post('/api/withdrawals/create', async (req, res) => {
 });
 
 // API endpoint to add withdrawal history to user
-// API endpoint to create withdrawal request
-app.post('/api/withdrawals/create', async (req, res) => {
+app.post('/api/user/add-withdrawal-history', async (req, res) => {
   try {
-    const withdrawalRequest = req.body;
+    const { userId, withdrawalEntry } = req.body;
     
-    if (!withdrawalRequest.userId || !withdrawalRequest.amount || !withdrawalRequest.wallet) {
+    if (!userId || !withdrawalEntry) {
       return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
     
-    // Validate withdrawal requirements
-    const validation = await validateWithdrawalBackend(
-      withdrawalRequest.userId, 
-      withdrawalRequest.amount
-    );
-    
-    if (!validation.valid) {
-      return res.status(400).json({ success: false, error: validation.message });
+    const user = await getUser(userId.toString());
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
     }
     
-    const { error } = await supabase
-      .from('withdrawals')
-      .insert([{
-        id: withdrawalRequest.id,
-        user_id: withdrawalRequest.userId,
-        username: withdrawalRequest.username,
-        amount: withdrawalRequest.amount,
-        CAKE_amount: withdrawalRequest.CAKEAmount,
-        wallet: withdrawalRequest.wallet,
-        status: 'pending',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }]);
+    const updatedHistory = [...(user.withdrawal_history || []), withdrawalEntry];
     
-    if (error) throw error;
-    
-    // Send DM notification
-    await sendWithdrawalRequestDM(withdrawalRequest.userId, withdrawalRequest.amount, withdrawalRequest.CAKEAmount);
-    
-    res.json({ 
-      success: true, 
-      message: 'Withdrawal request created successfully',
-      requestId: withdrawalRequest.id
+    await saveUser(userId.toString(), {
+      withdrawal_history: updatedHistory
     });
+    
+    res.json({ success: true, message: 'Withdrawal history added successfully' });
   } catch (error) {
-    console.error('Error creating withdrawal request:', error);
-    res.status(500).json({ success: false, error: 'Failed to create withdrawal request: ' + error.message });
+    console.error('Error adding withdrawal history:', error);
+    res.status(500).json({ success: false, error: 'Failed to add withdrawal history' });
   }
 });
 
@@ -2266,6 +1995,40 @@ app.get('/api/user/ads-data', async (req, res) => {
   } catch (error) {
     console.error('Error getting ads data:', error);
     res.status(500).json({ success: false, error: 'Failed to get ads data' });
+  }
+});
+
+// API endpoint to get user's withdrawals count for today
+app.get('/api/withdrawals/user-today', async (req, res) => {
+  try {
+    const { userId, date } = req.query;
+    
+    if (!userId || !date) {
+      return res.status(400).json({ success: false, error: 'Missing userId or date parameter' });
+    }
+    
+    // Get start and end of the day
+    const startDate = new Date(date + 'T00:00:00.000Z');
+    const endDate = new Date(date + 'T23:59:59.999Z');
+    
+    const { data: withdrawals, error } = await supabase
+      .from('withdrawals')
+      .select('id')
+      .eq('user_id', userId.toString())
+      .gte('created_at', startDate.toISOString())
+      .lte('created_at', endDate.toISOString());
+    
+    if (error) throw error;
+    
+    res.json({
+      success: true,
+      withdrawalsCount: withdrawals ? withdrawals.length : 0,
+      userId: userId,
+      date: date
+    });
+  } catch (error) {
+    console.error('Error getting withdrawals today:', error);
+    res.status(500).json({ success: false, error: 'Failed to get withdrawals count' });
   }
 });
 
