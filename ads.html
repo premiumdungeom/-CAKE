@@ -2227,7 +2227,10 @@ video {
   <p class="text-sm text-muted-foreground">Click "Start Earning" to watch ads. After completing ads, click "Claim Reward" to receive your points.</p>
   
   <!-- TADS Container (required for TADS ads) -->
-  <div id="tads-container-871" style="min-height: 100px;"></div>
+  <div id="adsterra-container" style="min-height: 250px; display: none;">
+    <script async="async" data-cfasync="false" src="//pl27907488.effectivegatecpm.com/e0311a4e7ee51e38fa756adad4421753/invoke.js"></script>
+    <div id="container-e0311a4e7ee51e38fa756adad4421753"></div>
+</div>
   
   <!-- Main Ad Button -->
   <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-4 py-2 w-full h-12 text-lg" onclick="showAd()" id="ad-button">
@@ -2375,10 +2378,10 @@ const AD_NETWORKS = {
         sdkLoaded: false,
         available: false
     },
-    TADS: {  // REPLACE ADSGRAM WITH TADS
-        name: 'tads',
-        controller: null,
-        widgetId: '871', // Replace with your actual widget ID
+    ADSTERRA: {  
+        name: 'adsterra',
+        scriptUrl: '//pl27907488.effectivegatecpm.com/e0311a4e7ee51e38fa756adad4421753/invoke.js',
+        containerId: 'container-e0311a4e7ee51e38fa756adad4421753',
         sdkLoaded: false,
         available: false
     }
@@ -2395,8 +2398,8 @@ function isTelegramAdsAvailable() {
 }
 
 // Check if AdsGram is available
-function isTadsAvailable() {
-    return window.tads && typeof window.tads.init === 'function';
+function isAdsterraAvailable() {
+    return typeof window.effectiveGateCpm !== 'undefined';
 }
 
 async function waitForAllSDKs() {
@@ -2405,7 +2408,7 @@ async function waitForAllSDKs() {
     const results = await Promise.allSettled([
         waitForMonetag(),
         waitForTelegramAds(),
-        waitForTads()  // Changed from waitForAdsGram()
+        waitForAdsterra()  // Changed from waitForAdsGram()
     ]);
     
     const availableNetworks = Object.values(AD_NETWORKS).filter(network => network.available);
@@ -2483,33 +2486,39 @@ function waitForTelegramAds() {
 }
 
 // Wait for AdsGram SDK
-function waitForTads() {
+function waitForAdsterra() {
     return new Promise((resolve) => {
-        if (isTadsAvailable()) {
-            console.log('✅ TADS SDK already loaded');
-            AD_NETWORKS.TADS.sdkLoaded = true;
+        // Adsterra script loads asynchronously, we'll consider it available once loaded
+        console.log('⏳ Adsterra script loading...');
+        
+        // Check if script is already loaded
+        const scriptLoaded = document.querySelector('script[src*="effectivegatecpm.com"]') !== null;
+        
+        if (scriptLoaded) {
+            console.log('✅ Adsterra script loaded');
+            AD_NETWORKS.ADSTERRA.sdkLoaded = true;
             resolve(true);
             return;
         }
 
-        console.log('⏳ Waiting for TADS SDK...');
         let attempts = 0;
-        const maxAttempts = 10;
+        const maxAttempts = 15; // Give more time for script to load
         
         const checkInterval = setInterval(() => {
             attempts++;
+            const scriptLoaded = document.querySelector('script[src*="effectivegatecpm.com"]') !== null;
             
-            if (isTadsAvailable()) {
+            if (scriptLoaded) {
                 clearInterval(checkInterval);
-                console.log('✅ TADS SDK loaded successfully');
-                AD_NETWORKS.TADS.sdkLoaded = true;
+                console.log('✅ Adsterra script loaded successfully');
+                AD_NETWORKS.ADSTERRA.sdkLoaded = true;
                 resolve(true);
             } else if (attempts >= maxAttempts) {
                 clearInterval(checkInterval);
-                console.log('❌ TADS SDK timeout');
+                console.log('❌ Adsterra script loading timeout');
                 resolve(false);
             }
-        }, 500);
+        }, 1000);
     });
 }
 
@@ -2744,42 +2753,13 @@ if (totalEarningsElement) {
 }
 
 // Existing Ad Functions (updated)
-function initTads() {
-    if (!AD_NETWORKS.TADS.sdkLoaded) {
-        console.log('❌ TADS not ready - SDK not loaded');
-        return false;
-    }
-    
-    const widgetId = AD_NETWORKS.TADS.widgetId;
-    if (widgetId && widgetId.trim() !== '') {
-        try {
-            // TADS callbacks
-            const onClickRewardCallback = (adId) => {
-                console.log('TADS ad clicked:', adId);
-            };
-            
-            const adsNotFoundCallback = () => {
-                console.log('No TADS ads found to show');
-                // Don't complete ad here - let the timeout handle it
-            };
-
-            // Initialize TADS
-            AD_NETWORKS.TADS.controller = window.tads.init({
-                widgetId: widgetId,
-                type: 'fullscreen',
-                debug: false,
-                onClickReward: onClickRewardCallback,
-                onAdsNotFound: adsNotFoundCallback
-            });
-            
-            AD_NETWORKS.TADS.available = true;
-            console.log('✅ TADS initialized successfully');
-            return true;
-        } catch (error) {
-            console.error('❌ Failed to initialize TADS:', error);
-        }
-    } else {
-        console.log('ℹ️ No TADS Widget ID configured');
+function initAdsterra() {
+    const container = document.getElementById('adsterra-container');
+    if (container) {
+        container.style.display = 'block';
+        AD_NETWORKS.ADSTERRA.available = true;
+        console.log('✅ Adsterra container activated');
+        return true;
     }
     return false;
 }
@@ -2810,9 +2790,9 @@ async function showAd() {
     }
     
     // Initialize AdsGram if we have config and SDK
-    if (!AD_NETWORKS.TADS.available && AD_NETWORKS.TADS.sdkLoaded) {
-    initTads();
-}
+    if (!AD_NETWORKS.ADSTERRA.available && AD_NETWORKS.ADSTERRA.sdkLoaded) {
+        initAdsterra();
+    }
 
     console.log('🚀 Starting ad sequence with 3 networks...');
     
@@ -2896,49 +2876,48 @@ async function showTelegramAd() {
 }
 
 // Show AdsGram Ad
-async function showTadsAd() {
-    if (!AD_NETWORKS.TADS.available) {
-        console.log('❌ TADS not available, skipping');
-        completeAd('tads');
+async function showAdsterraAd() {
+    if (!AD_NETWORKS.ADSTERRA.available) {
+        console.log('❌ Adsterra not available, skipping');
+        completeAd('adsterra');
         return;
     }
 
-    currentAdType = 'tads';
+    currentAdType = 'adsterra';
     adInProgress = true;
     updateAdUI();
 
-    console.log('🎬 Starting TADS ad...');
+    console.log('🎬 Starting Adsterra ad...');
     
     try {
-        // TADS fullscreen ad flow
-        await AD_NETWORKS.TADS.controller.loadAd()
-            .then(() => {
-                console.log('✅ TADS ad loaded successfully');
-                return AD_NETWORKS.TADS.controller.showAd();
-            })
-            .then(() => {
-                console.log('✅ TADS ad shown successfully');
-                // For fullscreen ads, we consider it completed when shown
-                // The reward callback will handle the actual completion
-                completeAd('tads');
-            })
-            .catch((error) => {
-                console.error('❌ TADS ad error:', error);
-                completeAd('tads');
-            });
-
+        // Show the Adsterra container
+        const container = document.getElementById('adsterra-container');
+        if (container) {
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Adsterra ads typically load automatically when container is visible
+        console.log('✅ Adsterra ad displayed');
+        
+        // For Adsterra, we'll consider it completed after a short delay
+        // since we can't easily detect when the ad finishes
+        setTimeout(() => {
+            completeAd('adsterra');
+        }, 15000); // 15 seconds for Adsterra ad
+        
     } catch (error) {
-        console.error('❌ TADS ad initialization error:', error);
-        completeAd('tads');
+        console.error('❌ Adsterra ad error:', error);
+        completeAd('adsterra');
     }
 
-    // Fallback timeout - shorter for TADS
+    // Fallback timeout
     adWatchTimer = setTimeout(() => {
-        if (adInProgress && currentAdType === 'tads') {
-            console.log('⏰ TADS ad timeout');
-            completeAd('tads');
+        if (adInProgress && currentAdType === 'adsterra') {
+            console.log('⏰ Adsterra ad timeout');
+            completeAd('adsterra');
         }
-    }, 15000); // 15 seconds for TADS
+    }, 30000);
 }
 
 // Get next ad type in sequence
@@ -3097,8 +3076,8 @@ function showAdByType(adType) {
         case 'telegram':
             showTelegramAd();
             break;
-        case 'tads':  // Changed from 'adsgram'
-            showTadsAd();
+        case 'adsterra':  // Changed from 'adsgram'
+            showAdsterraAd();
             break;
         default:
             console.log('❌ Unknown ad type:', adType);
@@ -3287,8 +3266,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     await waitForAllSDKs();
     
     // Initialize TADS if SDK is loaded
-    if (!AD_NETWORKS.TADS.available && AD_NETWORKS.TADS.sdkLoaded) {
-        initTads();
+    if (!AD_NETWORKS.ADSTERRA.available && AD_NETWORKS.ADSTERRA.sdkLoaded) {
+        initAdsterra();
     }
     
     // Initialize ads task tracking
