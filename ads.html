@@ -2449,15 +2449,18 @@ function initAdexium() {
         console.log('⏳ Initializing Adexium...');
         
         try {
-            // Initialize Adexium widget
+            // Initialize Adexium widget WITH autoMode
             AD_NETWORKS.ADEXIUM.controller = new AdexiumWidget({
                 wid: AD_NETWORKS.ADEXIUM.widgetId,
                 adFormat: 'interstitial'
             });
             
+            // ✅ CRITICAL: Call autoMode to activate the widget
+            AD_NETWORKS.ADEXIUM.controller.autoMode();
+            
             AD_NETWORKS.ADEXIUM.sdkLoaded = true;
             AD_NETWORKS.ADEXIUM.available = true;
-            console.log('✅ Adexium initialized successfully');
+            console.log('✅ Adexium initialized successfully with autoMode');
             resolve(true);
             
         } catch (error) {
@@ -2898,17 +2901,15 @@ async function showAdexiumAd() {
     console.log('🎬 Starting Adexium ad...');
     
     try {
-        // Since Adexium uses autoMode by default, we'll trigger it manually
-        // For interstitial ads, we assume it shows immediately when called
-        AD_NETWORKS.ADEXIUM.controller.autoMode();
+        // Since Adexium uses autoMode, we just need to wait for the ad to show
+        // The ad should trigger automatically through autoMode
         
-        console.log('✅ Adexium ad triggered');
+        console.log('✅ Adexium ad triggered via autoMode');
         
-        // Adexium interstitial ads typically show immediately
-        // We'll consider it completed after a short delay
+        // Wait for ad completion (Adexium ads are typically quick)
         setTimeout(() => {
             completeAd('adexium');
-        }, 10000); // 10 seconds for Adexium ad
+        }, 8000); // 8 seconds for Adexium ad
         
     } catch (error) {
         console.error('❌ Adexium ad error:', error);
@@ -2921,7 +2922,7 @@ async function showAdexiumAd() {
             console.log('⏰ Adexium ad timeout');
             completeAd('adexium');
         }
-    }, 30000);
+    }, 25000);
 }
 
 async function showTmaAd() {
