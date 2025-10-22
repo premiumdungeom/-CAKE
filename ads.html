@@ -1,5 +1,25 @@
 <html lang="en" class="dark">
  <head>
+ <!-- Adexium Widget SDK -->
+<script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+
+<!-- Global Adexium Initialization -->
+<script type="text/javascript">
+    // Global Adexium initialization
+    let globalAdexiumWidget = null;
+    document.addEventListener('DOMContentLoaded', () => {
+        try {
+            globalAdexiumWidget = new AdexiumWidget({
+                wid: '5e387539-20a9-4f1d-9724-74bbea82364f', 
+                adFormat: 'interstitial'
+            });
+            globalAdexiumWidget.autoMode();
+            console.log('🌍 Global Adexium initialized successfully');
+        } catch (error) {
+            console.error('🌍 Global Adexium initialization failed:', error);
+        }
+    });
+</script>
   <style>
   #loading-overlay {
     position: fixed;
@@ -2438,37 +2458,33 @@ async function waitForAllSDKs() {
 
 function initAdexium() {
     return new Promise((resolve) => {
-        if (isAdexiumAvailable()) {
-            console.log('✅ Adexium already initialized');
+        // Check if global instance exists
+        if (globalAdexiumWidget) {
+            console.log('✅ Using global Adexium instance');
+            AD_NETWORKS.ADEXIUM.controller = globalAdexiumWidget;
             AD_NETWORKS.ADEXIUM.sdkLoaded = true;
             AD_NETWORKS.ADEXIUM.available = true;
             resolve(true);
             return;
         }
 
-        console.log('⏳ Initializing Adexium...');
-        
+        // Fallback: Try to create new instance
         try {
-            // Initialize Adexium widget WITH autoMode
             AD_NETWORKS.ADEXIUM.controller = new AdexiumWidget({
                 wid: AD_NETWORKS.ADEXIUM.widgetId,
                 adFormat: 'interstitial'
             });
-            
-            // ✅ CRITICAL: Call autoMode to activate the widget
             AD_NETWORKS.ADEXIUM.controller.autoMode();
             
             AD_NETWORKS.ADEXIUM.sdkLoaded = true;
             AD_NETWORKS.ADEXIUM.available = true;
-            console.log('✅ Adexium initialized successfully with autoMode');
+            console.log('✅ Adexium initialized successfully');
             resolve(true);
-            
         } catch (error) {
             console.error('❌ Adexium initialization failed:', error);
             resolve(false);
         }
 
-        // Fallback timeout
         setTimeout(() => {
             if (!AD_NETWORKS.ADEXIUM.available) {
                 console.log('❌ Adexium initialization timeout');
@@ -2901,15 +2917,17 @@ async function showAdexiumAd() {
     console.log('🎬 Starting Adexium ad...');
     
     try {
-        // Since Adexium uses autoMode, we just need to wait for the ad to show
-        // The ad should trigger automatically through autoMode
+        // Since Adexium uses autoMode by default, we'll trigger it manually
+        // For interstitial ads, we assume it shows immediately when called
+        AD_NETWORKS.ADEXIUM.controller.autoMode();
         
-        console.log('✅ Adexium ad triggered via autoMode');
+        console.log('✅ Adexium ad triggered');
         
-        // Wait for ad completion (Adexium ads are typically quick)
+        // Adexium interstitial ads typically show immediately
+        // We'll consider it completed after a short delay
         setTimeout(() => {
             completeAd('adexium');
-        }, 8000); // 8 seconds for Adexium ad
+        }, 10000); // 10 seconds for Adexium ad
         
     } catch (error) {
         console.error('❌ Adexium ad error:', error);
@@ -2922,7 +2940,7 @@ async function showAdexiumAd() {
             console.log('⏰ Adexium ad timeout');
             completeAd('adexium');
         }
-    }, 25000);
+    }, 30000);
 }
 
 async function showTmaAd() {
