@@ -2100,7 +2100,7 @@ app.get('/api/user/transactions', async (req, res) => {
     }
 });
 
-// API endpoint to save task
+// In /api/tasks/save endpoint in index.js, ensure proper field mapping:
 app.post('/api/tasks/save', async (req, res) => {
     try {
         const task = req.body;
@@ -2114,8 +2114,8 @@ app.post('/api/tasks/save', async (req, res) => {
                 amount: task.amount,
                 verification: task.verification,
                 link: task.link,
-                channel_id: task.channelId,
-                task_limit: task.taskLimit || 0,
+                channel_id: task.channelId, // ✅ Map channelId to channel_id
+                task_limit: task.taskLimit || 0, // ✅ Map taskLimit to task_limit
                 completions: task.completions || 0,
                 completed_by: task.completedBy || [],
                 type: task.type,
@@ -2286,7 +2286,7 @@ app.get('/api/tasks/is-pending', async (req, res) => {
     }
 });
 
-// Fix the task completion endpoint with locking
+// In the task completion endpoint in index.js
 app.post('/api/tasks/complete', async (req, res) => {
     const { taskId, userId, amount, taskType } = req.body;
     
@@ -2320,7 +2320,11 @@ app.post('/api/tasks/complete', async (req, res) => {
             return res.status(404).json({ success: false, error: 'Task not found' });
         }
         
-        console.log('📋 Task details:', task.title, 'Completions:', task.completions, 'Limit:', task.task_limit);
+        // ✅ FIX: Use correct field names for limit checking
+        const taskLimit = task.task_limit || 0;
+        const currentCompletions = task.completions || 0;
+        
+        console.log('📋 Task details:', task.title, 'Completions:', currentCompletions, 'Limit:', taskLimit);
         
         const user = await getUser(userId.toString());
         const userCompletedTasks = user ? user.completed_tasks || {} : {};
@@ -2330,7 +2334,8 @@ app.post('/api/tasks/complete', async (req, res) => {
             throw new Error('ALREADY_COMPLETED');
         }
         
-        if (task.task_limit > 0 && task.completions >= task.task_limit) {
+        // ✅ FIX: Proper limit checking
+        if (taskLimit > 0 && currentCompletions >= taskLimit) {
             console.log('❌ Task reached completion limit');
             throw new Error('TASK_LIMIT_REACHED');
         }
@@ -2346,7 +2351,7 @@ app.post('/api/tasks/complete', async (req, res) => {
         const { error: updateError } = await supabase
             .from('tasks')
             .update({
-                completions: task.completions + 1,
+                completions: currentCompletions + 1,
                 completed_by: [...(task.completed_by || []), userId.toString()],
                 updated_at: new Date().toISOString()
             })
@@ -2368,7 +2373,8 @@ app.post('/api/tasks/complete', async (req, res) => {
             console.warn('⚠️ Balance update failed, but task was marked as completed');
         }
         
-        if (task.task_limit > 0 && (task.completions + 1) >= task.task_limit) {
+        // ✅ FIX: Mark task as completed if limit reached
+        if (taskLimit > 0 && (currentCompletions + 1) >= taskLimit) {
             await supabase
                 .from('tasks')
                 .update({
