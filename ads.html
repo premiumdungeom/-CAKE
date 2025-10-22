@@ -1,25 +1,5 @@
 <html lang="en" class="dark">
  <head>
- <!-- Adexium Widget SDK -->
-<script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-
-<!-- Global Adexium Initialization -->
-<script type="text/javascript">
-    // Global Adexium initialization
-    let globalAdexiumWidget = null;
-    document.addEventListener('DOMContentLoaded', () => {
-        try {
-            globalAdexiumWidget = new AdexiumWidget({
-                wid: '5e387539-20a9-4f1d-9724-74bbea82364f', 
-                adFormat: 'interstitial'
-            });
-            globalAdexiumWidget.autoMode();
-            console.log('🌍 Global Adexium initialized successfully');
-        } catch (error) {
-            console.error('🌍 Global Adexium initialization failed:', error);
-        }
-    });
-</script>
   <style>
   #loading-overlay {
     position: fixed;
@@ -2413,7 +2393,7 @@ const AD_NETWORKS = {
     },
     ADEXIUM: {
         name: 'adexium',
-        widgetId: '5e387539-20a9-4f1d-9724-74bbea82364f',
+        widgetId: 'd720574e-712a-4457-9d31-81160ba17a97',
         controller: null,
         sdkLoaded: false,
         available: false
@@ -2458,33 +2438,34 @@ async function waitForAllSDKs() {
 
 function initAdexium() {
     return new Promise((resolve) => {
-        // Check if global instance exists
-        if (globalAdexiumWidget) {
-            console.log('✅ Using global Adexium instance');
-            AD_NETWORKS.ADEXIUM.controller = globalAdexiumWidget;
+        if (isAdexiumAvailable()) {
+            console.log('✅ Adexium already initialized');
             AD_NETWORKS.ADEXIUM.sdkLoaded = true;
             AD_NETWORKS.ADEXIUM.available = true;
             resolve(true);
             return;
         }
 
-        // Fallback: Try to create new instance
+        console.log('⏳ Initializing Adexium...');
+        
         try {
+            // Initialize Adexium widget
             AD_NETWORKS.ADEXIUM.controller = new AdexiumWidget({
                 wid: AD_NETWORKS.ADEXIUM.widgetId,
                 adFormat: 'interstitial'
             });
-            AD_NETWORKS.ADEXIUM.controller.autoMode();
             
             AD_NETWORKS.ADEXIUM.sdkLoaded = true;
             AD_NETWORKS.ADEXIUM.available = true;
             console.log('✅ Adexium initialized successfully');
             resolve(true);
+            
         } catch (error) {
             console.error('❌ Adexium initialization failed:', error);
             resolve(false);
         }
 
+        // Fallback timeout
         setTimeout(() => {
             if (!AD_NETWORKS.ADEXIUM.available) {
                 console.log('❌ Adexium initialization timeout');
