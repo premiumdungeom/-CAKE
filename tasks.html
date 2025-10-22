@@ -2422,9 +2422,9 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadTasks() {
     try {
         // Load channel tasks
-        const channelTasks = await loadTasksFromFirestore('channel');
+        const channelTasks = await loadTasksFromDatabase('channel');
         // Load group tasks
-        const groupTasks = await loadTasksFromFirestore('group');
+        const groupTasks = await loadTasksFromDatabase('group');
         
         const userData = localStorage.getItem('telegramUser');
         const user = userData ? JSON.parse(userData) : null;
@@ -2612,7 +2612,7 @@ async function loadTasks() {
 }
 
 // Load tasks from Firestore
-async function loadTasksFromFirestore(type = null) {
+async function loadTasksFromDatabase(type = null) {
     try {
         const url = type ? `/api/tasks/get?type=${type}` : '/api/tasks/get';
         const response = await fetch(url);
@@ -2622,7 +2622,7 @@ async function loadTasksFromFirestore(type = null) {
             return data.success ? data.tasks : [];
         }
     } catch (error) {
-        console.error('Error loading tasks from Firestore:', error);
+        console.error('Error loading tasks from Database:', error);
     }
     return [];
 }
@@ -3061,7 +3061,7 @@ async function submitSocialTask(taskId, type) {
 // Function to load social tasks into tabs
 async function loadSocialTasks(tabId, taskType, title) {
     const tabContent = document.getElementById(`radix-:r1:-content-${tabId}`);
-    const socialTasks = await loadTasksFromFirestore(taskType);
+    const socialTasks = await loadTasksFromDatabase(taskType);
     
     const userData = localStorage.getItem('telegramUser');
     const user = userData ? JSON.parse(userData) : null;
