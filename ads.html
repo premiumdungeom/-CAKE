@@ -2227,7 +2227,7 @@ video {
   <p class="text-sm text-muted-foreground">Click "Start Earning" to watch ads. After completing ads, click "Claim Reward" to receive your points.</p>
   
   <!-- TADS Container (required for TADS ads) -->
-  <div id="adsterra-container" style="min-height: 250px; display: none;">
+  <div id="adsterra-container" style="min-height: 250px; margin: 20px 0;">
     <script async="async" data-cfasync="false" src="//pl27907488.effectivegatecpm.com/e0311a4e7ee51e38fa756adad4421753/invoke.js"></script>
     <div id="container-e0311a4e7ee51e38fa756adad4421753"></div>
 </div>
@@ -2235,7 +2235,7 @@ video {
   <!-- Main Ad Button -->
   <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-4 py-2 w-full h-12 text-lg" onclick="showAd()" id="ad-button">
     Start Earning
-  </button>
+</button>
   
   <!-- Loading indicator -->
   <div id="loading-indicator" class="hidden text-center mt-4">
@@ -2356,7 +2356,7 @@ let adInProgress = false;
 let adWatchTimer = null;
 let currentAdType = null;
 let adsCompleted = 0;
-let totalAdsToComplete = 3; // Now 3 ads to complete
+let totalAdsToComplete = 2; // Now 3 ads to complete
 let AdController = null;
 let adsConfig = null;
 let adsTaskConfig = null;
@@ -2377,13 +2377,6 @@ const AD_NETWORKS = {
         appId: '4008',
         sdkLoaded: false,
         available: false
-    },
-    ADSTERRA: {  
-        name: 'adsterra',
-        scriptUrl: '//pl27907488.effectivegatecpm.com/e0311a4e7ee51e38fa756adad4421753/invoke.js',
-        containerId: 'container-e0311a4e7ee51e38fa756adad4421753',
-        sdkLoaded: false,
-        available: false
     }
 };
 
@@ -2397,18 +2390,13 @@ function isTelegramAdsAvailable() {
     return window.TelegramAdsController && typeof window.TelegramAdsController.show === 'function';
 }
 
-// Check if AdsGram is available
-function isAdsterraAvailable() {
-    return typeof window.effectiveGateCpm !== 'undefined';
-}
 
 async function waitForAllSDKs() {
     console.log('🔄 Waiting for all ad SDKs to load...');
     
     const results = await Promise.allSettled([
         waitForMonetag(),
-        waitForTelegramAds(),
-        waitForAdsterra()  // Changed from waitForAdsGram()
+        waitForTelegramAds()
     ]);
     
     const availableNetworks = Object.values(AD_NETWORKS).filter(network => network.available);
@@ -2482,43 +2470,6 @@ function waitForTelegramAds() {
                 resolve(false);
             }
         }, 500);
-    });
-}
-
-// Wait for AdsGram SDK
-function waitForAdsterra() {
-    return new Promise((resolve) => {
-        // Adsterra script loads asynchronously, we'll consider it available once loaded
-        console.log('⏳ Adsterra script loading...');
-        
-        // Check if script is already loaded
-        const scriptLoaded = document.querySelector('script[src*="effectivegatecpm.com"]') !== null;
-        
-        if (scriptLoaded) {
-            console.log('✅ Adsterra script loaded');
-            AD_NETWORKS.ADSTERRA.sdkLoaded = true;
-            resolve(true);
-            return;
-        }
-
-        let attempts = 0;
-        const maxAttempts = 15; // Give more time for script to load
-        
-        const checkInterval = setInterval(() => {
-            attempts++;
-            const scriptLoaded = document.querySelector('script[src*="effectivegatecpm.com"]') !== null;
-            
-            if (scriptLoaded) {
-                clearInterval(checkInterval);
-                console.log('✅ Adsterra script loaded successfully');
-                AD_NETWORKS.ADSTERRA.sdkLoaded = true;
-                resolve(true);
-            } else if (attempts >= maxAttempts) {
-                clearInterval(checkInterval);
-                console.log('❌ Adsterra script loading timeout');
-                resolve(false);
-            }
-        }, 1000);
     });
 }
 
@@ -2752,18 +2703,6 @@ if (totalEarningsElement) {
     }
 }
 
-// Existing Ad Functions (updated)
-function initAdsterra() {
-    const container = document.getElementById('adsterra-container');
-    if (container) {
-        container.style.display = 'block';
-        AD_NETWORKS.ADSTERRA.available = true;
-        console.log('✅ Adsterra container activated');
-        return true;
-    }
-    return false;
-}
-
 async function showAd() {
     // Check if user can watch more ads
     const canWatch = await canWatchMoreAds();
@@ -2787,11 +2726,6 @@ async function showAd() {
     if (!adsConfig) {
         console.log('🔄 Loading Firebase config...');
         await loadAdsConfig();
-    }
-    
-    // Initialize AdsGram if we have config and SDK
-    if (!AD_NETWORKS.ADSTERRA.available && AD_NETWORKS.ADSTERRA.sdkLoaded) {
-        initAdsterra();
     }
 
     console.log('🚀 Starting ad sequence with 3 networks...');
@@ -2871,51 +2805,6 @@ async function showTelegramAd() {
         if (adInProgress && currentAdType === 'telegram') {
             console.log('⏰ Telegram ad timeout');
             completeAd('telegram');
-        }
-    }, 30000);
-}
-
-// Show AdsGram Ad
-async function showAdsterraAd() {
-    if (!AD_NETWORKS.ADSTERRA.available) {
-        console.log('❌ Adsterra not available, skipping');
-        completeAd('adsterra');
-        return;
-    }
-
-    currentAdType = 'adsterra';
-    adInProgress = true;
-    updateAdUI();
-
-    console.log('🎬 Starting Adsterra ad...');
-    
-    try {
-        // Show the Adsterra container
-        const container = document.getElementById('adsterra-container');
-        if (container) {
-            container.style.display = 'block';
-            container.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Adsterra ads typically load automatically when container is visible
-        console.log('✅ Adsterra ad displayed');
-        
-        // For Adsterra, we'll consider it completed after a short delay
-        // since we can't easily detect when the ad finishes
-        setTimeout(() => {
-            completeAd('adsterra');
-        }, 15000); // 15 seconds for Adsterra ad
-        
-    } catch (error) {
-        console.error('❌ Adsterra ad error:', error);
-        completeAd('adsterra');
-    }
-
-    // Fallback timeout
-    adWatchTimer = setTimeout(() => {
-        if (adInProgress && currentAdType === 'adsterra') {
-            console.log('⏰ Adsterra ad timeout');
-            completeAd('adsterra');
         }
     }, 30000);
 }
@@ -3264,11 +3153,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Wait for all SDKs to load
     await waitForAllSDKs();
-    
-    // Initialize TADS if SDK is loaded
-    if (!AD_NETWORKS.ADSTERRA.available && AD_NETWORKS.ADSTERRA.sdkLoaded) {
-        initAdsterra();
-    }
     
     // Initialize ads task tracking
     await updateAdsTaskDisplay();
