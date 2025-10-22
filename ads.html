@@ -2175,7 +2175,7 @@ video {
             });
           </script>
   <!-- AdsGram SDK -->
-  <script src="https://w.tads.me/widget.js"></script>
+  <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9759908298003084"
      crossorigin="anonymous"></script>
  </head> 
@@ -2357,7 +2357,7 @@ let adInProgress = false;
 let adWatchTimer = null;
 let currentAdType = null;
 let adsCompleted = 0;
-let totalAdsToComplete = 2; // Now 3 ads to complete
+let totalAdsToComplete = 3; // Now 3 ads to complete
 let AdController = null;
 let adsConfig = null;
 let adsTaskConfig = null;
@@ -2378,6 +2378,13 @@ const AD_NETWORKS = {
         appId: '4008',
         sdkLoaded: false,
         available: false
+    },
+    TMA: {
+        name: 'tma',
+        spotId: '6095497', // Your Spot ID
+        controller: null,
+        sdkLoaded: false,
+        available: false
     }
 };
 
@@ -2391,19 +2398,61 @@ function isTelegramAdsAvailable() {
     return window.TelegramAdsController && typeof window.TelegramAdsController.show === 'function';
 }
 
+// Check if TMA is available
+function isTmaAvailable() {
+    return typeof window.show === 'function';
+}
 
 async function waitForAllSDKs() {
     console.log('🔄 Waiting for all ad SDKs to load...');
     
     const results = await Promise.allSettled([
         waitForMonetag(),
-        waitForTelegramAds()
+        waitForTelegramAds(),
+        initTma()  // Add TMA initialization
     ]);
     
     const availableNetworks = Object.values(AD_NETWORKS).filter(network => network.available);
     console.log(`✅ ${availableNetworks.length} ad networks available:`, availableNetworks.map(n => n.name));
     
     return availableNetworks.length > 0;
+}
+
+function initTma() {
+    return new Promise((resolve) => {
+        if (isTmaAvailable()) {
+            console.log('✅ TMA SDK already loaded');
+            AD_NETWORKS.TMA.sdkLoaded = true;
+            AD_NETWORKS.TMA.available = true;
+            resolve(true);
+            return;
+        }
+
+        console.log('⏳ Initializing TMA...');
+        
+        // Initialize TMA with your Spot ID
+        window.initCdTma?.({ id: AD_NETWORKS.TMA.spotId })
+            .then(show => {
+                window.show = show;
+                AD_NETWORKS.TMA.controller = show;
+                AD_NETWORKS.TMA.sdkLoaded = true;
+                AD_NETWORKS.TMA.available = true;
+                console.log('✅ TMA initialized successfully');
+                resolve(true);
+            })
+            .catch(e => {
+                console.error('❌ TMA initialization failed:', e);
+                resolve(false);
+            });
+
+        // Fallback timeout
+        setTimeout(() => {
+            if (!AD_NETWORKS.TMA.available) {
+                console.log('❌ TMA initialization timeout');
+                resolve(false);
+            }
+        }, 10000);
+    });
 }
 
 // Wait for Monetag SDK
@@ -2778,6 +2827,37 @@ async function showMonetagAd() {
     }, 30000);
 }
 
+async function showTmaAd() {
+    if (!AD_NETWORKS.TMA.available) {
+        console.log('❌ TMA not available, skipping');
+        completeAd('tma');
+        return;
+    }
+
+    currentAdType = 'tma';
+    adInProgress = true;
+    updateAdUI();
+
+    console.log('🎬 Starting TMA ad...');
+    
+    try {
+        await AD_NETWORKS.TMA.controller();
+        console.log('✅ TMA ad completed successfully');
+        completeAd('tma');
+    } catch (error) {
+        console.error('❌ TMA ad error:', error);
+        completeAd('tma');
+    }
+
+    // Fallback timeout
+    adWatchTimer = setTimeout(() => {
+        if (adInProgress && currentAdType === 'tma') {
+            console.log('⏰ TMA ad timeout');
+            completeAd('tma');
+        }
+    }, 30000);
+}
+
 // Show Telegram Ad
 async function showTelegramAd() {
     if (!AD_NETWORKS.TELEGRAM.available) {
@@ -2957,7 +3037,6 @@ async function recordAdCompletion(pointsEarned) {
     }
 }
 
-// Show specific ad by type
 function showAdByType(adType) {
     switch (adType) {
         case 'monetag':
@@ -2966,8 +3045,8 @@ function showAdByType(adType) {
         case 'telegram':
             showTelegramAd();
             break;
-        case 'adsterra':  // Changed from 'adsgram'
-            showAdsterraAd();
+        case 'tma':  // Add TMA
+            showTmaAd();
             break;
         default:
             console.log('❌ Unknown ad type:', adType);
@@ -3180,17 +3259,17 @@ window.debugAds = function() {
         controller: !!AD_NETWORKS.TELEGRAM.controller,
         functionExists: isTelegramAdsAvailable()
     });
-    console.log('TADS:', {
-        available: AD_NETWORKS.TADS.available,
-        controller: !!AD_NETWORKS.TADS.controller,
-        widgetId: AD_NETWORKS.TADS.widgetId,
-        sdkLoaded: AD_NETWORKS.TADS.sdkLoaded
+    console.log('TMA:', {
+        available: AD_NETWORKS.TMA.available,
+        controller: !!AD_NETWORKS.TMA.controller,
+        spotId: AD_NETWORKS.TMA.spotId,
+        sdkLoaded: AD_NETWORKS.TMA.sdkLoaded
     });
     console.log('Current State:', {
         adInProgress,
         adsCompleted,
         currentAdType,
-        totalAdsToComplete
+        totalAdsToComplete: 3
     });
 };
 </script>
