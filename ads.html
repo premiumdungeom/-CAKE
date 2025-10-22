@@ -2227,15 +2227,16 @@ video {
   <p class="text-sm text-muted-foreground">Click "Start Earning" to watch ads. After completing ads, click "Claim Reward" to receive your points.</p>
   
   <!-- TADS Container (required for TADS ads) -->
-  <div id="adsterra-container" style="min-height: 250px; margin: 20px 0;">
+  <!-- Main Ad Button -->
+<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-4 py-2 w-full h-12 text-lg" onclick="showAd()" id="ad-button">
+    Start Earning
+</button>
+
+<!-- Adsterra container below the button -->
+<div id="adsterra-container" style="min-height: 250px; margin: 20px 0;">
     <script async="async" data-cfasync="false" src="//pl27907488.effectivegatecpm.com/e0311a4e7ee51e38fa756adad4421753/invoke.js"></script>
     <div id="container-e0311a4e7ee51e38fa756adad4421753"></div>
 </div>
-  
-  <!-- Main Ad Button -->
-  <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-4 py-2 w-full h-12 text-lg" onclick="showAd()" id="ad-button">
-    Start Earning
-</button>
   
   <!-- Loading indicator -->
   <div id="loading-indicator" class="hidden text-center mt-4">
