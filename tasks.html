@@ -2422,9 +2422,9 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadTasks() {
     try {
         // Load channel tasks
-        const channelTasks = await loadTasksFromDatabase('channel');
+        const channelTasks = await loadTasksFromFirestore('channel');
         // Load group tasks
-        const groupTasks = await loadTasksFromDatabase('group');
+        const groupTasks = await loadTasksFromFirestore('group');
         
         const userData = localStorage.getItem('telegramUser');
         const user = userData ? JSON.parse(userData) : null;
@@ -2458,7 +2458,7 @@ async function loadTasks() {
                                         <p class="font-bold">${task.title}</p>
                                         <p class="text-sm text-muted-foreground">${task.description}</p>
                                         ${task.verification === 'on' ? '<p class="text-xs text-blue-400">✓ Verification Required</p>' : ''}
-                                        <p class="text-xs text-gray-500">Completions: ${task.completions || 0}/${task.taskLimit || 'Unlimited'}</p>
+                                        <p class="text-xs text-gray-500">Completions: ${task.completions || 0}/${task.task_limit || task.taskLimit || 'Unlimited'}</p>
                                     </div>
                                     <div class="text-right ml-4">
                                         <p class="text-green-500 font-bold text-lg">+${task.amount}</p>
@@ -2545,7 +2545,7 @@ async function loadTasks() {
                                         <p class="font-bold">${task.title}</p>
                                         <p class="text-sm text-muted-foreground">${task.description}</p>
                                         ${task.verification === 'on' ? '<p class="text-xs text-blue-400">✓ Verification Required</p>' : ''}
-                                        <p class="text-xs text-gray-500">Completions: ${task.completions || 0}/${task.taskLimit || 'Unlimited'}</p>
+                                        <p class="text-xs text-gray-500">Completions: ${task.completions || 0}/${task.task_limit || task.taskLimit || 'Unlimited'}</p>
                                     </div>
                                     <div class="text-right ml-4">
                                         <p class="text-green-500 font-bold text-lg">+${task.amount}</p>
@@ -2612,7 +2612,7 @@ async function loadTasks() {
 }
 
 // Load tasks from Firestore
-async function loadTasksFromDatabase(type = null) {
+async function loadTasksFromFirestore(type = null) {
     try {
         const url = type ? `/api/tasks/get?type=${type}` : '/api/tasks/get';
         const response = await fetch(url);
@@ -2622,7 +2622,7 @@ async function loadTasksFromDatabase(type = null) {
             return data.success ? data.tasks : [];
         }
     } catch (error) {
-        console.error('Error loading tasks from Database:', error);
+        console.error('Error loading tasks from Firestore:', error);
     }
     return [];
 }
@@ -2704,8 +2704,11 @@ async function claimTask(taskId) {
         
         const task = data.task;
         
-        // Check if task has reached its completion limit
-        if (task.taskLimit > 0 && task.completions >= task.taskLimit) {
+        // ✅ FIX: Check task limit properly
+        const taskLimit = task.task_limit || task.taskLimit || 0;
+        const completions = task.completions || 0;
+        
+        if (taskLimit > 0 && completions >= taskLimit) {
             alert('This task has reached its completion limit!');
             return;
         }
@@ -2713,25 +2716,35 @@ async function claimTask(taskId) {
         // Check if verification is required
         if (task.verification === 'on') {
             try {
-                console.log(`🔍 Verifying membership for user ${user.id} in ${task.channelId}`);
+                // ✅ FIX: Use correct field name - channel_id from database
+                const channelIdToVerify = task.channel_id || task.channelId;
                 
-                const response = await fetch(`/api/tasks/verify-membership?userId=${user.id}&channelId=${encodeURIComponent(task.channelId)}`);
+                if (!channelIdToVerify) {
+                    alert('Error: This task requires verification but no channel/group ID is set.');
+                    return;
+                }
+                
+                console.log(`🔍 Verifying membership for user ${user.id} in ${channelIdToVerify}`);
+                
+                const response = await fetch(`/api/tasks/verify-membership?userId=${user.id}&channelId=${encodeURIComponent(channelIdToVerify)}`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const data = await response.json();
+                const verificationData = await response.json();
                 
-                console.log('Verification response:', data);
+                console.log('Verification response:', verificationData);
                 
-                if (data && data.success && data.isMember) {
+                if (verificationData && verificationData.success && verificationData.isMember) {
                     // User is a member, process the task completion
                     await processTaskCompletion(taskId, user.id, task.amount, task.type);
                 } else {
                     let errorMessage = 'You have not joined the channel/group yet. Please join and try again.';
-                    if (data && data.error) {
-                        errorMessage = `Verification failed: ${data.error}`;
+                    if (verificationData && verificationData.error) {
+                        errorMessage = `Verification failed: ${verificationData.error}`;
+                    } else if (verificationData && !verificationData.isMember) {
+                        errorMessage = `You are not a member of this ${task.type}. Please join and try again.`;
                     }
                     alert(errorMessage);
                 }
@@ -3061,7 +3074,7 @@ async function submitSocialTask(taskId, type) {
 // Function to load social tasks into tabs
 async function loadSocialTasks(tabId, taskType, title) {
     const tabContent = document.getElementById(`radix-:r1:-content-${tabId}`);
-    const socialTasks = await loadTasksFromDatabase(taskType);
+    const socialTasks = await loadTasksFromFirestore(taskType);
     
     const userData = localStorage.getItem('telegramUser');
     const user = userData ? JSON.parse(userData) : null;
