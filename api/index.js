@@ -518,6 +518,7 @@ bot.on('callback_query', async (callbackQuery) => {
         `• 📱 Complete tasks in Mini App\n` +
         `• 🎁 Redeem promo codes\n` +
         `• 👥 Invite friends\n` +
+        `• 🧩 Play Wordle (Daily)\n` +
         `• 📢 Join our channels\n\n` +
         `<b>Select an option below:</b>`,
         {
@@ -531,10 +532,98 @@ bot.on('callback_query', async (callbackQuery) => {
                 { text: '👥 INVITE FRIENDS', callback_data: 'invite_friends' }
               ],
               [
+                { text: '🧩 PLAY WORDLE', callback_data: 'play_wordle' }
+              ],
+              [
                 { text: '📱 OPEN MINI APP', web_app: { url: 'https://www.echoearn.work/' } }
               ],
               [
                 { text: '🔙 BACK', callback_data: 'back_to_main' }
+              ]
+            ]
+          }
+        }
+      );
+    }
+    else if (data === 'play_wordle') {
+      const user = await getUser(userId.toString());
+      const stats = user?.wordle_stats || {};
+  
+      if (stats.today_played) {
+        await bot.editMessageText(
+          `<b>🧩 WORDLE - Already Played</b>\n\n` +
+          `You've already played today's Wordle!\n\n` +
+          `<b>📊 Your Stats:</b>\n` +
+          `Games Played: ${stats.games_played || 0}\n` +
+          `Games Won: ${stats.games_won || 0}\n` +
+          `Win Rate: ${stats.games_played ? Math.round((stats.games_won / stats.games_played) * 100) : 0}%\n` +
+          `Current Streak: ${stats.current_streak || 0}\n` +
+          `Max Streak: ${stats.max_streak || 0}\n\n` +
+          `<i>Come back tomorrow for a new Wordle!</i>`,
+          {
+            chat_id: chatId,
+            message_id: callbackQuery.message.message_id,
+            parse_mode: 'HTML',
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  { text: '📊 MY STATS', callback_data: 'wordle_stats' },
+                  { text: '🔙 BACK', callback_data: 'earn_board' }
+                ]
+              ]
+            }
+          }
+        );
+      } else {
+        await bot.editMessageText(
+          `<b>🧩 DAILY WORDLE</b>\n\n` +
+          `<i>Play once daily to earn 50 points!</i>\n\n` +
+          `Click the button below to play today's Wordle in the mini app:`,
+          {
+            chat_id: chatId,
+            message_id: callbackQuery.message.message_id,
+            parse_mode: 'HTML',
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  { 
+                    text: '🎮 PLAY WORDLE', 
+                    web_app: { url: 'https://www.echoearn.work/wordle.html' } 
+                  }
+                ],
+                [
+                  { text: '📊 MY STATS', callback_data: 'wordle_stats' },
+                  { text: '🔙 BACK', callback_data: 'earn_board' }
+                ]
+              ]
+            }
+          }
+        );
+      }
+    }
+    else if (data === 'wordle_stats') {
+      const user = await getUser(userId.toString());
+      const stats = user?.wordle_stats || {};
+      const winRate = stats.games_played ? Math.round((stats.games_won / stats.games_played) * 100) : 0;
+      
+      await bot.editMessageText(
+        `<b>📊 WORDLE STATS</b>\n\n` +
+        `<b>Your Performance:</b>\n` +
+        `Games Played: ${stats.games_played || 0}\n` +
+        `Games Won: ${stats.games_won || 0}\n` +
+        `Win Rate: ${winRate}%\n` +
+        `Current Streak: ${stats.current_streak || 0}\n` +
+        `Max Streak: ${stats.max_streak || 0}\n\n` +
+        `<i>Play daily to improve your stats!</i>`,
+        {
+          chat_id: chatId,
+          message_id: callbackQuery.message.message_id,
+          parse_mode: 'HTML',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: '🎮 PLAY WORDLE', callback_data: 'play_wordle' },
+                { text: '🔙 BACK', callback_data: 'earn_board' }
               ]
             ]
           }
@@ -691,6 +780,57 @@ bot.on('message', async (msg) => {
             disable_web_page_preview: true
         });
         return;
+    }
+    
+    if (text.startsWith('/addwordle')) {
+      if (userId.toString() !== adminId) {
+        await bot.sendMessage(chatId, "❌ Admin only command");
+        return;
+      }
+      
+      const parts = text.split('|');
+      if (parts.length < 3) {
+        await bot.sendMessage(chatId, 
+          "Usage: /addwordle <word> | <story>\n\n" +
+          "Example:\n" +
+          "/addwordle tools | Adam was working in the farm, with some tools, he was asked to clear the environment with his cutlass, hoe, and shovel."
+        );
+        return;
+      }
+      
+      const word = parts[1].trim().toLowerCase();
+      const story = parts[2].trim();
+      const today = new Date().toISOString().split('T')[0];
+      
+      if (word.length !== 5 || !/^[a-z]+$/.test(word)) {
+        await bot.sendMessage(chatId, "❌ Word must be exactly 5 letters (a-z only)");
+        return;
+      }
+      
+      try {
+        const { error } = await supabase
+          .from('wordle_games')
+          .insert([{
+            word: word,
+            story: story,
+            date: today
+          }]);
+          
+          if (error) throw error;
+          
+          await bot.sendMessage(chatId, 
+            `✅ Wordle Added for Today!\n\n` +
+            `📖 Story: ${story}\n` +
+            `🔤 Word: ${word.toUpperCase()}\n` +
+            `📅 Date: ${today}\n\n` +
+            `Users can now play today's Wordle!`
+          );
+          
+      } catch (error) {
+        console.error('Error adding wordle:', error);
+        await bot.sendMessage(chatId, "❌ Failed to add wordle - maybe already added for today?");
+      }
+      return;
     }
     
     if (text.startsWith('/generatecode')) {
@@ -1980,6 +2120,238 @@ app.post('/api/redeem/code', async (req, res) => {
   }
 });
 // ==================== END REDEEM CODE API ====================
+
+// ==================== WORDLE GAME APIS ====================
+// Get today's wordle
+app.get('/api/wordle/today', async (req, res) => {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    
+    const { data: wordle, error } = await supabase
+      .from('wordle_games')
+      .select('*')
+      .eq('date', today)
+      .single();
+
+    if (error || !wordle) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'No wordle available for today' 
+      });
+    }
+
+    // Don't send the word to the client
+    const { word, ...wordleData } = wordle;
+    
+    res.json({
+      success: true,
+      wordle: wordleData
+    });
+  } catch (error) {
+    console.error('Error getting today\'s wordle:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Internal server error' 
+    });
+  }
+});
+
+// Submit wordle guess
+app.post('/api/wordle/guess', async (req, res) => {
+  try {
+    const { userId, guess } = req.body;
+    const today = new Date().toISOString().split('T')[0];
+
+    if (!userId || !guess) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Missing userId or guess' 
+      });
+    }
+
+    // Validate guess
+    if (guess.length !== 5 || !/^[a-z]+$/.test(guess)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Guess must be 5 letters' 
+      });
+    }
+
+    // Get today's wordle
+    const { data: wordle, error } = await supabase
+      .from('wordle_games')
+      .select('*')
+      .eq('date', today)
+      .single();
+
+    if (error || !wordle) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'No wordle available for today' 
+      });
+    }
+
+    // Get user stats
+    const user = await getUser(userId.toString());
+    const wordleStats = user?.wordle_stats || {
+      games_played: 0,
+      games_won: 0,
+      current_streak: 0,
+      max_streak: 0,
+      last_played: null,
+      today_played: false,
+      today_won: false
+    };
+
+    // Check if already played today
+    if (wordleStats.today_played) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'You already played today\'s wordle!' 
+      });
+    }
+
+    const targetWord = wordle.word.toLowerCase();
+    const userGuess = guess.toLowerCase();
+
+    // Calculate letter results
+    const results = calculateWordleResults(userGuess, targetWord);
+
+    // Check if won
+    const isCorrect = userGuess === targetWord;
+
+    // Update user stats
+    const newStats = { ...wordleStats };
+    newStats.games_played += 1;
+    newStats.today_played = true;
+    newStats.last_played = today;
+
+    if (isCorrect) {
+      newStats.games_won += 1;
+      newStats.today_won = true;
+      newStats.current_streak += 1;
+      newStats.max_streak = Math.max(newStats.max_streak, newStats.current_streak);
+    } else {
+      newStats.current_streak = 0;
+    }
+
+    // Add to history
+    const historyEntry = {
+      date: today,
+      word: targetWord,
+      guessed: userGuess,
+      won: isCorrect,
+      attempts: 1 // For future multi-attempt implementation
+    };
+
+    const wordleHistory = user?.wordle_history || [];
+    const updatedHistory = [...wordleHistory, historyEntry];
+
+    await saveUser(userId.toString(), {
+      wordle_stats: newStats,
+      wordle_history: updatedHistory
+    });
+
+    // Award points if won
+    let pointsAwarded = 0;
+    if (isCorrect) {
+      pointsAwarded = 1; // Base points for winning
+      await updateUserBalance(userId, pointsAwarded, {
+        type: 'wordle_win',
+        amount: pointsAwarded,
+        description: `Wordle game win - ${targetWord.toUpperCase()}`,
+        game: 'wordle',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.json({
+      success: true,
+      results: results,
+      isCorrect: isCorrect,
+      pointsAwarded: pointsAwarded,
+      targetWord: isCorrect ? targetWord.toUpperCase() : undefined,
+      stats: newStats
+    });
+
+  } catch (error) {
+    console.error('Error processing wordle guess:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Internal server error' 
+    });
+  }
+});
+
+// Get user wordle stats
+app.get('/api/wordle/stats', async (req, res) => {
+  try {
+    const { userId } = req.query;
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Missing userId' 
+      });
+    }
+
+    const user = await getUser(userId.toString());
+    const stats = user?.wordle_stats || {
+      games_played: 0,
+      games_won: 0,
+      current_streak: 0,
+      max_streak: 0,
+      today_played: false
+    };
+
+    res.json({
+      success: true,
+      stats: stats
+    });
+  } catch (error) {
+    console.error('Error getting wordle stats:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Internal server error' 
+    });
+  }
+});
+
+// Helper function to calculate wordle results
+function calculateWordleResults(guess, target) {
+  const results = [];
+  const targetLetters = target.split('');
+  const guessLetters = guess.split('');
+  
+  // First pass: find correct positions (green)
+  const remainingTarget = [...targetLetters];
+  const remainingGuess = [...guessLetters];
+  
+  // Check for correct positions
+  for (let i = 0; i < 5; i++) {
+    if (guessLetters[i] === targetLetters[i]) {
+      results[i] = 'correct';
+      remainingTarget[i] = null;
+      remainingGuess[i] = null;
+    }
+  }
+  
+  // Second pass: find correct letters wrong position (yellow)
+  for (let i = 0; i < 5; i++) {
+    if (results[i]) continue; // Already marked as correct
+    
+    const letterIndex = remainingTarget.indexOf(guessLetters[i]);
+    if (letterIndex !== -1) {
+      results[i] = 'present';
+      remainingTarget[letterIndex] = null;
+    } else {
+      results[i] = 'absent';
+    }
+  }
+  
+  return results;
+}
+// ==================== END WORDLE APIS ====================
 
 // API endpoint to create withdrawal request
 app.post('/api/withdrawals/create', async (req, res) => {
