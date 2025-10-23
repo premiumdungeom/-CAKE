@@ -455,8 +455,6 @@ app.get('/', (req, res) => {
 });
 
 // ==================== CALLBACK QUERY HANDLER ====================
-// ==================== CALLBACK QUERY HANDLER ====================
-// ==================== CALLBACK QUERY HANDLER ====================
 bot.on('callback_query', async (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
   const userId = callbackQuery.from.id;
@@ -578,14 +576,14 @@ bot.on('callback_query', async (callbackQuery) => {
       const referralBonus = 20;
       
       await bot.editMessageText(
-        `<blockquote><b><code>👥 INVITE FRIENDS</b>\n\n` +
+        `<b>👥 INVITE FRIENDS</b>\n\n` +
         `Invite your friends and earn ${referralBonus} points for each friend who joins!\n\n` +
         `<b>📊 Your Stats:</b>\n` +
         `• Friends Invited: ${referralCount}\n` +
         `• Total Earned: ${referralCount * referralBonus} points\n\n` +
         `<b>Your referral link:</b>\n` +
         `https://t.me/PanCakey_robot?start=ref${userId}\n\n` +
-        `<b>Share this link with your friends!</code></b></blockquote>`,
+        `<b>Share this link with your friends!</b>`,
         {
           chat_id: chatId,
           message_id: callbackQuery.message.message_id,
@@ -611,7 +609,6 @@ bot.on('callback_query', async (callbackQuery) => {
     console.error('Error handling callback query:', error);
   }
 });
-// ==================== END CALLBACK QUERY HANDLER ====================
 
 // Handle bot commands and messages
 bot.on('message', async (msg) => {
