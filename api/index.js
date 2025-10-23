@@ -788,8 +788,14 @@ bot.on('message', async (msg) => {
         return;
       }
       
-      const parts = text.split('|');
-      if (parts.length < 3) {
+      console.log('🔤 /addwordle command received:', text);
+      
+      const content = text.substring('/addwordle '.length).trim();
+      const parts = content.split('|');
+  
+      console.log('📝 Parsed parts:', parts);
+  
+      if (parts.length < 2) {
         await bot.sendMessage(chatId, 
           "Usage: /addwordle <word> | <story>\n\n" +
           "Example:\n" +
@@ -798,9 +804,11 @@ bot.on('message', async (msg) => {
         return;
       }
       
-      const word = parts[1].trim().toLowerCase();
-      const story = parts[2].trim();
+      const word = parts[0].trim().toLowerCase();
+      const story = parts[1].trim();
       const today = new Date().toISOString().split('T')[0];
+      
+      console.log('📋 Wordle details:', { word, story, today });
       
       if (word.length !== 5 || !/^[a-z]+$/.test(word)) {
         await bot.sendMessage(chatId, "❌ Word must be exactly 5 letters (a-z only)");
@@ -816,19 +824,28 @@ bot.on('message', async (msg) => {
             date: today
           }]);
           
-          if (error) throw error;
+        if (error) {
+          console.error('❌ Supabase error:', error);
+          throw error;
+        }
           
-          await bot.sendMessage(chatId, 
-            `✅ Wordle Added for Today!\n\n` +
-            `📖 Story: ${story}\n` +
-            `🔤 Word: ${word.toUpperCase()}\n` +
-            `📅 Date: ${today}\n\n` +
-            `Users can now play today's Wordle!`
+        await bot.sendMessage(chatId, 
+          `✅ Wordle Added for Today!\n\n` +
+          `📖 Story: ${story}\n` +
+          `🔤 Word: ${word.toUpperCase()}\n` +
+          `📅 Date: ${today}\n\n` +
+          `Users can now play today's Wordle!`
           );
           
+        console.log('✅ Wordle added successfully');
+          
       } catch (error) {
-        console.error('Error adding wordle:', error);
-        await bot.sendMessage(chatId, "❌ Failed to add wordle - maybe already added for today?");
+        console.error('❌ Error adding wordle:', error);
+        if (error.code === '23505') { // Unique violation
+          await bot.sendMessage(chatId, "❌ Wordle already added for today!");
+        } else {
+          await bot.sendMessage(chatId, "❌ Failed to add wordle: " + error.message);
+        }
       }
       return;
     }
