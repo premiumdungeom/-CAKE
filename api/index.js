@@ -576,6 +576,7 @@ bot.on('callback_query', async (callbackQuery) => {
     else if (data === 'invite_friends') {
       const user = await getUser(userId.toString());
       const referralCount = user?.referral_count || 0;
+      const pointsConfig = config ? config.config : {};
       const referralBonus = parseInt(pointsConfig.friendInvitePoints) || 20;
       
       await bot.editMessageText(
