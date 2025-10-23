@@ -949,9 +949,9 @@ bot.on('message', async (msg) => {
       
       console.log(`✅ User ${userId} is verified, proceeding with normal start`);
             
-      let welcomeMessage = `👋 Welcome to 🍰 CAKE!\n\n`;
-      welcomeMessage += `🎯 <b>Earn points by completing simple tasks</b>\n`;
-      welcomeMessage += `💰 <b>Withdraw your earnings easily</b>\n\n`;
+      let welcomeMessage = `👋 *Welcome to 🍰 CAKE!*\n\n`;
+      welcomeMessage += `🎯 *Earn points by completing simple tasks*\n`;
+      welcomeMessage += `💰 *Withdraw your earnings easily*\n\n`;
       
       if (startParam && (!user || !user.referred_by)) {
         console.log(`🎯 Processing referral for verified user: ${startParam} -> ${userId}`);
