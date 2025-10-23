@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>🍰 CAKE Wordle</title>
+    <title>🍰 CAKE RIDDLE</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -219,18 +219,18 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧩 DAILY WORDLE</h1>
+            <h1>🧩 DAILY RIDDLE</h1>
             <p>Guess the 5-letter word from the story!</p>
         </div>
         
         <div class="instructions">
             <strong>🎯 HOW TO PLAY:</strong><br>
-            Read the story below and guess the missing 5-letter word.<br>
+            Understand the riddle below and guess the 5-letter word.<br>
             You have <strong>6 attempts</strong> to find the correct word!
         </div>
         
         <div class="story-box">
-            <p id="story-text">Loading today's story...</p>
+            <p id="story-text">Loading today's riddle...</p>
         </div>
         
         <div class="attempts-counter">
@@ -283,13 +283,13 @@
                     createKeyboard();
                     loadUserProgress();
                 } else {
-                    document.getElementById('story-text').textContent = 'No Wordle available today. Check back tomorrow!';
+                    document.getElementById('story-text').textContent = 'No Riddle available today. Check back tomorrow!';
                     document.querySelector('.instructions').style.display = 'none';
                 }
             } catch (error) {
                 hideLoading();
                 console.error('Error loading wordle:', error);
-                document.getElementById('story-text').textContent = 'Error loading Wordle. Please check your connection.';
+                document.getElementById('story-text').textContent = 'Error loading Riddle. Please check your connection.';
             }
         }
         
@@ -507,7 +507,7 @@
                 <h2>😔 Game Over</h2>
                 <p>The word was: <strong>"${word}"</strong></p>
                 <p>You used ${attempts}/6 attempts.</p>
-                <p>Come back tomorrow for a new Wordle challenge! 🔥</p>
+                <p>Come back tomorrow for a new Riddle challenge! 🔥</p>
             `;
             resultDiv.className = 'result failure';
             resultDiv.style.display = 'block';
@@ -520,7 +520,7 @@
             if (won) {
                 resultDiv.innerHTML = `
                     <h2>✅ Already Completed!</h2>
-                    <p>You already solved today's Wordle in ${attempts} attempts!</p>
+                    <p>You already solved today's Riddle in ${attempts} attempts!</p>
                     <p>Come back tomorrow for a new challenge! 🎯</p>
                 `;
                 resultDiv.className = 'result success';
