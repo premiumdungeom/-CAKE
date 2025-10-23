@@ -577,7 +577,7 @@ bot.on('callback_query', async (callbackQuery) => {
       } else {
         await bot.editMessageText(
           `<b>🧩 DAILY WORDLE</b>\n\n` +
-          `<i>Play once daily to earn 50 points!</i>\n\n` +
+          `<i>Play once daily to earn 1 points!</i>\n\n` +
           `Click the button below to play today's Wordle in the mini app:`,
           {
             chat_id: chatId,
@@ -662,7 +662,7 @@ bot.on('callback_query', async (callbackQuery) => {
     else if (data === 'invite_friends') {
       const user = await getUser(userId.toString());
       const referralCount = user?.referral_count || 0;
-      const referralBonus = 20;
+      const referralBonus = 10;
       
       await bot.editMessageText(
         `<b>👥 INVITE FRIENDS</b>\n\n` +
@@ -2258,7 +2258,7 @@ app.post('/api/wordle/guess', async (req, res) => {
       word: targetWord,
       guessed: userGuess,
       won: isCorrect,
-      attempts: 1 // For future multi-attempt implementation
+      attempts: 6 // For future multi-attempt implementation
     };
 
     const wordleHistory = user?.wordle_history || [];
