@@ -518,7 +518,7 @@ bot.on('callback_query', async (callbackQuery) => {
         `• 📱 Complete tasks in Mini App\n` +
         `• 🎁 Redeem promo codes\n` +
         `• 👥 Invite friends\n` +
-        `• 🧩 Play Wordle (Daily)\n` +
+        `• 🧩 Play Riddle (Daily)\n` +
         `• 📢 Join our channels\n\n` +
         `<b>Select an option below:</b>`,
         {
@@ -532,7 +532,7 @@ bot.on('callback_query', async (callbackQuery) => {
                 { text: '👥 INVITE FRIENDS', callback_data: 'invite_friends' }
               ],
               [
-                { text: '🧩 PLAY WORDLE', callback_data: 'play_wordle' }
+                { text: '🧩 PLAY RIDDLE', callback_data: 'play_wordle' }
               ],
               [
                 { text: '📱 OPEN MINI APP', web_app: { url: 'https://www.echoearn.work/' } }
@@ -551,15 +551,15 @@ bot.on('callback_query', async (callbackQuery) => {
   
       if (stats.today_played) {
         await bot.editMessageText(
-          `<b>🧩 WORDLE - Already Played</b>\n\n` +
-          `You've already played today's Wordle!\n\n` +
+          `<b>🧩 RIDDLE - Already Played</b>\n\n` +
+          `You've already played today's Riddle!\n\n` +
           `<b>📊 Your Stats:</b>\n` +
           `Games Played: ${stats.games_played || 0}\n` +
           `Games Won: ${stats.games_won || 0}\n` +
           `Win Rate: ${stats.games_played ? Math.round((stats.games_won / stats.games_played) * 100) : 0}%\n` +
           `Current Streak: ${stats.current_streak || 0}\n` +
           `Max Streak: ${stats.max_streak || 0}\n\n` +
-          `<i>Come back tomorrow for a new Wordle!</i>`,
+          `<i>Come back tomorrow for a new Riddle!</i>`,
           {
             chat_id: chatId,
             message_id: callbackQuery.message.message_id,
@@ -576,9 +576,9 @@ bot.on('callback_query', async (callbackQuery) => {
         );
       } else {
         await bot.editMessageText(
-          `<b>🧩 DAILY WORDLE</b>\n\n` +
+          `<b>🧩 DAILY RIDDLE</b>\n\n` +
           `<i>Play once daily to earn 1 points!</i>\n\n` +
-          `Click the button below to play today's Wordle in the mini app:`,
+          `Click the button below to play today's Riddle in the mini app:`,
           {
             chat_id: chatId,
             message_id: callbackQuery.message.message_id,
@@ -587,7 +587,7 @@ bot.on('callback_query', async (callbackQuery) => {
               inline_keyboard: [
                 [
                   { 
-                    text: '🎮 PLAY WORDLE', 
+                    text: '🎮 PLAY RIDDLE', 
                     web_app: { url: 'https://www.echoearn.work/wordle.html' } 
                   }
                 ],
@@ -607,7 +607,7 @@ bot.on('callback_query', async (callbackQuery) => {
       const winRate = stats.games_played ? Math.round((stats.games_won / stats.games_played) * 100) : 0;
       
       await bot.editMessageText(
-        `<b>📊 WORDLE STATS</b>\n\n` +
+        `<b>📊 RIDDLE STATS</b>\n\n` +
         `<b>Your Performance:</b>\n` +
         `Games Played: ${stats.games_played || 0}\n` +
         `Games Won: ${stats.games_won || 0}\n` +
@@ -622,7 +622,7 @@ bot.on('callback_query', async (callbackQuery) => {
           reply_markup: {
             inline_keyboard: [
               [
-                { text: '🎮 PLAY WORDLE', callback_data: 'play_wordle' },
+                { text: '🎮 PLAY RIDDLE', callback_data: 'play_wordle' },
                 { text: '🔙 BACK', callback_data: 'earn_board' }
               ]
             ]
@@ -797,9 +797,9 @@ bot.on('message', async (msg) => {
   
       if (parts.length < 2) {
         await bot.sendMessage(chatId, 
-          "Usage: /addwordle <word> | <story>\n\n" +
+          "Usage: /addwordle <word> | <riddle>\n\n" +
           "Example:\n" +
-          "/addwordle tools | Adam was working in the farm, with some tools, he was asked to clear the environment with his cutlass, hoe, and shovel."
+          "/addwordle tools | What has five legs."
         );
         return;
       }
@@ -808,7 +808,7 @@ bot.on('message', async (msg) => {
       const story = parts[1].trim();
       const today = new Date().toISOString().split('T')[0];
       
-      console.log('📋 Wordle details:', { word, story, today });
+      console.log('📋 Riddle details:', { word, story, today });
       
       if (word.length !== 5 || !/^[a-z]+$/.test(word)) {
         await bot.sendMessage(chatId, "❌ Word must be exactly 5 letters (a-z only)");
@@ -830,21 +830,21 @@ bot.on('message', async (msg) => {
         }
           
         await bot.sendMessage(chatId, 
-          `✅ Wordle Added for Today!\n\n` +
+          `✅ Riddle Added for Today!\n\n` +
           `📖 Story: ${story}\n` +
           `🔤 Word: ${word.toUpperCase()}\n` +
           `📅 Date: ${today}\n\n` +
-          `Users can now play today's Wordle!`
+          `Users can now play today's Riddle!`
           );
           
-        console.log('✅ Wordle added successfully');
+        console.log('✅ Riddle added successfully');
           
       } catch (error) {
         console.error('❌ Error adding wordle:', error);
         if (error.code === '23505') { // Unique violation
-          await bot.sendMessage(chatId, "❌ Wordle already added for today!");
+          await bot.sendMessage(chatId, "❌ Riddle already added for today!");
         } else {
-          await bot.sendMessage(chatId, "❌ Failed to add wordle: " + error.message);
+          await bot.sendMessage(chatId, "❌ Failed to add riddle: " + error.message);
         }
       }
       return;
@@ -2153,7 +2153,7 @@ app.get('/api/wordle/today', async (req, res) => {
     if (error || !wordle) {
       return res.status(404).json({ 
         success: false, 
-        message: 'No wordle available for today' 
+        message: 'No riddle available for today' 
       });
     }
 
@@ -2165,7 +2165,7 @@ app.get('/api/wordle/today', async (req, res) => {
       wordle: wordleData
     });
   } catch (error) {
-    console.error('Error getting today\'s wordle:', error);
+    console.error('Error getting today\'s riddle:', error);
     res.status(500).json({ 
       success: false, 
       message: 'Internal server error' 
@@ -2205,7 +2205,7 @@ app.post('/api/wordle/guess', async (req, res) => {
     if (error || !wordle) {
       return res.status(404).json({ 
         success: false, 
-        message: 'No wordle available for today' 
+        message: 'No riddle available for today' 
       });
     }
 
@@ -2226,7 +2226,7 @@ app.post('/api/wordle/guess', async (req, res) => {
     if (wordleStats.today_played && wordleStats.today_won) {
       return res.status(400).json({ 
         success: false, 
-        message: 'You already completed today\'s wordle!' 
+        message: 'You already completed today\'s riddle!' 
       });
     }
 
@@ -2299,7 +2299,7 @@ app.post('/api/wordle/guess', async (req, res) => {
       await updateUserBalance(userId, pointsAwarded, {
         type: 'wordle_win',
         amount: pointsAwarded,
-        description: `Wordle game win - ${targetWord.toUpperCase()} (${attemptsUsed}/6 attempts)`,
+        description: `riddle game win - ${targetWord.toUpperCase()} (${attemptsUsed}/6 attempts)`,
         game: 'wordle',
         timestamp: new Date().toISOString()
       });
