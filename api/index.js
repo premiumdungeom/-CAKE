@@ -456,6 +456,7 @@ app.get('/', (req, res) => {
 
 // ==================== CALLBACK QUERY HANDLER ====================
 // ==================== CALLBACK QUERY HANDLER ====================
+// ==================== CALLBACK QUERY HANDLER ====================
 bot.on('callback_query', async (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
   const userId = callbackQuery.from.id;
@@ -463,19 +464,18 @@ bot.on('callback_query', async (callbackQuery) => {
 
   try {
     if (data === 'redeem_code') {
-      // Send redeem code input message
       await bot.editMessageText(
-        `*ENTER YOUR REDEEM CODE:*\n\n` +
+        `<b>ENTER YOUR REDEEM CODE:</b>\n\n` +
         `To earn free points, enter the redeem code below.\n\n` +
-        `💡 *How to get codes?*\n` +
+        `💡 <b>How to get codes?</b>\n` +
         `• Follow our social media\n` +
         `• Join giveaways\n` +
         `• Special events\n\n` +
-        `*ENTER THE REDEEM CODE BELOW:*`,
+        `<b>ENTER THE REDEEM CODE BELOW:</b>`,
         {
           chat_id: chatId,
           message_id: callbackQuery.message.message_id,
-          parse_mode: 'Markdown',
+          parse_mode: 'HTML',
           reply_markup: {
             inline_keyboard: [
               [{ text: '❌ CANCEL', callback_data: 'cancel_redeem' }]
@@ -485,16 +485,15 @@ bot.on('callback_query', async (callbackQuery) => {
       );
     }
     else if (data === 'cancel_redeem') {
-      // Go back to main menu
       await bot.editMessageText(
-        `👋 Welcome to 🍰 CAKE!\n\n` +
-        `🎯 *Earn points by completing simple tasks*\n` +
-        `💰 *Withdraw your earnings easily*\n\n` +
-        `📱 Click the button below to start earning!`,
+        `<b>👋 Welcome to 🍰 CAKE!</b>\n\n` +
+        `<b>🎯 Earn points by completing simple tasks</b>\n` +
+        `<b>💰 Withdraw your earnings easily</b>\n\n` +
+        `<b>📱 Click the button below to start earning!</b>`,
         {
           chat_id: chatId,
           message_id: callbackQuery.message.message_id,
-          parse_mode: 'Markdown',
+          parse_mode: 'HTML',
           reply_markup: {
             inline_keyboard: [
               [
@@ -516,17 +515,17 @@ bot.on('callback_query', async (callbackQuery) => {
     }
     else if (data === 'earn_board') {
       await bot.editMessageText(
-        `*🎯 EARN BOARD*\n\n` +
+        `<b>🎯 EARN BOARD</b>\n\n` +
         `Choose an option to earn more points:\n\n` +
         `• 📱 Complete tasks in Mini App\n` +
         `• 🎁 Redeem promo codes\n` +
         `• 👥 Invite friends\n` +
         `• 📢 Join our channels\n\n` +
-        `*Select an option below:*`,
+        `<b>Select an option below:</b>`,
         {
           chat_id: chatId,
           message_id: callbackQuery.message.message_id,
-          parse_mode: 'Markdown',
+          parse_mode: 'HTML',
           reply_markup: {
             inline_keyboard: [
               [
@@ -545,16 +544,15 @@ bot.on('callback_query', async (callbackQuery) => {
       );
     }
     else if (data === 'back_to_main') {
-      // Go back to main menu
       await bot.editMessageText(
-        `👋 Welcome to 🍰 CAKE!\n\n` +
-        `🎯 *Earn points by completing simple tasks*\n` +
-        `💰 *Withdraw your earnings easily*\n\n` +
-        `📱 Click the button below to start earning!`,
+        `<b>👋 Welcome to 🍰 CAKE!</b>\n\n` +
+        `<b>🎯 Earn points by completing simple tasks</b>\n` +
+        `<b>💰 Withdraw your earnings easily</b>\n\n` +
+        `<b>📱 Click the button below to start earning!</b>`,
         {
           chat_id: chatId,
           message_id: callbackQuery.message.message_id,
-          parse_mode: 'Markdown',
+          parse_mode: 'HTML',
           reply_markup: {
             inline_keyboard: [
               [
@@ -577,25 +575,28 @@ bot.on('callback_query', async (callbackQuery) => {
     else if (data === 'invite_friends') {
       const user = await getUser(userId.toString());
       const referralCount = user?.referral_count || 0;
-      const referralBonus = 20; // Default bonus
+      const referralBonus = 20;
       
       await bot.editMessageText(
-        `*👥 INVITE FRIENDS*\n\n` +
+        `<blockquote><b><code>👥 INVITE FRIENDS</b>\n\n` +
         `Invite your friends and earn ${referralBonus} points for each friend who joins!\n\n` +
-        `📊 Your Stats:\n` +
+        `<b>📊 Your Stats:</b>\n` +
         `• Friends Invited: ${referralCount}\n` +
         `• Total Earned: ${referralCount * referralBonus} points\n\n` +
-        `*Your referral link:*\n` +
+        `<b>Your referral link:</b>\n` +
         `https://t.me/PanCakey_robot?start=ref${userId}\n\n` +
-        `Share this link with your friends!`,
+        `<b>Share this link with your friends!</code></b></blockquote>`,
         {
           chat_id: chatId,
           message_id: callbackQuery.message.message_id,
-          parse_mode: 'Markdown',
+          parse_mode: 'HTML',
           reply_markup: {
             inline_keyboard: [
               [
-                { text: '📤 Share Link', url: `https://t.me/share/url?url=https://t.me/PanCakey_robot?start=ref${userId}&text=Join%20CAKE%20and%20earn%20points!` }
+                { 
+                  text: '📤 Share Link', 
+                  url: `https://t.me/share/url?url=https://t.me/PanCakey_robot?start=ref${userId}&text=Join%20CAKE%20and%20earn%20points!` 
+                }
               ],
               [
                 { text: '🎁 REDEEM CODE', callback_data: 'redeem_code' },
