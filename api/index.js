@@ -909,12 +909,52 @@ bot.on('message', async (msg) => {
     if (text.startsWith('/start')) {
       const startParam = text.split(' ')[1];
       
+      const user = await getUser(userId.toString());
+      const isVerified = user?.security_verified || user?.captcha_verified;
+      
+      if (!isVerified) {
+        console.log(`🛡️ User ${userId} not verified, redirecting to captcha`);
+        
+        let webAppUrl = `https://www.echoearn.work/invite-captcha.html?start=true`;
+        
+        if (startParam) {
+          if (startParam.startsWith('ref')) {
+            const referrerId = startParam.replace('ref', '');
+            webAppUrl += `&ref=${referrerId}`;
+          } else if (startParam.match(/^\d+$/)) {
+            webAppUrl += `&ref=${startParam}`;
+          }
+        }
+        
+        const keyboard = {
+          inline_keyboard: [[
+            {
+              text: '🛡️ Verify Account',
+              web_app: { url: webAppUrl }
+            }
+          ]]
+        };
+        
+        await bot.sendMessage(chatId, 
+          `🛡️ *Account Verification Required*\n\n` +
+          `To prevent multi-account abuse, please verify your account security status before accessing the app.\n\n` +
+          `This ensures fair rewards for all users! ✅`,
+          {
+            parse_mode: 'Markdown',
+            reply_markup: keyboard
+          }
+        );
+        return;
+      }
+      
+      console.log(`✅ User ${userId} is verified, proceeding with normal start`);
+            
       let welcomeMessage = `👋 Welcome to 🍰 CAKE!\n\n`;
       welcomeMessage += `🎯 <b>Earn points by completing simple tasks</b>\n`;
       welcomeMessage += `💰 <b>Withdraw your earnings easily</b>\n\n`;
       
-      if (startParam) {
-        console.log(`🔗 Start parameter detected: ${startParam}`);
+      if (startParam && (!user || !user.referred_by)) {
+        console.log(`🎯 Processing referral for verified user: ${startParam} -> ${userId}`);
         
         let referrerId = null;
         
@@ -925,63 +965,44 @@ bot.on('message', async (msg) => {
         }
         
         if (referrerId && referrerId !== userId.toString()) {
-          console.log(`🎯 Processing referral: ${referrerId} -> ${userId}`);
-          
-          const user = await getUser(userId.toString());
-          
-          // ✅ STRONG VALIDATION: Check if user already has a referrer
-          if (user && user.referred_by) {
-            console.log(`❌ Referral blocked: User ${userId} already referred by ${user.referred_by}`);
-          } 
-          // ✅ Check if referral already processed
-          else if (user && user.referral_processed) {
-            console.log(`❌ Referral blocked: Already processed for user ${userId}`);
-          }
-          // ✅ Check if user is trying to refer themselves
-          else if (referrerId === userId.toString()) {
-            console.log(`❌ Self-referral blocked: ${userId}`);
-          }
-          // ✅ Process new referral
-          else {
-            const referralSuccess = await processReferralInBot(referrerId, userId.toString());
+          const referralSuccess = await processReferralInBot(referrerId, userId.toString());
+      
+          if (referralSuccess) {
+            welcomeMessage += `🎉 *You joined via referral! Your friend earned bonus points.*\n\n`;
             
-            if (referralSuccess) {
-              welcomeMessage += `🎉 <b>You joined via referral! Your friend earned bonus points.</b>\n\n`;
-              
-              await saveUser(userId.toString(), {
-                referred_by: referrerId,
-                referral_processed: true,
-                referral_processed_at: new Date().toISOString(),
-                joined_via: 'referral'
-              });
-              
-              console.log(`✅ New referral processed: ${referrerId} -> ${userId}`);
-            }
+            await saveUser(userId.toString(), {
+              referred_by: referrerId,
+              referral_processed: true,
+              referral_processed_at: new Date().toISOString(),
+              joined_via: 'referral'
+            });
+            
+            console.log(`✅ Referral processed for verified user: ${referrerId} -> ${userId}`);
           }
         }
       }
       
-      welcomeMessage += `📱 <b>Click the button below to start earning!</b>`;
-      
+      welcomeMessage += `📱 *Click the button below to start earning!*`;
+  
       const keyboard = {
         inline_keyboard: [
           [
-           {
-            text: '🚀 Start Earning',
-            web_app: { url: 'https://www.echoearn.work/' }
-           }
+            {
+              text: '🚀 Start Earning',
+              web_app: { url: 'https://www.echoearn.work/' }
+            }
           ],
           [
-           {
-            text: '📊 EARN BOARD',
-            callback_data: 'earn_board'
-           }
+            {
+              text: '📊 EARN BOARD',
+              callback_data: 'earn_board'
+            }
           ]
-         ]
+        ]
       };
-      
+  
       await bot.sendMessage(chatId, welcomeMessage, {
-        parse_mode: 'HTML',
+        parse_mode: 'Markdown',
         reply_markup: keyboard
       });
     }
@@ -1740,6 +1761,146 @@ app.post('/api/user/deduct-balance', async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Internal server error: ' + error.message
+    });
+  }
+});
+
+// Comprehensive security check endpoint
+app.post('/api/security/comprehensive-check', async (req, res) => {
+  try {
+    const { userId, fingerprint, ip, source } = req.body;
+    const clientIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.connection.remoteAddress;
+    
+    console.log(`🔐 Comprehensive security check for: ${userId}, Source: ${source}`);
+
+    // Check if user is directly banned
+    const user = await getUser(userId.toString());
+    if (user && user.banned) {
+      console.log(`🚫 User ${userId} is already banned`);
+      return res.json({
+        banned: true,
+        reason: user.ban_reason || 'Account banned',
+        type: 'direct_ban',
+        multiAccount: false
+      });
+    }
+
+    // Check for other users with same fingerprint OR IP
+    const { data: existingUsers, error } = await supabase
+      .from('users')
+      .select('id, username, banned, balance, created_at')
+      .or(`captcha_fingerprint.eq.${fingerprint},captcha_ip.eq.${clientIp}`);
+
+    if (error) {
+      console.error('Database error:', error);
+      throw error;
+    }
+
+    // Filter out current user and get ACTUAL other users
+    const suspiciousUsers = existingUsers?.filter(u => 
+      u.id !== userId.toString() && // EXCLUDE CURRENT USER
+      !u.banned // Only active users
+    );
+
+    console.log(`🔍 Found ${suspiciousUsers?.length || 0} suspicious users for ${userId}`);
+
+    if (suspiciousUsers && suspiciousUsers.length > 0) {
+      console.log(`🚫 MULTI-ACCOUNT DETECTED for user ${userId}`);
+      
+      // Ban all related accounts (including current user)
+      const banReason = 'Multiple account violation - Captcha system detection';
+      const allUserIds = [userId, ...suspiciousUsers.map(u => u.id)];
+      
+      console.log(`🔨 Banning ${allUserIds.length} accounts:`, allUserIds);
+
+      // Ban all users
+      const { error: banError } = await supabase
+        .from('users')
+        .update({
+          banned: true,
+          ban_reason: banReason,
+          updated_at: new Date().toISOString()
+        })
+        .in('id', allUserIds);
+
+      if (banError) {
+        console.error('Ban error:', banError);
+        throw banError;
+      }
+
+      console.log(`✅ SUCCESS: Banned ${allUserIds.length} accounts for multi-account violation`);
+
+      // Send detailed Telegram notification
+      try {
+        const totalBalance = allUserIds.reduce((sum, id) => {
+          const user = existingUsers.find(u => u.id === id);
+          return sum + (user?.balance || 0);
+        }, 0);
+        
+        await bot.sendMessage(
+          adminId, 
+          `🚫 CAPTCHA SYSTEM BANNED MULTI-ACCOUNTS 🔥\n\n` +
+          `👥 ${allUserIds.length} ACCOUNTS BANNED\n` +
+          `💰 TOTAL BALANCE: ${totalBalance} points\n` +
+          `🎯 NEW USER: ${userId}\n` +
+          `🔗 RELATED: ${suspiciousUsers.map(u => `${u.id} (${u.balance || 0}p)`).join(', ')}\n` +
+          `🖐️ FINGERPRINT: ${fingerprint?.substring(0, 15)}...\n` +
+          `🌐 IP: ${clientIp}\n` +
+          `📱 SOURCE: ${source}\n` +
+          `⏰ DETECTED: ${new Date().toLocaleString()}`
+        );
+      } catch (tgError) {
+        console.error('Failed to send Telegram notification:', tgError);
+      }
+
+      return res.json({
+        banned: true,
+        reason: banReason,
+        type: 'multi_account',
+        multiAccount: true,
+        relatedAccounts: suspiciousUsers.length
+      });
+    }
+
+    // Mark user as security verified
+    if (user) {
+      await supabase
+        .from('users')
+        .update({
+          security_verified: true,
+          captcha_verified: true,
+          captcha_fingerprint: fingerprint,
+          captcha_ip: clientIp,
+          captcha_timestamp: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId.toString());
+    } else {
+      // Create user with security verification
+      await addUser(userId.toString(), {
+        security_verified: true,
+        captcha_verified: true,
+        captcha_fingerprint: fingerprint,
+        captcha_ip: clientIp,
+        captcha_timestamp: new Date().toISOString()
+      });
+    }
+    
+    console.log(`✅ User ${userId} passed comprehensive security check`);
+    
+    res.json({
+      banned: false,
+      multiAccount: false,
+      verified: true,
+      message: 'Security verification passed'
+    });
+
+  } catch (error) {
+    console.error('❌ Comprehensive security check error:', error);
+    res.status(500).json({
+      banned: false,
+      multiAccount: false,
+      error: 'Security check failed: ' + error.message
     });
   }
 });
