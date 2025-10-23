@@ -577,7 +577,7 @@ bot.on('callback_query', async (callbackQuery) => {
     else if (data === 'invite_friends') {
       const user = await getUser(userId.toString());
       const referralCount = user?.referral_count || 0;
-      const referralBonus = 10; // Default bonus
+      const referralBonus = 20; // Default bonus
       
       await bot.editMessageText(
         `*👥 INVITE FRIENDS*\n\n` +
