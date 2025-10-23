@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🍰 CAKE Wordle</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .story-box {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-rows: repeat(6, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .word-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+        }
+        
+        .letter-box {
+            aspect-ratio: 1;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .letter-box.correct {
+            background: #6aaa64;
+            border-color: #6aaa64;
+        }
+        
+        .letter-box.present {
+            background: #c9b458;
+            border-color: #c9b458;
+        }
+        
+        .letter-box.absent {
+            background: #787c7e;
+            border-color: #787c7e;
+        }
+        
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .key {
+            padding: 12px 8px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+        }
+        
+        .key:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .key.wide {
+            flex: 2;
+        }
+        
+        .result {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .success {
+            background: rgba(106, 170, 100, 0.3);
+        }
+        
+        .failure {
+            background: rgba(120, 124, 126, 0.3);
+        }
+        
+        .points-earned {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧩 WORDLE</h1>
+            <p>Guess the 5-letter word from the story!</p>
+        </div>
+        
+        <div class="story-box">
+            <p id="story-text">Loading today's story...</p>
+        </div>
+        
+        <div id="game-board" class="game-board">
+            <!-- Game board will be populated by JavaScript -->
+        </div>
+        
+        <div id="result-message" class="result" style="display: none;">
+            <!-- Result message will be shown here -->
+        </div>
+        
+        <div class="keyboard">
+            <!-- Keyboard will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        let currentGuess = '';
+        let currentRow = 0;
+        let gameWon = false;
+        let gameLost = false;
+        let todayWordle = null;
+        
+        // Initialize game
+        async function initGame() {
+            try {
+                // Get today's wordle
+                const response = await fetch('/api/wordle/today');
+                const data = await response.json();
+                
+                if (data.success) {
+                    todayWordle = data.wordle;
+                    document.getElementById('story-text').textContent = todayWordle.story;
+                    createGameBoard();
+                    createKeyboard();
+                } else {
+                    document.getElementById('story-text').textContent = 'No Wordle available today. Check back tomorrow!';
+                }
+            } catch (error) {
+                console.error('Error loading wordle:', error);
+                document.getElementById('story-text').textContent = 'Error loading Wordle. Please try again.';
+            }
+        }
+        
+        function createGameBoard() {
+            const gameBoard = document.getElementById('game-board');
+            gameBoard.innerHTML = '';
+            
+            for (let row = 0; row < 6; row++) {
+                const wordRow = document.createElement('div');
+                wordRow.className = 'word-row';
+                
+                for (let col = 0; col < 5; col++) {
+                    const letterBox = document.createElement('div');
+                    letterBox.className = 'letter-box';
+                    letterBox.id = `box-${row}-${col}`;
+                    wordRow.appendChild(letterBox);
+                }
+                
+                gameBoard.appendChild(wordRow);
+            }
+        }
+        
+        function createKeyboard() {
+            const keyboard = document.querySelector('.keyboard');
+            keyboard.innerHTML = '';
+            
+            const keyboardLayout = [
+                ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+                ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+                ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫']
+            ];
+            
+            keyboardLayout.forEach(rowLetters => {
+                const row = document.createElement('div');
+                row.className = 'keyboard-row';
+                
+                rowLetters.forEach(key => {
+                    const keyElement = document.createElement('button');
+                    keyElement.className = 'key';
+                    keyElement.textContent = key;
+                    
+                    if (key === 'ENTER' || key === '⌫') {
+                        keyElement.classList.add('wide');
+                    }
+                    
+                    keyElement.onclick = () => handleKeyPress(key);
+                    row.appendChild(keyElement);
+                });
+                
+                keyboard.appendChild(row);
+            });
+        }
+        
+        function handleKeyPress(key) {
+            if (gameWon || gameLost) return;
+            
+            if (key === '⌫') {
+                if (currentGuess.length > 0) {
+                    currentGuess = currentGuess.slice(0, -1);
+                    updateGameBoard();
+                }
+            } else if (key === 'ENTER') {
+                if (currentGuess.length === 5) {
+                    submitGuess();
+                }
+            } else if (currentGuess.length < 5) {
+                currentGuess += key.toLowerCase();
+                updateGameBoard();
+            }
+        }
+        
+        function updateGameBoard() {
+            for (let col = 0; col < 5; col++) {
+                const box = document.getElementById(`box-${currentRow}-${col}`);
+                box.textContent = currentGuess[col] || '';
+            }
+        }
+        
+        async function submitGuess() {
+            try {
+                const response = await fetch('/api/wordle/guess', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: tg.initDataUnsafe.user?.id,
+                        guess: currentGuess
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show results
+                    showResults(data.results);
+                    
+                    if (data.isCorrect) {
+                        gameWon = true;
+                        showSuccess(data.pointsAwarded, data.targetWord);
+                    } else {
+                        currentRow++;
+                        currentGuess = '';
+                        
+                        if (currentRow >= 6) {
+                            gameLost = true;
+                            showFailure(data.targetWord);
+                        }
+                    }
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error submitting guess:', error);
+                alert('Error submitting guess. Please try again.');
+            }
+        }
+        
+        function showResults(results) {
+            for (let col = 0; col < 5; col++) {
+                const box = document.getElementById(`box-${currentRow}-${col}`);
+                box.classList.add(results[col]);
+            }
+        }
+        
+        function showSuccess(points, word) {
+            const resultDiv = document.getElementById('result-message');
+            resultDiv.innerHTML = `
+                <h2>🎉 You guessed the word! 🎉</h2>
+                <div class="points-earned">+${points} points!</div>
+                <p>The word was: <strong>${word}</strong></p>
+                <p>Points have been added to your balance!</p>
+            `;
+            resultDiv.className = 'result success';
+            resultDiv.style.display = 'block';
+        }
+        
+        function showFailure(word) {
+            const resultDiv = document.getElementById('result-message');
+            resultDiv.innerHTML = `
+                <h2>😔 Better luck tomorrow!</h2>
+                <p>The word was: <strong>${word}</strong></p>
+                <p>Come back tomorrow for a new Wordle!</p>
+            `;
+            resultDiv.className = 'result failure';
+            resultDiv.style.display = 'block';
+        }
+        
+        // Initialize the game when page loads
+        initGame();
+    </script>
+</body>
+</html>
