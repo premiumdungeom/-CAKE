@@ -16,64 +16,94 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             color: white;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .container {
-            max-width: 500px;
+            max-width: 100%;
             margin: 0 auto;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            border-left: 4px solid #ffd700;
         }
         
         .story-box {
             background: rgba(255,255,255,0.1);
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .attempts-counter {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.8;
         }
         
         .game-board {
             display: grid;
             grid-template-rows: repeat(6, 1fr);
-            gap: 5px;
-            margin-bottom: 20px;
+            gap: 4px;
+            margin-bottom: 15px;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .word-row {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
+            gap: 4px;
         }
         
         .letter-box {
             aspect-ratio: 1;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 5px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+        
+        .letter-box.filled {
+            border-color: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.2);
         }
         
         .letter-box.correct {
             background: #6aaa64;
             border-color: #6aaa64;
+            transform: scale(1.05);
         }
         
         .letter-box.present {
             background: #c9b458;
             border-color: #c9b458;
+            transform: scale(1.05);
         }
         
         .letter-box.absent {
@@ -84,69 +114,127 @@
         .keyboard {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
+            max-width: 500px;
+            margin: 0 auto;
         }
         
         .keyboard-row {
             display: flex;
             justify-content: center;
-            gap: 5px;
+            gap: 4px;
         }
         
         .key {
-            padding: 12px 8px;
+            padding: 14px 6px;
             border: none;
-            border-radius: 5px;
-            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.25);
             color: white;
             font-weight: bold;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.2s ease;
+            font-size: 16px;
+            min-width: 0;
+            flex: 1;
+            transition: all 0.1s ease;
+            touch-action: manipulation;
         }
         
-        .key:hover {
-            background: rgba(255,255,255,0.3);
+        .key:active {
+            background: rgba(255,255,255,0.4);
+            transform: scale(0.95);
         }
         
         .key.wide {
-            flex: 2;
+            flex: 1.5;
+            font-size: 14px;
+        }
+        
+        .key.correct {
+            background: #6aaa64;
+        }
+        
+        .key.present {
+            background: #c9b458;
+        }
+        
+        .key.absent {
+            background: #787c7e;
         }
         
         .result {
             text-align: center;
             padding: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            margin-bottom: 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            margin-bottom: 15px;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
         .success {
             background: rgba(106, 170, 100, 0.3);
+            border-color: #6aaa64;
         }
         
         .failure {
             background: rgba(120, 124, 126, 0.3);
+            border-color: #787c7e;
         }
         
         .points-earned {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #ffd700;
-            margin: 10px 0;
+            margin: 8px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.7;
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .bounce {
+            animation: bounce 0.3s ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧩 WORDLE</h1>
+            <h1>🧩 DAILY WORDLE</h1>
             <p>Guess the 5-letter word from the story!</p>
+        </div>
+        
+        <div class="instructions">
+            <strong>🎯 HOW TO PLAY:</strong><br>
+            Read the story below and guess the missing 5-letter word.<br>
+            You have <strong>6 attempts</strong> to find the correct word!
         </div>
         
         <div class="story-box">
             <p id="story-text">Loading today's story...</p>
+        </div>
+        
+        <div class="attempts-counter">
+            Attempts: <span id="attempts-count">0</span>/6
         </div>
         
         <div id="game-board" class="game-board">
@@ -160,36 +248,66 @@
         <div class="keyboard">
             <!-- Keyboard will be populated by JavaScript -->
         </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            Checking your guess...
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.enableClosingConfirmation();
         
         let currentGuess = '';
         let currentRow = 0;
         let gameWon = false;
         let gameLost = false;
         let todayWordle = null;
+        let keyboardState = {};
         
         // Initialize game
         async function initGame() {
             try {
-                // Get today's wordle
+                showLoading('Loading today\'s Wordle...');
+                
                 const response = await fetch('/api/wordle/today');
                 const data = await response.json();
+                
+                hideLoading();
                 
                 if (data.success) {
                     todayWordle = data.wordle;
                     document.getElementById('story-text').textContent = todayWordle.story;
                     createGameBoard();
                     createKeyboard();
+                    loadUserProgress();
                 } else {
                     document.getElementById('story-text').textContent = 'No Wordle available today. Check back tomorrow!';
+                    document.querySelector('.instructions').style.display = 'none';
                 }
             } catch (error) {
+                hideLoading();
                 console.error('Error loading wordle:', error);
-                document.getElementById('story-text').textContent = 'Error loading Wordle. Please try again.';
+                document.getElementById('story-text').textContent = 'Error loading Wordle. Please check your connection.';
+            }
+        }
+        
+        async function loadUserProgress() {
+            try {
+                const response = await fetch(`/api/wordle/stats?userId=${tg.initDataUnsafe.user?.id}`);
+                const data = await response.json();
+                
+                if (data.success && data.stats.today_attempts > 0) {
+                    document.getElementById('attempts-count').textContent = data.stats.today_attempts;
+                    
+                    if (data.stats.today_won || data.stats.today_attempts >= 6) {
+                        // User already completed today's game
+                        showCompletedMessage(data.stats.today_won, data.stats.today_attempts);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user progress:', error);
             }
         }
         
@@ -230,12 +348,18 @@
                     const keyElement = document.createElement('button');
                     keyElement.className = 'key';
                     keyElement.textContent = key;
+                    keyElement.id = `key-${key}`;
                     
                     if (key === 'ENTER' || key === '⌫') {
                         keyElement.classList.add('wide');
                     }
                     
-                    keyElement.onclick = () => handleKeyPress(key);
+                    keyElement.addEventListener('click', () => handleKeyPress(key));
+                    keyElement.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        handleKeyPress(key);
+                    });
+                    
                     row.appendChild(keyElement);
                 });
                 
@@ -254,6 +378,11 @@
             } else if (key === 'ENTER') {
                 if (currentGuess.length === 5) {
                     submitGuess();
+                } else {
+                    // Shake animation for incomplete word
+                    const currentRowElement = document.querySelector(`#box-${currentRow}-0`).parentElement;
+                    currentRowElement.classList.add('shake');
+                    setTimeout(() => currentRowElement.classList.remove('shake'), 500);
                 }
             } else if (currentGuess.length < 5) {
                 currentGuess += key.toLowerCase();
@@ -264,11 +393,17 @@
         function updateGameBoard() {
             for (let col = 0; col < 5; col++) {
                 const box = document.getElementById(`box-${currentRow}-${col}`);
-                box.textContent = currentGuess[col] || '';
+                const letter = currentGuess[col] || '';
+                box.textContent = letter;
+                box.classList.toggle('filled', letter !== '');
             }
         }
         
         async function submitGuess() {
+            if (gameWon || gameLost) return;
+            
+            showLoading('Checking your guess...');
+            
             try {
                 const response = await fetch('/api/wordle/guess', {
                     method: 'POST',
@@ -282,64 +417,137 @@
                 });
                 
                 const data = await response.json();
+                hideLoading();
                 
                 if (data.success) {
-                    // Show results
-                    showResults(data.results);
+                    // Update attempts counter
+                    document.getElementById('attempts-count').textContent = data.attemptsUsed;
+                    
+                    // Show results with animation
+                    await showResultsWithAnimation(data.results);
+                    
+                    // Update keyboard colors
+                    updateKeyboardColors(data.results);
                     
                     if (data.isCorrect) {
                         gameWon = true;
-                        showSuccess(data.pointsAwarded, data.targetWord);
+                        setTimeout(() => showSuccess(data.pointsAwarded, data.targetWord, data.attemptsUsed), 600);
+                    } else if (data.gameCompleted) {
+                        gameLost = true;
+                        setTimeout(() => showFailure(data.targetWord, data.attemptsUsed), 600);
                     } else {
+                        // Move to next row
                         currentRow++;
                         currentGuess = '';
-                        
-                        if (currentRow >= 6) {
-                            gameLost = true;
-                            showFailure(data.targetWord);
-                        }
                     }
                 } else {
                     alert(data.message);
                 }
             } catch (error) {
+                hideLoading();
                 console.error('Error submitting guess:', error);
-                alert('Error submitting guess. Please try again.');
+                alert('Network error. Please check your connection and try again.');
             }
         }
         
-        function showResults(results) {
+        function showResultsWithAnimation(results) {
+            return new Promise((resolve) => {
+                let completed = 0;
+                
+                for (let col = 0; col < 5; col++) {
+                    setTimeout(() => {
+                        const box = document.getElementById(`box-${currentRow}-${col}`);
+                        box.classList.add(results[col], 'bounce');
+                        
+                        completed++;
+                        if (completed === 5) {
+                            setTimeout(resolve, 300);
+                        }
+                    }, col * 200);
+                }
+            });
+        }
+        
+        function updateKeyboardColors(results) {
             for (let col = 0; col < 5; col++) {
-                const box = document.getElementById(`box-${currentRow}-${col}`);
-                box.classList.add(results[col]);
+                const letter = currentGuess[col].toUpperCase();
+                const key = document.getElementById(`key-${letter}`);
+                const result = results[col];
+                
+                if (key && !keyboardState[letter]) {
+                    keyboardState[letter] = result;
+                    key.classList.add(result);
+                } else if (key && keyboardState[letter] === 'absent' && result !== 'absent') {
+                    // Upgrade key color if we found a better match
+                    key.classList.remove('absent');
+                    key.classList.add(result);
+                    keyboardState[letter] = result;
+                }
             }
         }
         
-        function showSuccess(points, word) {
+        function showSuccess(points, word, attempts) {
             const resultDiv = document.getElementById('result-message');
             resultDiv.innerHTML = `
-                <h2>🎉 You guessed the word! 🎉</h2>
-                <div class="points-earned">+${points} points!</div>
-                <p>The word was: <strong>${word}</strong></p>
-                <p>Points have been added to your balance!</p>
+                <h2>🎉 Congratulations! 🎉</h2>
+                <div class="points-earned">+${points} Points Earned!</div>
+                <p>You guessed <strong>"${word}"</strong> in ${attempts}/6 attempts!</p>
+                <p>Points have been added to your balance! 🎯</p>
             `;
             resultDiv.className = 'result success';
             resultDiv.style.display = 'block';
+            
+            // Scroll to result
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         
-        function showFailure(word) {
+        function showFailure(word, attempts) {
             const resultDiv = document.getElementById('result-message');
             resultDiv.innerHTML = `
-                <h2>😔 Better luck tomorrow!</h2>
-                <p>The word was: <strong>${word}</strong></p>
-                <p>Come back tomorrow for a new Wordle!</p>
+                <h2>😔 Game Over</h2>
+                <p>The word was: <strong>"${word}"</strong></p>
+                <p>You used ${attempts}/6 attempts.</p>
+                <p>Come back tomorrow for a new Wordle challenge! 🔥</p>
             `;
             resultDiv.className = 'result failure';
             resultDiv.style.display = 'block';
+            
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function showCompletedMessage(won, attempts) {
+            const resultDiv = document.getElementById('result-message');
+            if (won) {
+                resultDiv.innerHTML = `
+                    <h2>✅ Already Completed!</h2>
+                    <p>You already solved today's Wordle in ${attempts} attempts!</p>
+                    <p>Come back tomorrow for a new challenge! 🎯</p>
+                `;
+                resultDiv.className = 'result success';
+            } else {
+                resultDiv.innerHTML = `
+                    <h2>⏰ Attempts Used</h2>
+                    <p>You've used all 6 attempts for today.</p>
+                    <p>Better luck tomorrow! 🔥</p>
+                `;
+                resultDiv.className = 'result failure';
+            }
+            resultDiv.style.display = 'block';
+            gameWon = true;
+            gameLost = true;
+        }
+        
+        function showLoading(message) {
+            document.getElementById('loading').textContent = message;
+            document.getElementById('loading').style.display = 'block';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
         }
         
         // Initialize the game when page loads
-        initGame();
+        document.addEventListener('DOMContentLoaded', initGame);
     </script>
 </body>
 </html>
