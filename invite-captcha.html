@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Verification</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .verify-btn {
+            background: #ffd700;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .verify-btn:hover {
+            background: #ffed4e;
+            transform: translateY(-2px);
+        }
+        
+        .verify-btn:active {
+            transform: translateY(0);
+        }
+        
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .status.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+        }
+        
+        .status.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="icon">🛡️</div>
+            <h1>Security Verification</h1>
+            <p>To prevent multi-account abuse, we need to verify your account security status before proceeding.</p>
+            
+            <button class="verify-btn" onclick="startVerification()">
+                Start Security Check
+            </button>
+            
+            <div id="loading" class="loading">
+                🔍 Checking account security...
+            </div>
+            
+            <div id="status" class="status"></div>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrerId = urlParams.get('ref');
+        const isStart = urlParams.get('start') === 'true';
+        
+        async function startVerification() {
+            const verifyBtn = document.querySelector('.verify-btn');
+            const loading = document.getElementById('loading');
+            const status = document.getElementById('status');
+            
+            verifyBtn.style.display = 'none';
+            loading.style.display = 'block';
+            
+            try {
+                // Get user data from Telegram
+                const user = tg.initDataUnsafe.user;
+                if (!user) {
+                    throw new Error('No user data available');
+                }
+                
+                console.log('🔍 Starting security verification for:', user.id);
+                
+                // Run comprehensive security check
+                const securityResult = await runSecurityCheck(user.id);
+                
+                if (securityResult.banned) {
+                    // User is banned - close app
+                    showStatus('error', `Account Restricted: ${securityResult.reason}`);
+                    setTimeout(() => {
+                        tg.close();
+                    }, 3000);
+                    return;
+                }
+                
+                if (securityResult.multiAccount) {
+                    // Multi-account detected - close app
+                    showStatus('error', 'Multiple account violation detected');
+                    setTimeout(() => {
+                        tg.close();
+                    }, 3000);
+                    return;
+                }
+                
+                // Security passed - proceed
+                showStatus('success', '✅ Security verification passed!');
+                
+                // Store verification result
+                localStorage.setItem('security_verified', 'true');
+                localStorage.setItem('verification_timestamp', Date.now().toString());
+                
+                // Close and redirect to bot
+                setTimeout(() => {
+                    if (referrerId) {
+                        // Redirect with referral
+                        tg.openTelegramLink(`https://t.me/PanCakey_robot?start=ref${referrerId}`);
+                    } else if (isStart) {
+                        // Redirect to normal start
+                        tg.openTelegramLink('https://t.me/PanCakey_robot?start=verify_success');
+                    } else {
+                        // Just close
+                        tg.close();
+                    }
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Verification error:', error);
+                showStatus('error', 'Verification failed. Please try again.');
+                verifyBtn.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        }
+        
+        async function runSecurityCheck(userId) {
+            // Get fingerprint
+            let fingerprint = 'unknown';
+            try {
+                if (window.FingerprintJS) {
+                    const fp = await FingerprintJS.load();
+                    const result = await fp.get();
+                    fingerprint = result.visitorId;
+                }
+            } catch (e) {
+                console.error('Fingerprint error:', e);
+                fingerprint = 'error_' + Date.now();
+            }
+            
+            // Send to backend for comprehensive check
+            const response = await fetch('/api/security/comprehensive-check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                    fingerprint: fingerprint,
+                    ip: 'auto',
+                    source: 'captcha_verification'
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('Security check failed');
+            }
+            
+            return await response.json();
+        }
+        
+        function showStatus(type, message) {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.innerHTML = message;
+            status.style.display = 'block';
+        }
+        
+        // Auto-start verification if coming from specific source
+        if (urlParams.get('auto') === 'true') {
+            setTimeout(startVerification, 1000);
+        }
+    </script>
+    
+    <!-- Include fingerprint library -->
+    <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+</body>
+</html>
