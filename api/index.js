@@ -104,6 +104,123 @@ async function loadUsers() {
   }
 }
 
+// ==================== REDEEM CODE DATABASE FUNCTIONS ====================
+async function createRedeemCode(code, points, maxUses) {
+  try {
+    const { error } = await supabase
+      .from('redeem_codes')
+      .insert([{
+        code: code.toUpperCase(),
+        points: points,
+        max_uses: maxUses,
+        used_count: 0,
+        created_at: new Date().toISOString(),
+        expires_at: null,
+        status: 'active'
+      }]);
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error creating redeem code:', error);
+    return false;
+  }
+}
+
+async function getRedeemCode(code) {
+  try {
+    const { data, error } = await supabase
+      .from('redeem_codes')
+      .select('*')
+      .eq('code', code.toUpperCase())
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    console.error('Error getting redeem code:', error);
+    return null;
+  }
+}
+
+async function useRedeemCode(code, userId) {
+  try {
+    const redeemCode = await getRedeemCode(code);
+    
+    if (!redeemCode) {
+      return { success: false, error: 'Code not found' };
+    }
+
+    if (redeemCode.status !== 'active') {
+      return { success: false, error: 'Code is inactive' };
+    }
+
+    if (redeemCode.max_uses > 0 && redeemCode.used_count >= redeemCode.max_uses) {
+      return { success: false, error: 'Code limit reached' };
+    }
+
+    // Check if user already used this code
+    const userUsedCodes = await getUserUsedCodes(userId);
+    if (userUsedCodes.includes(code.toUpperCase())) {
+      return { success: false, error: 'You have already used this code' };
+    }
+
+    // Update code usage
+    const { error: updateError } = await supabase
+      .from('redeem_codes')
+      .update({
+        used_count: redeemCode.used_count + 1,
+        updated_at: new Date().toISOString()
+      })
+      .eq('code', code.toUpperCase());
+
+    if (updateError) throw updateError;
+
+    // Add to user's used codes
+    await addUserUsedCode(userId, code.toUpperCase());
+
+    return { 
+      success: true, 
+      points: redeemCode.points,
+      usedCount: redeemCode.used_count + 1,
+      maxUses: redeemCode.max_uses
+    };
+  } catch (error) {
+    console.error('Error using redeem code:', error);
+    return { success: false, error: 'Internal server error' };
+  }
+}
+
+async function getUserUsedCodes(userId) {
+  try {
+    const user = await getUser(userId.toString());
+    return user?.used_redeem_codes || [];
+  } catch (error) {
+    console.error('Error getting user used codes:', error);
+    return [];
+  }
+}
+
+async function addUserUsedCode(userId, code) {
+  try {
+    const user = await getUser(userId.toString());
+    const usedCodes = user?.used_redeem_codes || [];
+    
+    await saveUser(userId.toString(), {
+      used_redeem_codes: [...usedCodes, code]
+    });
+    
+    return true;
+  } catch (error) {
+    console.error('Error adding user used code:', error);
+    return false;
+  }
+}
+// ==================== END REDEEM CODE FUNCTIONS ====================
+
 async function saveUser(userId, userData) {
   try {
     const { data, error } = await supabase
@@ -337,6 +454,163 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
+// ==================== CALLBACK QUERY HANDLER ====================
+bot.on('callback_query', async (callbackQuery) => {
+  const chatId = callbackQuery.message.chat.id;
+  const userId = callbackQuery.from.id;
+  const data = callbackQuery.data;
+
+  try {
+    if (data === 'redeem_code') {
+      // Send redeem code input message
+      await bot.editMessageText(
+        `*ENTER YOUR REDEEM CODE:*\n\n` +
+        `To earn free points, enter the redeem code below.\n\n` +
+        `💡 *How to get codes?*\n` +
+        `• Follow our social media\n` +
+        `• Join giveaways\n` +
+        `• Special events\n\n` +
+        `*ENTER THE REDEEM CODE BELOW:*`,
+        {
+          chat_id: chatId,
+          message_id: callbackQuery.message.message_id,
+          parse_mode: 'Markdown',
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: '❌ CANCEL', callback_data: 'cancel_redeem' }]
+            ]
+          }
+        }
+      );
+    }
+    else if (data === 'cancel_redeem') {
+      // Go back to main menu
+      await bot.editMessageText(
+        `👋 Welcome to 🍰 CAKE!\n\n` +
+        `🎯 *Earn points by completing simple tasks*\n` +
+        `💰 *Withdraw your earnings easily*\n\n` +
+        `📱 Click the button below to start earning!`,
+        {
+          chat_id: chatId,
+          message_id: callbackQuery.message.message_id,
+          parse_mode: 'Markdown',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: '🚀 Start Earning',
+                  web_app: { url: 'https://www.echoearn.work/' }
+                }
+              ],
+              [
+                {
+                  text: '📊 EARN BOARD',
+                  callback_data: 'earn_board'
+                }
+              ]
+            ]
+          }
+        }
+      );
+    }
+    else if (data === 'earn_board') {
+      await bot.editMessageText(
+        `*🎯 EARN BOARD*\n\n` +
+        `Choose an option to earn more points:\n\n` +
+        `• 📱 Complete tasks in Mini App\n` +
+        `• 🎁 Redeem promo codes\n` +
+        `• 👥 Invite friends\n` +
+        `• 📢 Join our channels\n\n` +
+        `*Select an option below:*`,
+        {
+          chat_id: chatId,
+          message_id: callbackQuery.message.message_id,
+          parse_mode: 'Markdown',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: '🎁 REDEEM CODE', callback_data: 'redeem_code' },
+                { text: '👥 INVITE FRIENDS', callback_data: 'invite_friends' }
+              ],
+              [
+                { text: '📱 OPEN MINI APP', web_app: { url: 'https://www.echoearn.work/' } }
+              ],
+              [
+                { text: '🔙 BACK', callback_data: 'back_to_main' }
+              ]
+            ]
+          }
+        }
+      );
+    }
+    else if (data === 'back_to_main') {
+      // Go back to main menu
+      await bot.editMessageText(
+        `👋 Welcome to 🍰 CAKE!\n\n` +
+        `🎯 *Earn points by completing simple tasks*\n` +
+        `💰 *Withdraw your earnings easily*\n\n` +
+        `📱 Click the button below to start earning!`,
+        {
+          chat_id: chatId,
+          message_id: callbackQuery.message.message_id,
+          parse_mode: 'Markdown',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: '🚀 Start Earning',
+                  web_app: { url: 'https://www.echoearn.work/' }
+                }
+              ],
+              [
+                {
+                  text: '📊 EARN BOARD',
+                  callback_data: 'earn_board'
+                }
+              ]
+            ]
+          }
+        }
+      );
+    }
+    else if (data === 'invite_friends') {
+      const user = await getUser(userId.toString());
+      const referralCount = user?.referral_count || 0;
+      const referralBonus = 20; // Default bonus
+      
+      await bot.editMessageText(
+        `*👥 INVITE FRIENDS*\n\n` +
+        `Invite your friends and earn ${referralBonus} points for each friend who joins!\n\n` +
+        `📊 Your Stats:\n` +
+        `• Friends Invited: ${referralCount}\n` +
+        `• Total Earned: ${referralCount * referralBonus} points\n\n` +
+        `*Your referral link:*\n` +
+        `https://t.me/${bot.token.split(':')[0]}?start=ref${userId}\n\n` +
+        `Share this link with your friends!`,
+        {
+          chat_id: chatId,
+          message_id: callbackQuery.message.message_id,
+          parse_mode: 'Markdown',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: '📤 Share Link', url: `https://t.me/share/url?url=https://t.me/${bot.token.split(':')[0]}?start=ref${userId}&text=Join%20CAKE%20and%20earn%20points!` }
+              ],
+              [
+                { text: '🎁 REDEEM CODE', callback_data: 'redeem_code' },
+                { text: '🔙 BACK', callback_data: 'earn_board' }
+              ]
+            ]
+          }
+        }
+      );
+    }
+  } catch (error) {
+    console.error('Error handling callback query:', error);
+  }
+});
+// ==================== END CALLBACK QUERY HANDLER ====================
+
 // Handle bot commands and messages
 bot.on('message', async (msg) => {
   try {
@@ -419,7 +693,62 @@ bot.on('message', async (msg) => {
         });
         return;
     }
+    
+    if (text.startsWith('/generatecode')) {
+        if (userId.toString() !== adminId) {
+         await bot.sendMessage(chatId, "❌ Admin only command");
+         return;
+        }
+        
+        const parts = text.split(' ');
+        if (parts.length < 4) {
+         await bot.sendMessage(chatId, 
+            "Usage: /generatecode <max_uses> <points> <code_name>\n\n" +
+            "Example: /generatecode 50 500 WELCOME\n" +
+            "This creates code WELCOME50 for 500 points, usable by 50 people"
+         );
+         return;
+        }
+        
+        const maxUses = parseInt(parts[1]);
+        const points = parseInt(parts[2]);
+        const codeName = parts[3].toUpperCase();
+        
+        if (isNaN(maxUses) || isNaN(points)) {
+         await bot.sendMessage(chatId, "❌ Invalid numbers provided");
+         return;
+        }
+        
+        const randomNum = Math.floor(Math.random() * 1000);
+        const code = `${codeName}${randomNum}`;
 
+        const success = await createRedeemCode(code, points, maxUses);
+        
+        if (success) {
+         await bot.sendMessage(chatId, 
+            `✅ Redeem Code Created!\n\n` +
+            `🔑 Code: <code>${code}</code>\n` +
+            `💰 Points: ${points}\n` +
+            `👥 Max Uses: ${maxUses}\n` +
+            `📊 Used: 0/${maxUses}\n\n` +
+            `Share this code with your users!`,
+            { parse_mode: 'HTML' }
+         );
+         
+         await bot.sendMessage(adminId,
+            `🎯 New Redeem Code Generated\n\n` +
+            `Code: ${code}\n` +
+            `Points: ${points}\n` +
+            `Max Uses: ${maxUses}\n` +
+            `Generated by: ${userId}`
+         );
+        } else {
+         await bot.sendMessage(chatId, "❌ Failed to create redeem code");
+        }
+        return;
+    }
+         
+  
     // Handle /start command with referral parameter
     if (text.startsWith('/start')) {
       const startParam = text.split(' ')[1];
@@ -479,18 +808,73 @@ bot.on('message', async (msg) => {
       welcomeMessage += `📱 <b>Click the button below to start earning!</b>`;
       
       const keyboard = {
-        inline_keyboard: [[
-          {
+        inline_keyboard: [
+          [
+           {
             text: '🚀 Start Earning',
             web_app: { url: 'https://www.echoearn.work/' }
-          }
-        ]]
+           }
+          ],
+          [
+           {
+            text: '📊 EARN BOARD',
+            callback_data: 'earn_board'
+           }
+          ]
+         ]
       };
       
       await bot.sendMessage(chatId, welcomeMessage, {
         parse_mode: 'HTML',
         reply_markup: keyboard
       });
+    }
+    
+    if (text && text.length >= 6 && text.length <= 20 && !text.startsWith('/')) {
+    
+      const result = await useRedeemCode(text, userId.toString());
+      
+      if (result.success) {
+        await updateUserBalance(userId.toString(), result.points, {
+          type: 'redeem_code',
+          amount: result.points,
+          description: `Redeem code: ${text}`,
+          code: text,
+          timestamp: new Date().toISOString()
+        });
+        
+        await bot.sendMessage(chatId,
+          `🎉 *Congratulations! You earned ${result.points} points!*\n\n` +
+          `Your reward has been added to your balance.\n` +
+          `Code usage: ${result.usedCount}/${result.maxUses}\n\n` +
+          `Keep an eye out for more codes! 🎁`,
+          { parse_mode: 'Markdown' }
+        );
+        
+        await bot.sendMessage(
+          adminId,
+          `🎉 Redeem Code Used!\n\n` +
+          `👤 User: ${userId}\n` +
+         `🔑 Code: ${text}\n` +
+          `💰 Points: ${result.points}\n` +
+          `📊 Usage: ${result.usedCount}/${result.maxUses}`
+        );
+      } else {
+        await bot.sendMessage(chatId,
+          `❌ *${result.error}*\n\n` +
+          `Please check the code and try again.`,
+          {
+            parse_mode: 'Markdown',
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: '🔄 TRY AGAIN', callback_data: 'redeem_code' }],
+                [{ text: '🔙 BACK', callback_data: 'back_to_main' }]
+              ]
+            }
+          }
+        );
+      }
+      return;
     }
 
     if (msg.web_app_data) {
@@ -1540,6 +1924,63 @@ app.get('/api/withdrawals/user-pending', async (req, res) => {
     res.status(500).json({ success: false, error: 'Failed to get pending withdrawals' });
   }
 });
+
+// ==================== REDEEM CODE API ====================
+// API endpoint to redeem code
+app.post('/api/redeem/code', async (req, res) => {
+  try {
+    const { userId, code } = req.body;
+    
+    if (!userId || !code) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Missing userId or code' 
+      });
+    }
+
+    const result = await useRedeemCode(code, userId);
+    
+    if (result.success) {
+      // Add points to user balance
+      await updateUserBalance(userId, result.points, {
+        type: 'redeem_code',
+        amount: result.points,
+        description: `Redeem code: ${code}`,
+        code: code,
+        timestamp: new Date().toISOString()
+      });
+
+      // Notify admin
+      await bot.sendMessage(
+        adminId,
+        `🎉 Redeem Code Used!\n\n` +
+        `👤 User: ${userId}\n` +
+        `🔑 Code: ${code}\n` +
+        `💰 Points: ${result.points}\n` +
+        `📊 Usage: ${result.usedCount}/${result.maxUses}`
+      );
+
+      res.json({
+        success: true,
+        points: result.points,
+        message: `Congratulations! You earned ${result.points} points!`,
+        usage: `${result.usedCount}/${result.maxUses}`
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: result.error
+      });
+    }
+  } catch (error) {
+    console.error('Error redeeming code:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+// ==================== END REDEEM CODE API ====================
 
 // API endpoint to create withdrawal request
 app.post('/api/withdrawals/create', async (req, res) => {
