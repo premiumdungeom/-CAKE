@@ -455,6 +455,7 @@ app.get('/', (req, res) => {
 });
 
 // ==================== CALLBACK QUERY HANDLER ====================
+// ==================== CALLBACK QUERY HANDLER ====================
 bot.on('callback_query', async (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
   const userId = callbackQuery.from.id;
@@ -576,7 +577,7 @@ bot.on('callback_query', async (callbackQuery) => {
     else if (data === 'invite_friends') {
       const user = await getUser(userId.toString());
       const referralCount = user?.referral_count || 0;
-      const referralBonus = 10;
+      const referralBonus = 20; // Default bonus
       
       await bot.editMessageText(
         `*👥 INVITE FRIENDS*\n\n` +
@@ -585,7 +586,7 @@ bot.on('callback_query', async (callbackQuery) => {
         `• Friends Invited: ${referralCount}\n` +
         `• Total Earned: ${referralCount * referralBonus} points\n\n` +
         `*Your referral link:*\n` +
-        `https://t.me/PanCakey_robot?start=ref${userId}\n\n` +
+        `https://t.me/${bot.token.split(':')[0]}?start=ref${userId}\n\n` +
         `Share this link with your friends!`,
         {
           chat_id: chatId,
