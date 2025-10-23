@@ -2174,6 +2174,7 @@ app.get('/api/wordle/today', async (req, res) => {
 });
 
 // Submit wordle guess
+// Update the wordle guess endpoint for 6 attempts
 app.post('/api/wordle/guess', async (req, res) => {
   try {
     const { userId, guess } = req.body;
@@ -2208,7 +2209,7 @@ app.post('/api/wordle/guess', async (req, res) => {
       });
     }
 
-    // Get user stats
+    // Get user stats and current game state
     const user = await getUser(userId.toString());
     const wordleStats = user?.wordle_stats || {
       games_played: 0,
@@ -2217,14 +2218,23 @@ app.post('/api/wordle/guess', async (req, res) => {
       max_streak: 0,
       last_played: null,
       today_played: false,
-      today_won: false
+      today_won: false,
+      today_attempts: 0
     };
 
     // Check if already played today
-    if (wordleStats.today_played) {
+    if (wordleStats.today_played && wordleStats.today_won) {
       return res.status(400).json({ 
         success: false, 
-        message: 'You already played today\'s wordle!' 
+        message: 'You already completed today\'s wordle!' 
+      });
+    }
+
+    // Check if max attempts reached
+    if (wordleStats.today_attempts >= 6) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Maximum attempts (6) reached for today!' 
       });
     }
 
@@ -2236,47 +2246,60 @@ app.post('/api/wordle/guess', async (req, res) => {
 
     // Check if won
     const isCorrect = userGuess === targetWord;
+    const attemptsUsed = wordleStats.today_attempts + 1;
 
     // Update user stats
     const newStats = { ...wordleStats };
-    newStats.games_played += 1;
-    newStats.today_played = true;
-    newStats.last_played = today;
+    newStats.today_attempts = attemptsUsed;
 
     if (isCorrect) {
+      newStats.games_played += 1;
       newStats.games_won += 1;
+      newStats.today_played = true;
       newStats.today_won = true;
+      newStats.last_played = today;
       newStats.current_streak += 1;
       newStats.max_streak = Math.max(newStats.max_streak, newStats.current_streak);
-    } else {
+    } else if (attemptsUsed >= 6) {
+      // Lost after 6 attempts
+      newStats.games_played += 1;
+      newStats.today_played = true;
+      newStats.last_played = today;
       newStats.current_streak = 0;
     }
 
-    // Add to history
-    const historyEntry = {
-      date: today,
-      word: targetWord,
-      guessed: userGuess,
-      won: isCorrect,
-      attempts: 6 // For future multi-attempt implementation
-    };
+    // Add to history if game completed
+    if (isCorrect || attemptsUsed >= 6) {
+      const historyEntry = {
+        date: today,
+        word: targetWord,
+        guessed: userGuess,
+        won: isCorrect,
+        attempts: attemptsUsed
+      };
 
-    const wordleHistory = user?.wordle_history || [];
-    const updatedHistory = [...wordleHistory, historyEntry];
+      const wordleHistory = user?.wordle_history || [];
+      const updatedHistory = [...wordleHistory, historyEntry];
 
-    await saveUser(userId.toString(), {
-      wordle_stats: newStats,
-      wordle_history: updatedHistory
-    });
+      await saveUser(userId.toString(), {
+        wordle_stats: newStats,
+        wordle_history: updatedHistory
+      });
+    } else {
+      // Just update attempts count
+      await saveUser(userId.toString(), {
+        wordle_stats: newStats
+      });
+    }
 
-    // Award points if won
+    // Award points if won (same 50 points regardless of attempts)
     let pointsAwarded = 0;
     if (isCorrect) {
-      pointsAwarded = 1; // Base points for winning
+      pointsAwarded = 1;
       await updateUserBalance(userId, pointsAwarded, {
         type: 'wordle_win',
         amount: pointsAwarded,
-        description: `Wordle game win - ${targetWord.toUpperCase()}`,
+        description: `Wordle game win - ${targetWord.toUpperCase()} (${attemptsUsed}/6 attempts)`,
         game: 'wordle',
         timestamp: new Date().toISOString()
       });
@@ -2287,7 +2310,10 @@ app.post('/api/wordle/guess', async (req, res) => {
       results: results,
       isCorrect: isCorrect,
       pointsAwarded: pointsAwarded,
-      targetWord: isCorrect ? targetWord.toUpperCase() : undefined,
+      targetWord: isCorrect || attemptsUsed >= 6 ? targetWord.toUpperCase() : undefined,
+      attemptsUsed: attemptsUsed,
+      maxAttempts: 6,
+      gameCompleted: isCorrect || attemptsUsed >= 6,
       stats: newStats
     });
 
