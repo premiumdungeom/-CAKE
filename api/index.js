@@ -4316,6 +4316,7 @@ async function sendWithdrawalFailureDM(userId, request, errorMessage) {
 }
 
 // API endpoint to approve withdrawal
+// API endpoint to approve withdrawal
 app.post('/api/withdrawals/approve', async (req, res) => {
     try {
         const { requestId } = req.body;
@@ -4360,6 +4361,7 @@ app.post('/api/withdrawals/approve', async (req, res) => {
         const result = await paymentResponse.json();
         
         if (result.success) {
+            // ✅ UPDATE WITHDRAWAL COLLECTION
             await supabase
                 .from('withdrawals')
                 .update({
@@ -4370,6 +4372,55 @@ app.post('/api/withdrawals/approve', async (req, res) => {
                     updated_at: new Date().toISOString()
                 })
                 .eq('id', requestId);
+
+            // ✅ UPDATE USER'S WITHDRAWAL HISTORY
+            const user = await getUser(withdrawal.user_id);
+            if (user) {
+                const withdrawalHistory = user.withdrawal_history || [];
+                
+                // Find and update the specific withdrawal in history
+                const updatedHistory = withdrawalHistory.map(entry => {
+                    // Match by amount and approximate date (within 1 hour)
+                    const entryDate = new Date(entry.date);
+                    const withdrawalDate = new Date(withdrawal.created_at);
+                    const timeDiff = Math.abs(entryDate - withdrawalDate);
+                    
+                    if (entry.amount === withdrawal.amount && timeDiff < 3600000) { // 1 hour
+                        return {
+                            ...entry,
+                            status: 'approved',
+                            transactionHash: result.txHash,
+                            explorerLink: result.explorerLink,
+                            approvedAt: new Date().toISOString()
+                        };
+                    }
+                    return entry;
+                });
+                
+                // If not found in history, add it
+                let finalHistory = updatedHistory;
+                const existingEntry = updatedHistory.find(entry => 
+                    entry.amount === withdrawal.amount && 
+                    Math.abs(new Date(entry.date) - new Date(withdrawal.created_at)) < 3600000
+                );
+                
+                if (!existingEntry) {
+                    finalHistory = [{
+                        amount: withdrawal.amount,
+                        cakeAmount: withdrawal.cake_amount,
+                        status: 'approved',
+                        date: withdrawal.created_at,
+                        transactionHash: result.txHash,
+                        explorerLink: result.explorerLink,
+                        approvedAt: new Date().toISOString(),
+                        wallet: withdrawal.wallet
+                    }, ...withdrawalHistory];
+                }
+                
+                await saveUser(withdrawal.user_id, {
+                    withdrawal_history: finalHistory
+                });
+            }
 
             await sendWithdrawalSuccessDM(withdrawal.user_id, withdrawal, result);
             
@@ -4417,6 +4468,7 @@ app.post('/api/withdrawals/approve', async (req, res) => {
 });
 
 // API endpoint to reject withdrawal
+// API endpoint to reject withdrawal
 app.post('/api/withdrawals/reject', async (req, res) => {
     try {
         const { requestId } = req.body;
@@ -4432,12 +4484,14 @@ app.post('/api/withdrawals/reject', async (req, res) => {
             return res.status(404).json({ success: false, error: 'Withdrawal request not found' });
         }
         
+        // Refund points
         await updateUserBalance(withdrawal.user_id, withdrawal.amount, {
             type: 'withdrawal_refund',
             amount: withdrawal.amount,
             description: 'Withdrawal refund - request rejected'
         });
         
+        // Update withdrawal collection
         await supabase
             .from('withdrawals')
             .update({
@@ -4447,6 +4501,32 @@ app.post('/api/withdrawals/reject', async (req, res) => {
                 updated_at: new Date().toISOString()
             })
             .eq('id', requestId);
+
+        // ✅ UPDATE USER'S WITHDRAWAL HISTORY
+        const user = await getUser(withdrawal.user_id);
+        if (user) {
+            const withdrawalHistory = user.withdrawal_history || [];
+            
+            const updatedHistory = withdrawalHistory.map(entry => {
+                const entryDate = new Date(entry.date);
+                const withdrawalDate = new Date(withdrawal.created_at);
+                const timeDiff = Math.abs(entryDate - withdrawalDate);
+                
+                if (entry.amount === withdrawal.amount && timeDiff < 3600000) {
+                    return {
+                        ...entry,
+                        status: 'rejected',
+                        rejectedAt: new Date().toISOString(),
+                        refunded: true
+                    };
+                }
+                return entry;
+            });
+            
+            await saveUser(withdrawal.user_id, {
+                withdrawal_history: updatedHistory
+            });
+        }
         
         res.json({ 
             success: true, 
