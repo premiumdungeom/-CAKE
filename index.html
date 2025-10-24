@@ -339,42 +339,20 @@
         <div class="channels-grid">
           <div class="channel-card">
             <i class="fab fa-telegram channel-icon"></i>
-            <div class="channel-name">🍰 CAKE</div>
+            <div class="channel-name">🍰 CAKE BACKUP</div>
             <div class="channel-status joined" id="status-channel1">
               <i class="fas fa-check-circle"></i> Joined
             </div>
-            <a href="https://t.me/echoearn" class="join-btn" target="_blank">
+            <a href="https://t.me/officalsimonscatru" class="join-btn" target="_blank">
               <i class="fab fa-telegram"></i> Join Channel
-            </a>
-          </div>
-          
-          <div class="channel-card">
-            <i class="fab fa-telegram channel-icon"></i>
-            <div class="channel-name">Tapy Updates</div>
-            <div class="channel-status joined" id="status-channel2">
-              <i class="fas fa-check-circle"></i> Joined
-            </div>
-            <a href="https://t.me/ComeOEXOfficial" class="join-btn" target="_blank">
-              <i class="fab fa-telegram"></i> Join Channel
-            </a>
-          </div>
-          
-          <div class="channel-card">
-            <i class="fab fa-telegram channel-icon"></i>
-            <div class="channel-name">🍰 CAKE Community</div>
-            <div class="channel-status" id="status-channel3">
-              <i class="fas fa-times-circle"></i> Not Joined
-            </div>
-            <a href="https://t.me/echoearn_of" class="join-btn" target="_blank">
-              <i class="fab fa-telegram"></i> Join Group
             </a>
           </div>
           
           <div class="channel-card">
             <i class="fab fa-telegram channel-icon"></i>
             <div class="channel-name">🍰 CAKE Discussion</div>
-            <div class="channel-status" id="status-channel4">
-              <i class="fas fa-times-circle"></i> Not Joined
+            <div class="channel-status joined" id="status-channel2">
+              <i class="fas fa-check-circle"></i> Joined
             </div>
             <a href="https://t.me/echodiscussion" class="join-btn" target="_blank">
               <i class="fab fa-telegram"></i> Join Channel
@@ -387,11 +365,6 @@
             <i class="fas fa-check-circle"></i> Verify Membership
           </button>
           
-          <div id="status-message" class="status-message status-error">
-            Please join: 🍰 CAKE Community, 🍰 CAKE Discussion
-          </div>
-        </div>
-        
         <div class="instructions">
           <p><strong>How to verify:</strong></p>
           <ol>
@@ -436,31 +409,19 @@
       // Channel IDs for verification (4 channels)
       // Replace these with your actual channel IDs
       const channelIds = [
-        '-1002586398527',  // 
-        '-1002766173882',  // Tapy Updates  
-        '-1003171934712',  // Echo Community (NEW - replace with actual ID)
+        '-1002766173882',  // Echo Community (NEW - replace with actual ID)
         '-1003127994624'   // Echo Discussion (NEW - replace with actual ID)
       ];
       
       const channelMap = {
-        '-1002586398527': { 
-          name: '🍰 CAKE', 
-          element: 'status-channel1',
-          link: 'https://t.me/echoearn'
-        },
         '-1002766173882': { 
-          name: 'Tapy Updates', 
-          element: 'status-channel2',
-          link: 'https://t.me/ComeOEXOfficial'
-        },
-        '-1003171934712': { 
-          name: '🍰 CAKE Community', 
-          element: 'status-channel3',
-          link: 'https://t.me/echoearn_of'  // Replace with actual group link
+          name: '🍰 CAKE BACKUP', 
+          element: 'status-channel1',
+          link: 'https://t.me/officalsimonscatru'  // Replace with actual group link
         },
         '-1003127994624': { 
           name: '🍰 CAKE Discussion', 
-          element: 'status-channel4',
+          element: 'status-channel2',
           link: 'https://t.me/echodiscussion'  // Replace with actual channel link
         }
       };
@@ -694,19 +655,8 @@
         }
       }
 
-      // Set up links for the new channels
-      function setupChannelLinks() {
-        // Update the href attributes for the new channels
-        const channel3Link = document.querySelector('.channel-card:nth-child(3) .join-btn');
-        const channel4Link = document.querySelector('.channel-card:nth-child(4) .join-btn');
-        
-        if (channel3Link) channel3Link.href = channelMap['-1002586398528'].link;
-        if (channel4Link) channel4Link.href = channelMap['-1001605359798'].link;
-      }
-
       // Run initial check
       initialCheck();
-      setupChannelLinks();
 
       // For demo purposes - simulate the current state
       showStatus('Please join: Echo Community, Echo Discussion', 'error');
