@@ -74,9 +74,7 @@ const completionLocks = new Map();
 
 // Channel configuration
 const channels = {
-  '🍰 CAKE Official': '-1002586398527',
-  'Tapy Updates': '-1002766173882',
-  '🍰 CAKE Community': '-1003171934712',
+  '🍰 CAKE BACKUP': '-1002766173882',
   '🍰 CAKE Discussion': '-1003127994624'
 };
 
@@ -344,6 +342,44 @@ async function updateUserVerification(userId, status) {
   }
 }
 
+// Check if user has joined all required channels
+async function checkUserChannelMembership(userId) {
+  try {
+    const channels = [
+      '-1002586398527', // 🍰 CAKE Official
+      '-1003171934712', // 🍰 CAKE Community  
+      '-1001605359797', // 📢 Tapy Updates
+      '-1002373143557'  // 💎 TON
+    ];
+    
+    let allJoined = true;
+    
+    for (const channelId of channels) {
+      try {
+        const result = await bot.getChatMember(channelId, userId);
+        const status = result.status;
+        
+        if (status === 'left' || status === 'kicked') {
+          console.log(`❌ User ${userId} not joined channel: ${channelId}`);
+          allJoined = false;
+          break;
+        }
+      } catch (error) {
+        console.error(`Error checking channel ${channelId}:`, error.message);
+        allJoined = false;
+        break;
+      }
+    }
+    
+    console.log(`📊 Channel check for ${userId}: ${allJoined ? 'ALL JOINED' : 'MISSING SOME'}`);
+    return allJoined;
+    
+  } catch (error) {
+    console.error('Error in channel membership check:', error);
+    return false;
+  }
+}
+
 async function updateUserBalance(userId, amount, transactionData = null) {
   try {
     console.log(`💰 Updating balance for user ${userId}: +${amount} points`);
@@ -403,6 +439,73 @@ async function updateUserBalance(userId, amount, transactionData = null) {
     console.error('Error details:', error.message);
     return false;
   }
+}
+
+// Show welcome message after verification
+async function showWelcomeMessage(chatId, userId, startParam, user) {
+  let welcomeMessage = `🎉 *WELCOME TO 🍰 CAKE!*\n\n`;
+  welcomeMessage += `✅ *Channels Joined: Verified*  \n`;
+  welcomeMessage += `🛡️ *Security: Verified*  \n\n`;
+  welcomeMessage += `🎯 *Earn points by completing simple tasks*\n`;
+  welcomeMessage += `💰 *Withdraw your earnings easily*\n\n`;
+  
+  // Process referral if present and user is new
+  if (startParam && (!user || !user.referred_by)) {
+    console.log(`🎯 Processing referral for fully verified user: ${startParam} -> ${userId}`);
+    
+    let referrerId = null;
+    
+    if (startParam.startsWith('ref')) {
+      referrerId = startParam.replace('ref', '');
+    } else if (startParam.match(/^\d+$/)) {
+      referrerId = startParam;
+    }
+    
+    if (referrerId && referrerId !== userId.toString()) {
+      const referralSuccess = await processReferralInBot(referrerId, userId.toString());
+      
+      if (referralSuccess) {
+        welcomeMessage += `🎉 *You joined via referral! Your friend earned bonus points.*\n\n`;
+        
+        await saveUser(userId.toString(), {
+          referred_by: referrerId,
+          referral_processed: true,
+          referral_processed_at: new Date().toISOString(),
+          joined_via: 'referral'
+        });
+        
+        console.log(`✅ Referral processed for fully verified user: ${referrerId} -> ${userId}`);
+      }
+    }
+  }
+  
+  welcomeMessage += `📱 *Click the button below to start earning!*`;
+  
+  const keyboard = {
+    inline_keyboard: [
+      [
+        {
+          text: '🚀 Launch CAKE App',
+          web_app: { url: 'https://www.echoearn.work/' }
+        }
+      ],
+      [
+        {
+          text: '📊 EARN BOARD',
+          callback_data: 'earn_board'
+        },
+        {
+          text: '🎮 PLAY WORDLE',
+          callback_data: 'play_wordle'
+        }
+      ]
+    ]
+  };
+  
+  await bot.sendMessage(chatId, welcomeMessage, {
+    parse_mode: 'Markdown',
+    reply_markup: keyboard
+  });
 }
 
 // Withdrawal DM function
@@ -599,6 +702,56 @@ bot.on('callback_query', async (callbackQuery) => {
             }
           }
         );
+      }
+    }
+    else if (data.startsWith('check_channels_')) {
+      const startParam = data.replace('check_channels_', '');
+      
+      const hasJoined = await checkUserChannelMembership(userId);
+      
+      if (hasJoined) {
+        // User joined all channels, now check verification
+        const user = await getUser(userId.toString());
+        const isVerified = user?.security_verified || user?.captcha_verified;
+        
+        if (!isVerified) {
+          // Not verified - show security captcha
+          let webAppUrl = `https://www.echoearn.work/invite-captcha.html?start=true&auto=true`;
+          
+          if (startParam !== 'normal') {
+            const referrerId = startParam.startsWith('ref') ? startParam.replace('ref', '') : startParam;
+            webAppUrl += `&ref=${referrerId}`;
+          }
+          
+          await bot.editMessageText(
+            `✅ *Channels Joined Successfully!*\n\n` +
+            `🛡️ *Final Security Check Required*\n\n` +
+            `To prevent multi-account abuse, please complete a quick security verification.\n\n` +
+            `*Click the button below to continue:*`,
+            {
+              chat_id: chatId,
+              message_id: callbackQuery.message.message_id,
+              parse_mode: 'Markdown',
+              reply_markup: {
+                inline_keyboard: [[
+                  {
+                    text: '🛡️ Start Security Verification',
+                    web_app: { url: webAppUrl }
+                  }
+                ]]
+              }
+            }
+          );
+        } else {
+          // Already verified - show welcome directly
+          await showWelcomeMessage(chatId, userId, startParam, user);
+        }
+      } else {
+        // User hasn't joined all channels
+        await bot.answerCallbackQuery(callbackQuery.id, {
+          text: '❌ Please join ALL channels before proceeding',
+          show_alert: true
+        });
       }
     }
     else if (data === 'wordle_stats') {
@@ -909,11 +1062,51 @@ bot.on('message', async (msg) => {
     if (text.startsWith('/start')) {
       const startParam = text.split(' ')[1];
       
+      const hasJoinedChannels = await checkUserChannelMembership(userId);
+      if (!hasJoinedChannels) {
+        console.log(`📢 User ${userId} hasn't joined all channels, showing channel join`);
+        
+        const channelKeyboard = {
+          inline_keyboard: [
+            [
+              { text: '🍰 CAKE Official', url: 'https://t.me/echoearn' },
+              { text: '🍰 CAKE Community', url: 'https://t.me/echoearn_of' }
+            ],
+            [
+              { text: '📢 Tapy Updates', url: 'https://t.me/ComeOEXOfficial' },
+              { text: '💎 TON', url: 'https://t.me/WKC_OFFICIAL' }
+            ],
+            [
+              { 
+                text: '✅ I Have Joined All', 
+                callback_data: `check_channels_${startParam || 'normal'}` 
+              }
+            ]
+          ]
+        };
+        
+        await bot.sendMessage(chatId,
+          `📢 *JOIN OUR CHANNELS TO GET STARTED*\n\n` +
+          `To access 🍰 CAKE and start earning, please join all our official channels first:\n\n` +
+          `• 🍰 CAKE Official - Updates & announcements\n` +
+          `• 🍰 CAKE Community - Community chat\n` +
+          `• 📢 Tapy Updates - Important news\n` +
+          `• 💎 TON - Help & support\n\n` +
+          `*After joining all channels, click "I Have Joined All"* ✅`,
+          {
+            parse_mode: 'Markdown',
+            reply_markup: channelKeyboard,
+            disable_web_page_preview: true
+          }
+        );
+        return;
+      }
+      
       const user = await getUser(userId.toString());
       const isVerified = user?.security_verified || user?.captcha_verified;
       
       if (!isVerified) {
-        console.log(`🛡️ User ${userId} not verified, redirecting to captcha`);
+        console.log(`🛡️ User ${userId} joined channels but not verified, redirecting to captcha`);
         
         let webAppUrl = `https://www.echoearn.work/invite-captcha.html?start=true`;
         
@@ -929,16 +1122,17 @@ bot.on('message', async (msg) => {
         const keyboard = {
           inline_keyboard: [[
             {
-              text: '🛡️ Verify Account',
+              text: '🛡️ Verify Account Security',
               web_app: { url: webAppUrl }
             }
           ]]
         };
         
         await bot.sendMessage(chatId, 
-          `🛡️ *Account Verification Required*\n\n` +
-          `To prevent multi-account abuse, please verify your account security status before accessing the app.\n\n` +
-          `This ensures fair rewards for all users! ✅`,
+          `✅ *Channels Joined Successfully!*\n\n` +
+          `🛡️ *Final Security Check Required*\n\n` +
+          `To prevent multi-account abuse, please complete a quick security verification before accessing the app.\n\n` +
+          `This ensures fair rewards for all legitimate users! ✅`,
           {
             parse_mode: 'Markdown',
             reply_markup: keyboard
@@ -947,11 +1141,13 @@ bot.on('message', async (msg) => {
         return;
       }
       
-      console.log(`✅ User ${userId} is verified, proceeding with normal start`);
+      console.log(`✅ User ${userId} has channels joined and is verified, showing welcome`);
             
-      let welcomeMessage = `👋 *Welcome to 🍰 CAKE!*\n\n`;
-      welcomeMessage += `🎯 *Earn points by completing simple tasks*\n`;
-      welcomeMessage += `💰 *Withdraw your earnings easily*\n\n`;
+      let welcomeMessage = `🎉 *WELCOME TO 🍰 CAKE!*\n\n`;
+        welcomeMessage += `✅ *Channels Joined: Verified*  \n`;
+        welcomeMessage += `🛡️ *Security: Verified*  \n\n`;
+        welcomeMessage += `🎯 *Earn points by completing simple tasks*\n`;
+        welcomeMessage += `💰 *Withdraw your earnings easily*\n\n`;
       
       if (startParam && (!user || !user.referred_by)) {
         console.log(`🎯 Processing referral for verified user: ${startParam} -> ${userId}`);
@@ -988,7 +1184,7 @@ bot.on('message', async (msg) => {
         inline_keyboard: [
           [
             {
-              text: '🚀 Start Earning',
+              text: '🚀 Launch CAKE App',
               web_app: { url: 'https://www.echoearn.work/' }
             }
           ],
