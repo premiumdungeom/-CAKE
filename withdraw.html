@@ -2743,30 +2743,31 @@ async function getTotalPendingWithdrawals(userId) {
 }
 
 // Add this function to withdraw.html
-// Enhanced withdrawal history logging
-async function logWithdrawalHistory(userId, amount, cakeAmount, status = 'pending', transactionHash = null) {
-    try {
-        const user = await getUser(userId.toString());
-        const withdrawalHistory = user?.withdrawal_history || [];
-        
-        const withdrawalEntry = {
-            amount: amount,
-            cakeAmount: cakeAmount,
-            status: status,
-            date: new Date().toISOString(),
-            transactionHash: transactionHash,
-            id: generateId() // Add unique ID for better tracking
-        };
-        
-        await saveUser(userId.toString(), {
-            withdrawal_history: [withdrawalEntry, ...withdrawalHistory]
-        });
-        
-        return true;
-    } catch (error) {
-        console.error('Error logging withdrawal history:', error);
-        return false;
-    }
+async function logWithdrawalHistory(userId, amount, CAKEAmount, status) {
+  try {
+    const withdrawalEntry = {
+      amount: amount,
+      CAKEAmount: CAKEAmount,
+      status: status,
+      date: new Date().toISOString()
+    };
+    
+    const response = await fetch('/api/user/add-withdrawal-history', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: userId,
+        withdrawalEntry: withdrawalEntry
+      })
+    });
+    
+    return response.ok;
+  } catch (error) {
+    console.error('Error logging withdrawal history:', error);
+    return false;
+  }
 }
 
 // Save withdrawal request to Firebase
