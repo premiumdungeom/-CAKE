@@ -1961,7 +1961,7 @@ app.post('/api/user/deduct-balance', async (req, res) => {
   }
 });
 
-// Comprehensive security check endpoint
+// Only ban the NEW account, not existing ones
 app.post('/api/security/comprehensive-check', async (req, res) => {
   try {
     const { userId, fingerprint, ip, source } = req.body;
@@ -2003,13 +2003,12 @@ app.post('/api/security/comprehensive-check', async (req, res) => {
     if (suspiciousUsers && suspiciousUsers.length > 0) {
       console.log(`🚫 MULTI-ACCOUNT DETECTED for user ${userId}`);
       
-      // Ban all related accounts (including current user)
-      const banReason = 'Multiple account violation - Captcha system detection';
-      const allUserIds = [userId, ...suspiciousUsers.map(u => u.id)];
+      // ✅ ONLY BAN THE NEW ACCOUNT - not existing ones!
+      const banReason = 'Multiple account violation - New account blocked';
       
-      console.log(`🔨 Banning ${allUserIds.length} accounts:`, allUserIds);
+      console.log(`🔨 Banning ONLY new account: ${userId}`);
 
-      // Ban all users
+      // Ban only the new user
       const { error: banError } = await supabase
         .from('users')
         .update({
@@ -2017,29 +2016,27 @@ app.post('/api/security/comprehensive-check', async (req, res) => {
           ban_reason: banReason,
           updated_at: new Date().toISOString()
         })
-        .in('id', allUserIds);
+        .eq('id', userId.toString()); // Only ban the new user
 
       if (banError) {
         console.error('Ban error:', banError);
         throw banError;
       }
 
-      console.log(`✅ SUCCESS: Banned ${allUserIds.length} accounts for multi-account violation`);
+      console.log(`✅ SUCCESS: Banned only new account ${userId} for multi-account violation`);
 
       // Send detailed Telegram notification
       try {
-        const totalBalance = allUserIds.reduce((sum, id) => {
-          const user = existingUsers.find(u => u.id === id);
-          return sum + (user?.balance || 0);
-        }, 0);
+        const existingBalances = suspiciousUsers.map(u => u.balance || 0);
+        const totalExistingBalance = existingBalances.reduce((sum, balance) => sum + balance, 0);
         
         await bot.sendMessage(
           adminId, 
-          `🚫 CAPTCHA SYSTEM BANNED MULTI-ACCOUNTS 🔥\n\n` +
-          `👥 ${allUserIds.length} ACCOUNTS BANNED\n` +
-          `💰 TOTAL BALANCE: ${totalBalance} points\n` +
-          `🎯 NEW USER: ${userId}\n` +
-          `🔗 RELATED: ${suspiciousUsers.map(u => `${u.id} (${u.balance || 0}p)`).join(', ')}\n` +
+          `🚫 NEW ACCOUNT BLOCKED FOR MULTI-ACCOUNT 🔥\n\n` +
+          `🎯 NEW USER BANNED: ${userId}\n` +
+          `🔗 EXISTING ACCOUNTS FOUND: ${suspiciousUsers.length}\n` +
+          `💰 EXISTING BALANCES PROTECTED: ${totalExistingBalance} points\n` +
+          `📝 Existing users: ${suspiciousUsers.map(u => `${u.id} (${u.balance || 0}p)`).join(', ')}\n` +
           `🖐️ FINGERPRINT: ${fingerprint?.substring(0, 15)}...\n` +
           `🌐 IP: ${clientIp}\n` +
           `📱 SOURCE: ${source}\n` +
@@ -2054,7 +2051,8 @@ app.post('/api/security/comprehensive-check', async (req, res) => {
         reason: banReason,
         type: 'multi_account',
         multiAccount: true,
-        relatedAccounts: suspiciousUsers.length
+        relatedAccounts: suspiciousUsers.length,
+        message: 'New account blocked - existing accounts preserved'
       });
     }
 
@@ -2101,8 +2099,7 @@ app.post('/api/security/comprehensive-check', async (req, res) => {
   }
 });
 
-// Enhanced ban detection that works with existing users
-// CORRECTED ban detection - fixes the self-banning issue
+// Only ban the NEW account in check-ban endpoint
 app.post('/api/security/check-ban', async (req, res) => {
   try {
     const { userId, fingerprint, ip } = req.body;
@@ -2121,7 +2118,7 @@ app.post('/api/security/check-ban', async (req, res) => {
       });
     }
 
-    // CORRECTED: Check for OTHER users with same fingerprint OR IP
+    // Check for OTHER users with same fingerprint OR IP
     const { data: existingUsers, error } = await supabase
       .from('users')
       .select('id, username, captcha_verified, captcha_fingerprint, captcha_ip, banned, ban_reason, balance, created_at')
@@ -2132,7 +2129,7 @@ app.post('/api/security/check-ban', async (req, res) => {
       throw error;
     }
 
-    // CORRECTED: Filter out the current user and only get ACTUAL other users
+    // Filter out the current user and only get ACTUAL other users
     const suspiciousUsers = existingUsers?.filter(u => 
       u.id !== userId.toString() && // EXCLUDE CURRENT USER
       !u.banned // Only active users
@@ -2144,13 +2141,12 @@ app.post('/api/security/check-ban', async (req, res) => {
       console.log(`🚫 MULTI-ACCOUNT DETECTED for user ${userId}`);
       console.log(`Related accounts:`, suspiciousUsers.map(u => ({ id: u.id, balance: u.balance })));
       
-      // Ban all related accounts (including current user)
-      const banReason = 'Multiple account violation - Automated detection';
-      const allUserIds = [userId, ...suspiciousUsers.map(u => u.id)];
+      // ✅ ONLY BAN THE NEW ACCOUNT - not existing ones!
+      const banReason = 'Multiple account violation - New account blocked';
       
-      console.log(`🔨 Banning ${allUserIds.length} accounts:`, allUserIds);
+      console.log(`🔨 Banning ONLY new account: ${userId}`);
 
-      // Ban all users
+      // Ban only the new user
       const { error: banError } = await supabase
         .from('users')
         .update({
@@ -2158,29 +2154,27 @@ app.post('/api/security/check-ban', async (req, res) => {
           ban_reason: banReason,
           updated_at: new Date().toISOString()
         })
-        .in('id', allUserIds);
+        .eq('id', userId.toString()); // Only ban the new user
 
       if (banError) {
         console.error('Ban error:', banError);
         throw banError;
       }
 
-      console.log(`✅ SUCCESS: Banned ${allUserIds.length} accounts for multi-account violation`);
+      console.log(`✅ SUCCESS: Banned only new account ${userId} for multi-account violation`);
 
       // Send detailed Telegram notification
       try {
-        const totalBalance = allUserIds.reduce((sum, id) => {
-          const user = existingUsers.find(u => u.id === id);
-          return sum + (user?.balance || 0);
-        }, 0);
+        const existingBalances = suspiciousUsers.map(u => u.balance || 0);
+        const totalExistingBalance = existingBalances.reduce((sum, balance) => sum + balance, 0);
         
         await bot.sendMessage(
           adminId, 
-          `🚫 MULTI-ACCOUNT BANNED 🔥\n\n` +
-          `👥 ${allUserIds.length} ACCOUNTS BANNED\n` +
-          `💰 TOTAL BALANCE: ${totalBalance} points\n` +
-          `🎯 NEW USER: ${userId}\n` +
-          `🔗 RELATED: ${suspiciousUsers.map(u => `${u.id} (${u.balance || 0}p)`).join(', ')}\n` +
+          `🚫 NEW ACCOUNT BLOCKED FOR MULTI-ACCOUNT 🔥\n\n` +
+          `👥 EXISTING ACCOUNTS FOUND: ${suspiciousUsers.length}\n` +
+          `🎯 NEW USER BANNED: ${userId}\n` +
+          `💰 EXISTING BALANCES PROTECTED: ${totalExistingBalance} points\n` +
+          `🔗 EXISTING USERS: ${suspiciousUsers.map(u => `${u.id} (${u.balance || 0}p)`).join(', ')}\n` +
           `🖐️ FINGERPRINT: ${fingerprint?.substring(0, 15)}...\n` +
           `🌐 IP: ${clientIp}\n` +
           `⏰ DETECTED: ${new Date().toLocaleString()}`
@@ -2194,7 +2188,7 @@ app.post('/api/security/check-ban', async (req, res) => {
         reason: banReason,
         type: 'multi_account',
         relatedAccounts: suspiciousUsers.length,
-        totalBanned: allUserIds.length
+        message: 'New account blocked - existing accounts preserved'
       });
     }
 
