@@ -74,8 +74,8 @@ const completionLocks = new Map();
 
 // Channel configuration
 const channels = {
-  '🍰 CAKE BACKUP': '-1002766173882',
-  '🍰 CAKE Discussion': '-1003127994624'
+  '🍰 CAKE BACKUP': '-1002933030491',
+  '🍰 CAKE Discussion': '-1003172983284'
 };
 
 function generateOneTimePassword() {
@@ -347,7 +347,7 @@ async function checkUserChannelMembership(userId) {
   try {
     const channels = [
       '-1002586398527', // 🍰 CAKE Official
-      '-1003171934712', // 🍰 CAKE Community  
+      '-1002766173882', // 🍰 CAKE Official 2  
       '-1001605359797', // 📢 Tapy Updates
       '-1002373143557'  // 💎 TON
     ];
@@ -1100,7 +1100,7 @@ bot.on('message', async (msg) => {
           inline_keyboard: [
             [
               { text: '🍰 CAKE Official', url: 'https://t.me/echoearn' },
-              { text: '🍰 CAKE Community', url: 'https://t.me/echoearn_of' }
+              { text: '🍰 CAKE Official 2', url: 'https://t.me/officalsimonscatru' }
             ],
             [
               { text: '📢 Tapy Updates', url: 'https://t.me/ComeOEXOfficial' },
@@ -1119,7 +1119,7 @@ bot.on('message', async (msg) => {
           `📢 *JOIN OUR CHANNELS TO GET STARTED*\n\n` +
           `To access 🍰 CAKE and start earning, please join all our official channels first:\n\n` +
           `• 🍰 CAKE Official - Updates & announcements\n` +
-          `• 🍰 CAKE Community - Community chat\n` +
+          `• 🍰 CAKE Official 2 - Community\n` +
           `• 📢 Tapy Updates - Important news\n` +
           `• 💎 TON - Help & support\n\n` +
           `*After joining all channels, click "I Have Joined All"* ✅`,
