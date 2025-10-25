@@ -349,6 +349,7 @@ async function checkUserChannelMembership(userId) {
       '-1002586398527', // 🍰 CAKE Official
       '-1002766173882', // 🍰 CAKE Official 2  
       '-1001605359797',
+      '-1002139309716',
       '-1003213012896', // 📢 Tapy Updates
       '-1002373143557'  // 💎 TON
     ];
@@ -1118,6 +1119,7 @@ bot.on('message', async (msg) => {
           `🔹 <a href="https://t.me/echoearn"><b>🍰 CAKE Official</b></a> — Updates & Announcements\n` +
           `🔹 <a href="https://t.me/officalsimonscatru"><b>🍰 CAKE Official 2</b></a> — Community Chat\n` +
           `🔹 <a href="https://t.me/ComeOEXOfficial"><b>📢 Tapy Updates</b></a> — Important News\n` +
+          `🔹 <a href="https://t.me/FLOWTECHUPDATE"><b>🧑‍💻 Flow Tech</b></a> — Tech\n` +
           `🔹 <a href="https://t.me/WKC_OFFICIAL"><b>💎 TON Support</b></a> — Help & Assistance\n\n` +
           `✅ <b>After joining all channels, tap “I Have Joined All” to continue!</b>\n\n` +
           `🚀 <i>Let’s get you started on your CAKE journey!</i> 🍰`,
