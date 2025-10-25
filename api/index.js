@@ -1100,7 +1100,8 @@ bot.on('message', async (msg) => {
           inline_keyboard: [
             [
               { text: '🍰 CAKE Official', url: 'https://t.me/echoearn' },
-              { text: '🍰 CAKE Community', url: 'https://t.me/echoearn_of' }
+              { text: '🍰 CAKE Community', url: 'https://t.me/echoearn_of' },
+              { text: 'THE FLOW', url: 'https://t.me/FLOWTECHUPDATE' }
             ],
             [
               { text: '📢 Tapy Updates', url: 'https://t.me/ComeOEXOfficial' },
