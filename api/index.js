@@ -74,8 +74,8 @@ const completionLocks = new Map();
 
 // Channel configuration
 const channels = {
-  '🍰 CAKE BACKUP': '-1002766173882',
-  '🍰 CAKE Discussion': '-1003127994624'
+  '🍰 CAKE BACKUP': '-1003172983284',
+  '🍰 CAKE Discussion': '-1002933030491'
 };
 
 function generateOneTimePassword() {
@@ -347,7 +347,7 @@ async function checkUserChannelMembership(userId) {
   try {
     const channels = [
       '-1002586398527', // 🍰 CAKE Official
-      '-1002933030491', // 🍰 CAKE Community  
+      '-1002766173882', // 🍰 CAKE CommuniCommunity  
       '-1001605359797', // 📢 Tapy Updates
       '-1002373143557'  // 💎 TON
     ];
@@ -1100,7 +1100,7 @@ bot.on('message', async (msg) => {
           inline_keyboard: [
             [
               { text: '🍰 CAKE Official', url: 'https://t.me/echoearn' },
-              { text: '🍰 CAKE Support', url: 'https://t.me/theultimae' },
+              { text: '🍰 CAKE Support', url: 'https://t.me/officalsimonscatru' },
               { text: 'THE FLOW', url: 'https://t.me/FLOWTECHUPDATE' }
             ],
             [
