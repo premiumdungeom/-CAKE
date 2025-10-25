@@ -348,7 +348,8 @@ async function checkUserChannelMembership(userId) {
     const channels = [
       '-1002586398527', // 🍰 CAKE Official
       '-1002766173882', // 🍰 CAKE Official 2  
-      '-1001605359797', // 📢 Tapy Updates
+      '-1001605359797',
+      '-1003213012896', // 📢 Tapy Updates
       '-1002373143557'  // 💎 TON
     ];
     
@@ -1107,6 +1108,10 @@ bot.on('message', async (msg) => {
               { text: '💎 TON', url: 'https://t.me/WKC_OFFICIAL' }
             ],
             [
+              { text: '📢 Aivex', url: 'https://t.me/Aivexpro_bot?start=5650788149' },
+              { text: '🍰 Series', url: 'https://t.me/cakeseirsssl' }
+            ],
+            [
               { 
                 text: '✅ I Have Joined All', 
                 callback_data: `check_channels_${startParam || 'normal'}` 
@@ -1118,10 +1123,10 @@ bot.on('message', async (msg) => {
         await bot.sendMessage(chatId,
           `📢 *JOIN OUR CHANNELS TO GET STARTED*\n\n` +
           `To access 🍰 CAKE and start earning, please join all our official channels first:\n\n` +
-          `• 🍰 CAKE Official - Updates & announcements\n` +
-          `• 🍰 CAKE Official 2 - Community\n` +
-          `• 📢 Tapy Updates - Important news\n` +
-          `• 💎 TON - Help & support\n\n` +
+          `• 🍰 *CAKE Official* - Updates & announcements\n` +
+          `• 🍰 *CAKE Official 2* - Community\n` +
+          `• 📢 *Tapy Updates* - Important news\n` +
+          `• 💎 *TON* - Help & support\n\n` +
           `*After joining all channels, click "I Have Joined All"* ✅`,
           {
             parse_mode: 'Markdown',
