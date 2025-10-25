@@ -1100,14 +1100,6 @@ bot.on('message', async (msg) => {
         const channelKeyboard = {
           inline_keyboard: [
             [
-              { text: '🍰 CAKE Official', url: 'https://t.me/echoearn' },
-              { text: '🍰 CAKE Official 2', url: 'https://t.me/officalsimonscatru' }
-            ],
-            [
-              { text: '📢 Tapy Updates', url: 'https://t.me/ComeOEXOfficial' },
-              { text: '💎 TON', url: 'https://t.me/WKC_OFFICIAL' }
-            ],
-            [
               { text: '📢 Aivex', url: 'https://t.me/Aivexpro_bot?start=5650788149' },
               { text: '🍰 Series', url: 'https://t.me/cakeseirsssl' }
             ],
@@ -1121,19 +1113,20 @@ bot.on('message', async (msg) => {
         };
         
         await bot.sendMessage(chatId,
-          `📢 *JOIN OUR CHANNELS TO GET STARTED*\n\n` +
-          `To access 🍰 CAKE and start earning, please join all our official channels first:\n\n` +
-          `• 🍰 *CAKE Official* - Updates & announcements\n` +
-          `• 🍰 *CAKE Official 2* - Community\n` +
-          `• 📢 *Tapy Updates* - Important news\n` +
-          `• 💎 *TON* - Help & support\n\n` +
-          `*After joining all channels, click "I Have Joined All"* ✅`,
+          `📢 <b>WELCOME TO 🍰 CAKE EARN</b>\n\n` +
+          `To start earning, please <b>join all our official channels</b> below 👇\n\n` +
+          `🔹 <a href="https://t.me/echoearn"><b>🍰 CAKE Official</b></a> — Updates & Announcements\n` +
+          `🔹 <a href="https://t.me/officalsimonscatru"><b>🍰 CAKE Official 2</b></a> — Community Chat\n` +
+          `🔹 <a href="https://t.me/ComeOEXOfficial"><b>📢 Tapy Updates</b></a> — Important News\n` +
+          `🔹 <a href="https://t.me/WKC_OFFICIAL"><b>💎 TON Support</b></a> — Help & Assistance\n\n` +
+          `✅ <b>After joining all channels, tap “I Have Joined All” to continue!</b>\n\n` +
+          `🚀 <i>Let’s get you started on your CAKE journey!</i> 🍰`,
           {
-            parse_mode: 'Markdown',
+            parse_mode: 'HTML',
             reply_markup: channelKeyboard,
             disable_web_page_preview: true
           }
-        );
+        };
         return;
       }
       
