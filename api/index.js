@@ -1104,7 +1104,8 @@ bot.on('message', async (msg) => {
             ],
             [
               { text: '📢 Tapy Updates', url: 'https://t.me/ComeOEXOfficial' },
-              { text: '💎 TON', url: 'https://t.me/WKC_OFFICIAL' }
+              { text: '💎 TON', url: 'https://t.me/WKC_OFFICIAL' },
+              { text: 'Gem', url: 'https://t.me/gemhei' }
             ],
             [
               { 
