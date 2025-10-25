@@ -441,6 +441,36 @@ async function updateUserBalance(userId, amount, transactionData = null) {
   }
 }
 
+// Daily reset at 01:00 Nigeria time (00:00 UTC)
+const schedule = require('node-schedule');
+
+// Schedule daily reset at 00:00 UTC (01:00 Nigeria time)
+schedule.scheduleJob('0 0 * * *', async () => {
+  console.log('🔄 Scheduled: Resetting daily riddle stats...');
+  await resetDailyRiddleStats();
+});
+
+async function resetDailyRiddleStats() {
+  try {
+    const { error } = await supabase
+      .from('users')
+      .update({
+        wordle_stats: {
+          today_played: false,
+          today_won: false,
+          today_attempts: 0
+        },
+        updated_at: new Date().toISOString()
+      })
+      .neq('id', '0');
+
+    if (error) throw error;
+    console.log('✅ Daily riddle stats reset completed');
+  } catch (error) {
+    console.error('❌ Error in daily riddle reset:', error);
+  }
+}
+
 // Show welcome message after verification
 async function showWelcomeMessage(chatId, userId, startParam, user) {
   let welcomeMessage = `🎉 *WELCOME TO 🍰 CAKE!*\n\n`;
@@ -2095,6 +2125,41 @@ app.post('/api/security/comprehensive-check', async (req, res) => {
       banned: false,
       multiAccount: false,
       error: 'Security check failed: ' + error.message
+    });
+  }
+});
+
+// Add this API endpoint to reset all riddle stats NOW
+app.post('/api/admin/reset-riddle-stats-now', async (req, res) => {
+  try {
+    console.log('🔄 Resetting riddle stats for all users...');
+    
+    const { error } = await supabase
+      .from('users')
+      .update({
+        wordle_stats: {
+          today_played: false,
+          today_won: false,
+          today_attempts: 0
+        },
+        updated_at: new Date().toISOString()
+      })
+      .neq('id', '0');
+
+    if (error) throw error;
+
+    console.log('✅ Riddle stats reset successfully!');
+    
+    res.json({ 
+      success: true, 
+      message: 'Riddle stats reset for all users' 
+    });
+    
+  } catch (error) {
+    console.error('❌ Error resetting riddle stats:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to reset riddle stats' 
     });
   }
 });
