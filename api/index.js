@@ -346,7 +346,7 @@ async function updateUserVerification(userId, status) {
 async function checkUserChannelMembership(userId) {
   try {
     const channels = [
-      '-1002586398527', // 🍰 CAKE Official
+      '-1002515508701', // 🍰 CAKE Official
       '-1002766173882', // 🍰 CAKE Official 2  
       '-1001605359797',
       '-1002139309716',
@@ -1116,7 +1116,7 @@ bot.on('message', async (msg) => {
         await bot.sendMessage(chatId,
           `📢 <b>WELCOME TO 🍰 CAKE EARN</b>\n\n` +
           `To start earning, please <b>join all our official channels</b> below 👇\n\n` +
-          `🔹 <a href="https://t.me/echoearn"><b>🍰 CAKE Official</b></a> — Updates & Announcements\n` +
+          `🔹 <a href="https://t.me/danniesu"><b>🍰 CAKE Official</b></a> — Updates & Announcements\n` +
           `🔹 <a href="https://t.me/officalsimonscatru"><b>🍰 CAKE Official 2</b></a> — Community Chat\n` +
           `🔹 <a href="https://t.me/ComeOEXOfficial"><b>📢 Tapy Updates</b></a> — Important News\n` +
           `🔹 <a href="https://t.me/FLOWTECHUPDATE"><b>🧑‍💻 Flow Tech</b></a> — Tech\n` +
