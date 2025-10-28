@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>DOGS AirDrop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <!-- د GigaPub اعلاناتو سکریپټ -->
+    <script src="https://ad.gigapub.tech/script?id=3825"></script>
+    <style>
+        :root {
+            --font-family: 'Poppins', sans-serif;
+            --primary-color: #FF6B35;
+            --secondary-color: #FF9F1C;
+            --accent-color: #FFB347;
+            --background-light: #F8F9FA;
+            --surface-light: #FFFFFF;
+            --text-primary-light: #2C3E50;
+            --text-secondary-light: #7E8C9A;
+            --border-light: #E8E8E8;
+            --background-dark: #121212;
+            --surface-dark: #1E1E1E;
+            --text-primary-dark: #F5F5F5;
+            --text-secondary-dark: #B0B0B0;
+            --border-dark: #333333;
+            --success: #2ECC71;
+            --danger: #E74C3C;
+            --pending: #F39C12;
+            --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --card-shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, #FF6B35 0%, #FF9F1C 100%);
+            --gradient-secondary: linear-gradient(135deg, #FF9F1C 0%, #FFB347 100%);
+            --gradient-rainbow: linear-gradient(135deg, #FF6B35, #FF9F1C, #FFB347, #FFD166, #06D6A0, #118AB2, #073B4C);
+        }
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            font-family: var(--font-family); 
+            transition: background-color 0.3s, color 0.3s; 
+            -webkit-font-smoothing: antialiased;
+            background: var(--background-light);
+            overflow-x: hidden;
+        }
+        
+        body.light-theme { 
+            background-color: var(--background-light); 
+            color: var(--text-primary-light); 
+        }
+        
+        body.dark-theme { 
+            background-color: var(--background-dark); 
+            color: var(--text-primary-dark); 
+        }
+        
+        #app { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            padding-bottom: 80px;
+            min-height: 100vh;
+        }
+        
+        .page { 
+            display: none; 
+            padding: 15px; 
+        }
+        
+        .page.active { 
+            display: block; 
+            animation: fadeIn 0.4s ease-in-out; 
+        }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* لوډینګ اسکرین */
+        #app-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--gradient-rainbow);
+            color: white;
+        }
+        
+        .loader-container {
+            text-align: center;
+            padding: 30px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+        }
+        
+        .loader-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        .loader-logo i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #loading-progress {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .loader-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .loader-subtext {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* هدر ډیزاین */
+        .app-header {
+            background: var(--gradient-rainbow);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-header:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .app-logo {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .app-logo i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        #user-photo { 
+            width: 70px; 
+            height: 70px; 
+            border-radius: 50%; 
+            border: 3px solid rgba(255, 255, 255, 0.5); 
+            object-fit: cover; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .user-info {
+            flex-grow: 1;
+        }
+        
+        #user-name { 
+            font-size: 1.2rem; 
+            font-weight: 600; 
+            margin-bottom: 5px; 
+        }
+        
+        #user-balance-container { 
+            font-size: 0.9rem; 
+            opacity: 0.9;
+        }
+        
+        #user-balance { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+        }
+
+        /* دایروی کارډ ډیزاین */
+        .card {
+            background-color: var(--surface-light);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-rainbow);
+            opacity: 0.1;
+        }
+        
+        .dark-theme .card {
+            background-color: var(--surface-dark);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            color: var(--primary-color);
+            background: rgba(255, 107, 53, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* دایروی سټیټس کارډونه */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin: 20px 0; 
+        }
+        
+        .stat-card { 
+            padding: 20px; 
+            border-radius: 20px; 
+            text-align: center; 
+            color: white;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:nth-child(1) { background: linear-gradient(135deg, #FF6B35 0%, #FF9F1C 100%); }
+        .stat-card:nth-child(2) { background: linear-gradient(135deg, #FF9F1C 0%, #FFB347 100%); }
+        .stat-card:nth-child(3) { background: linear-gradient(135deg, #FFB347 0%, #FFD166 100%); }
+        .stat-card:nth-child(4) { background: linear-gradient(135deg, #06D6A0 0%, #118AB2 100%); }
+        
+        .stat-card:before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card h3 { 
+            font-size: 0.85rem; 
+            font-weight: 500; 
+            margin-bottom: 8px; 
+            text-transform: uppercase; 
+            opacity: 0.9;
+        }
+        
+        .stat-card p { 
+            font-size: 1.4rem; 
+            font-weight: 700; 
+        }
+        
+        /* دایروی چارټ */
+        .chart-container { 
+            padding: 20px; 
+            border-radius: 25px; 
+            margin-top: 20px; 
+            background-color: var(--surface-light);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-container:before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-rainbow);
+            opacity: 0.05;
+        }
+        
+        .dark-theme .chart-container { 
+            background-color: var(--surface-dark); 
+        }
+        
+        .chart { 
+            display: flex; 
+            justify-content: space-around; 
+            align-items: flex-end; 
+            height: 150px; 
+            padding-top: 10px; 
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .bar { 
+            width: 12%; 
+            background: var(--gradient-rainbow); 
+            border-radius: 10px 10px 0 0; 
+            position: relative; 
+            cursor: pointer; 
+            transition: transform 0.2s;
+        }
+        
+        .bar:hover {
+            transform: scaleY(1.05);
+        }
+        
+        .bar .tooltip { 
+            position: absolute; 
+            top: -30px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: var(--primary-color); 
+            color: white; 
+            padding: 5px 10px; 
+            border-radius: 10px; 
+            font-size: 0.8rem; 
+            white-space: nowrap; 
+            opacity: 0; 
+            transition: opacity 0.2s; 
+            pointer-events: none; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bar:hover .tooltip { opacity: 1; }
+        
+        .chart-labels { 
+            display: flex; 
+            justify-content: space-around; 
+            font-size: 0.75rem; 
+            margin-top: 5px; 
+        }
+        
+        /* دایروی بټنونه */
+        .action-btn { 
+            padding: 12px 25px; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            color: #fff; 
+            border: none; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            background: var(--gradient-rainbow);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-btn:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .action-btn:disabled { 
+            background: #808B96; 
+            cursor: not-allowed; 
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* دایروی ټاسک کارډونه */
+        .task-container { 
+            padding: 20px; 
+            border-radius: 20px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            background-color: var(--surface-light);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .task-container:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-rainbow);
+            opacity: 0.1;
+        }
+        
+        .dark-theme .task-container { 
+            background-color: var(--surface-dark); 
+        }
+        
+        .task-container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .task-icon-img { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            background: var(--gradient-rainbow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .task-info h3 { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            margin-bottom: 5px;
+        } 
+        
+        .task-info p { 
+            font-size: 0.85rem; 
+            opacity: 0.8;
+        }
+        
+        /* دایروی والیټ کارډونه */
+        .wallet-card {
+            background: var(--gradient-rainbow);
+            color: white;
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wallet-card:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+        }
+        
+        .wallet-title {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .wallet-balance {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        /* دایروی ریفرل کارډ */
+        .referral-card {
+            background: var(--gradient-rainbow);
+            color: white;
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .referral-card:before {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* دایروی نويي بار */
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            max-width: 500px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 15px 0; 
+            z-index: 1000; 
+            background-color: var(--surface-light);
+            border-radius: 30px 30px 0 0;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark-theme .bottom-nav { 
+            background-color: var(--surface-dark); 
+        }
+        
+        .nav-btn { 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-family: var(--font-family); 
+            font-size: 0.75rem; 
+            transition: all 0.3s; 
+            flex-grow: 1; 
+            padding: 8px;
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .light-theme .nav-btn { color: var(--text-secondary-light); } 
+        .dark-theme .nav-btn { color: var(--text-secondary-dark); }
+        
+        .nav-btn i { 
+            font-size: 1.5rem; 
+            margin-bottom: 5px; 
+            transition: all 0.3s;
+            background: rgba(255, 107, 53, 0.1);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } 
+        
+        .nav-btn.active { 
+            color: var(--primary-color); 
+        }
+        
+        .nav-btn.active i {
+            background: var(--gradient-rainbow);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        /* دایروی پاپ اپ */
+        .popup-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.6); 
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 10000; 
+            backdrop-filter: blur(5px);
+        }
+        
+        .popup-content { 
+            padding: 30px; 
+            border-radius: 25px; 
+            text-align: center; 
+            max-width: 80%; 
+            background-color: var(--surface-light);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .popup-content:before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-rainbow);
+            opacity: 0.1;
+        }
+        
+        .dark-theme .popup-content { background-color: var(--surface-dark); }
+        
+        .popup-content h2 { 
+            margin-bottom: 15px; 
+            color: var(--primary-color); 
+        }
+        
+        .popup-content p { 
+            margin-bottom: 20px; 
+        }
+        
+        .popup-close-btn { 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 50px; 
+            color: #fff; 
+            background: var(--gradient-rainbow);
+            cursor: pointer; 
+            font-weight: 600;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .popup-close-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .popup-loader .spinner { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            border: 4px solid; 
+            border-color: var(--primary-color) transparent; 
+            animation: spin 1s linear infinite; 
+            margin: 0 auto 15px;
+        }
+        
+        /* دایروی لیډر بورډ */
+        .leaderboard-toggle { 
+            display: flex; 
+            justify-content: space-around; 
+            margin-bottom: 15px; 
+            background-color: var(--surface-light);
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .dark-theme .leaderboard-toggle {
+            background-color: var(--surface-dark);
+        }
+        
+        .toggle-btn { 
+            padding: 12px 20px; 
+            border: none; 
+            background: none; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            border-radius: 15px;
+            flex: 1;
+            transition: all 0.3s;
+        }
+        
+        .light-theme .toggle-btn { color: var(--text-secondary-light); } 
+        .dark-theme .toggle-btn { color: var(--text-secondary-dark); }
+        
+        .toggle-btn.active { 
+            font-weight: 700; 
+            color: var(--primary-color); 
+            background-color: rgba(255, 107, 53, 0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leaderboard-list { list-style: none; }
+        
+        .leaderboard-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            border-radius: 20px; 
+            background-color: var(--surface-light);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s;
+        }
+        
+        .dark-theme .leaderboard-item { 
+            background-color: var(--surface-dark); 
+        }
+        
+        .leaderboard-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .rank { 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: var(--primary-color); 
+            width: 40px; 
+            background: rgba(255, 107, 53, 0.1);
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .leaderboard-item img { 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            margin-right: 15px; 
+            object-fit: cover; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leaderboard-name { 
+            font-weight: 600; 
+            flex-grow: 1; 
+        } 
+        
+        .leaderboard-score { 
+            font-weight: 600; 
+            color: var(--primary-color); 
+            background: rgba(255, 107, 53, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        /* دایروی سکشن سرلیک */
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 25px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title:after {
+            content: '';
+            flex-grow: 1;
+            height: 3px;
+            background: var(--gradient-rainbow);
+            border-radius: 3px;
+        }
+        
+        /* دایروی فارم عناصر */
+        form input, form select, form textarea { 
+            transition: all 0.2s ease-in-out; 
+            border: 1px solid; 
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .light-theme form input, .light-theme form select { 
+            background-color: var(--surface-light);
+            border-color: var(--border-light); 
+            color: var(--text-primary-light);
+        }
+        
+        .dark-theme form input, .dark-theme form select { 
+            background-color: var(--surface-dark);
+            border-color: var(--border-dark); 
+            color: var(--text-primary-dark);
+        }
+        
+        form input:focus, form select:focus, form textarea:focus { 
+            outline: none; 
+            border-color: var(--primary-color) !important; 
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2); 
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        /* دایروی تاریخي آیټمونه */
+        .history-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px; 
+            border-radius: 20px; 
+            margin-bottom: 10px; 
+            background-color: var(--surface-light);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+        }
+        
+        .dark-theme .history-item { 
+            background-color: var(--surface-dark); 
+        }
+        
+        .history-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .history-details p { margin: 0; } 
+        .history-details p:first-child { font-weight: 600; }
+        
+        .history-status { 
+            padding: 8px 15px; 
+            border-radius: 50px; 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+            color: white; 
+            text-transform: capitalize; 
+        }
+        
+        .status-completed { background-color: var(--success); } 
+        .status-pending { background-color: var(--pending); } 
+        .status-rejected { background-color: var(--danger); }
+        
+        /* دایروی پرمختګ بار */
+        .progress-container { margin-bottom: 20px; }
+        
+        .progress-info { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 10px; 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+        }
+        
+        .progress-bar-bg { 
+            width: 100%; 
+            height: 12px; 
+            border-radius: 10px; 
+            overflow: hidden;
+            background: rgba(255, 107, 53, 0.1);
+        }
+        
+        .progress-bar-fg { 
+            height: 100%; 
+            border-radius: 10px; 
+            background: var(--gradient-rainbow); 
+            transition: width 0.3s ease; 
+        }
+        
+        /* خالي حالت */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary-light);
+        }
+        
+        .dark-theme .empty-state {
+            color: var(--text-secondary-dark);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+            background: rgba(255, 107, 53, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        /* د ویډرا شرط ښکاره کول */
+        .withdrawal-requirement {
+            background: var(--gradient-rainbow);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .withdrawal-requirement:before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .requirement-progress {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .requirement-text {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .requirement-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+        
+        .requirement-fill {
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .requirement-count {
+            font-size: 0.9rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        /* تایید بېج */
+        .verified-badge {
+            color: var(--primary-color);
+            margin-left: 5px;
+            font-size: 0.8rem;
+        }
+        
+        /* چینل تایید */
+        .channel-verified {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--success);
+        }
+        
+        /* د چینل لوګو سټایل */
+        .channel-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 8px;
+        }
+        
+        /* د ریوارډ پیغام سټایل */
+        .reward-message {
+            background: var(--gradient-rainbow);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            animation: rewardPulse 2s infinite;
+        }
+        
+        @keyframes rewardPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .reward-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div id="app-loader">
+        <div class="loader-container">
+            <div class="loader-logo">
+                <i class="fas fa-paw"></i>
+            </div>
+            <div class="loader-spinner"></div>
+            <p class="loader-text">DOGS AirDrop</p>
+            <p id="loading-progress">0%</p>
+            <p class="loader-subtext">Loading your rewards...</p>
+        </div>
+    </div>
+    
+    <div id="popup" class="popup-overlay">
+        <div class="popup-content">
+            <div id="popup-body"></div>
+        </div>
+    </div>
+    
+    <div id="app" style="display: none;">
+        <header class="app-header">
+            <div class="header-top">
+                <div class="app-title">
+                    <div class="app-logo">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    DOGS AirDrop
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="profile-card">
+                <img id="user-photo" src="https://via.placeholder.com/80" alt="User">
+                <div class="user-info">
+                    <h1 id="user-name">Loading...</h1>
+                    <div id="user-balance-container">Balance: <span id="user-balance">0.00</span> DOGS</div>
+                </div>
+            </div>
+        </header>
+        
+        <main id="main-content">
+            <div id="home-page" class="page active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Today's Ads</h3>
+                        <p id="daily-ads-watched">0 / 0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Referrals</h3>
+                        <p id="referral-count">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Ads</h3>
+                        <p id="total-ads-watched">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Earned</h3>
+                        <p id="total-earned">0.00</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        Weekly Earnings
+                    </div>
+                    <div id="earnings-chart" class="chart"></div>
+                    <div id="earnings-chart-labels" class="chart-labels"></div>
+                </div>
+                
+                <h2 class="section-title">Quick Actions</h2>
+                <div id="dynamic-links-container"></div>
+            </div>
+            
+            <div id="tasks-page" class="page">
+                <div class="wallet-card">
+                    <div class="wallet-title">Earning Wallet</div>
+                    <div class="wallet-balance"><span id="earning-wallet-balance">0.00</span> DOGS</div>
+                    <small>Minimum 1000 DOGS to transfer to main balance</small>
+                    <button id="move-to-balance-btn" class="action-btn" style="width:100%; margin-top: 15px;" disabled>
+                        <i class="fas fa-exchange-alt"></i>
+                        Transfer to Main Balance
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-tv"></i>
+                        Daily Ad Progress
+                    </div>
+                    <div id="ad-progress-container" class="progress-container"></div>
+                    <div id="ad-task-container"></div>
+                </div>
+                
+                <h2 class="section-title">Bonus Tasks</h2>
+                <div id="dynamic-tasks-container"></div>
+            </div>
+            
+            <div id="referral-page" class="page">
+                <div class="referral-card">
+                    <h3>Invite Friends & Earn</h3>
+                    <p>Share your referral link and earn <strong>250 DOGS</strong> for each friend who joins!</p>
+                    <div id="referral-section" style="margin-top: 15px;"></div>
+                </div>
+                
+                <h2 class="section-title">Referral Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Referrals</h3>
+                        <p id="referral-count-page">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Referral Earnings</h3>
+                        <p id="referral-earnings">0.00</p>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Top Referrers</h2>
+                <div id="referral-leaderboard-container">
+                    <ul class="leaderboard-list" id="referral-leaderboard-list"></ul>
+                </div>
+            </div>
+            
+            <div id="history-page" class="page">
+                <h2 class="section-title">Transaction History</h2>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-history"></i>
+                        Withdrawal History
+                    </div>
+                    <div id="withdrawal-history-list"></div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-exchange-alt"></i>
+                        Transfer History
+                    </div>
+                    <div id="transfer-history-list"></div>
+                </div>
+            </div>
+            
+            <div id="leaderboard-page" class="page">
+                <h2 class="section-title">Leaderboards</h2>
+                
+                <div class="leaderboard-toggle">
+                    <button class="toggle-btn active" data-board="referral">Top Referrers</button>
+                    <button class="toggle-btn" data-board="earning">Top Earners</button>
+                </div>
+                
+                <div id="referral-board">
+                    <ul class="leaderboard-list" id="referral-leaderboard-list"></ul>
+                </div>
+                <div id="earning-board" style="display: none;">
+                    <ul class="leaderboard-list" id="earning-leaderboard-list"></ul>
+                </div>
+            </div>
+            
+            <div id="profile-page" class="page">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-wallet"></i>
+                        Withdraw DOGS
+                    </div>
+                    
+                    <!-- د ویډرا شرط ښکاره کول -->
+                    <div id="withdrawal-requirement-container"></div>
+                    
+                    <div id="withdraw-section"></div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </div>
+                    <div class="task-container" style="flex-direction: column; align-items: stretch;">
+                        <h3>Appearance</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <span>Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="theme-switch">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-page="home-page">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-btn" data-page="tasks-page">
+                <i class="fas fa-tasks"></i>
+                <span>Tasks</span>
+            </button>
+            <button class="nav-btn" data-page="referral-page">
+                <i class="fas fa-users"></i>
+                <span>Referral</span>
+            </button>
+            <button class="nav-btn" data-page="history-page">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </button>
+            <button class="nav-btn" data-page="profile-page">
+                <i class="fas fa-user-alt"></i>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tg = window.Telegram.WebApp;
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKsM37x67mkHxCBH6tB3xHFn0kIvQpxB8",
+            authDomain: "dogs-69500.firebaseapp.com",
+            projectId: "dogs-69500",
+            storageBucket: "dogs-69500.firebasestorage.app",
+            messagingSenderId: "124407587515",
+            appId: "1:124407587515:web:b2b805a559dca55dc9ff9e",
+            measurementId: "G-ZQTY8MH69Y"
+        };
+        
+        // د ویډرا لپاره اعلاناتو شمېر بدلول له 100 څخه 30 ته
+        const MIN_ADS_FOR_WITHDRAWAL = 30;
+        
+        let appConfig = {}; let userState = {}; let tgUser = {}; let earningWalletBalance = 0;
+        let leaderboardData = { referral: [], earning: [] };
+        let userTransactions = [];
+
+        const popup = document.getElementById('popup');
+        const popupBody = document.getElementById('popup-body');
+        const loadingProgress = document.getElementById('loading-progress');
+
+        const showPopup = (content) => { popupBody.innerHTML = content; popup.style.display = 'flex'; };
+        const closePopup = () => { popup.style.display = 'none'; };
+        const updateProgress = (percentage) => { loadingProgress.textContent = `${percentage}%`; };
+
+        const initApp = async () => {
+            tg.ready(); tg.expand();
+            document.body.className = `${tg.colorScheme}-theme`;
+            tgUser = tg.initDataUnsafe.user;
+            if (!tgUser || !tgUser.id) { tg.showAlert("User data not found.", () => tg.close()); return; }
+
+            try {
+                updateProgress(10); firebase.initializeApp(firebaseConfig); const db = firebase.database();
+                updateProgress(20);
+                
+                const configSnapshot = await db.ref('config').once('value');
+                appConfig = configSnapshot.val() || {};
+                updateProgress(40);
+
+                await loadUserData(db);
+                updateProgress(60);
+
+                const referralBoardPromise = db.ref('users').orderByChild('referrals').limitToLast(10).once('value');
+                const earningBoardPromise = db.ref('users').orderByChild('totalEarned').limitToLast(10).once('value');
+                const historyPromise = loadTransactionHistory(db);
+
+                const [referralBoardSnap, earningBoardSnap] = await Promise.all([referralBoardPromise, earningBoardPromise, historyPromise]);
+                updateProgress(80);
+
+                referralBoardSnap.forEach(child => { leaderboardData.referral.push(child.val()); });
+                earningBoardSnap.forEach(child => { leaderboardData.earning.push(child.val()); });
+                leaderboardData.referral.reverse(); leaderboardData.earning.reverse();
+                updateProgress(90);
+
+                earningWalletBalance = parseFloat(localStorage.getItem(`earningWallet_${tgUser.id}`) || '0');
+                
+                renderUI(); setupNavigation(); setupEventListeners();
+                updateProgress(100);
+
+                setTimeout(() => {
+                    document.getElementById('app-loader').style.display = 'none';
+                    document.getElementById('app').style.display = 'block';
+                    if (appConfig.welcomeMessage && !userState.welcomed) {
+                        showPopup(`<h2>Welcome to DOGS AirDrop!</h2><p>${appConfig.welcomeMessage}</p><button class="popup-close-btn">Continue</button>`);
+                        db.ref(`users/${tgUser.id}/welcomed`).set(true);
+                    }
+                }, 500);
+            } catch (error) { console.error("Initialization failed:", error); tg.showAlert("Failed to load app data. Please try again."); }
+        };
+
+        const loadUserData = async (db) => {
+            const userRef = db.ref(`users/${tgUser.id}`);
+            const snapshot = await userRef.once('value');
+            let userData = snapshot.val();
+            
+            if (!userData) {
+                const startParam = tg.initDataUnsafe.start_param;
+                const referralId = (startParam && !isNaN(startParam)) ? startParam : null;
+                
+                userData = { 
+                    id: tgUser.id, 
+                    firstName: tgUser.first_name || '', 
+                    lastName: tgUser.last_name || '', 
+                    username: tgUser.username || '', 
+                    photoUrl: tgUser.photo_url || '', 
+                    balance: 0, 
+                    referrals: 0, 
+                    referredBy: referralId, 
+                    totalEarned: 0, 
+                    lifetimeAdCount: 0, 
+                    lastAdWatchDate: '1970-01-01', 
+                    dailyAdCount: 0, 
+                    breakUntil: 0, 
+                    completedTasks: {}, 
+                    welcomed: false 
+                };
+                await userRef.set(userData);
+                
+                if (referralId && referralId != tgUser.id) {
+                    const referrerRef = db.ref(`users/${referralId}`);
+                    const bonusAmount = parseFloat(appConfig.referralBonus || 0);
+                    
+                    if (bonusAmount > 0) {
+                        await referrerRef.transaction(currentData => {
+                            if (currentData) {
+                                currentData.balance = (currentData.balance || 0) + bonusAmount;
+                                currentData.referrals = (currentData.referrals || 0) + 1;
+                            }
+                            return currentData;
+                        });
+                    } else {
+                        await referrerRef.child('referrals').set(firebase.database.ServerValue.increment(1));
+                    }
+                }
+            }
+            
+            const today = new Date().toISOString().slice(0, 10);
+            if (userData.lastAdWatchDate !== today) {
+                userData.dailyAdCount = 0; userData.lastAdWatchDate = today;
+                await userRef.update({ dailyAdCount: 0, lastAdWatchDate: today });
+            }
+            userState = userData;
+        };
+        
+        const loadTransactionHistory = async (db) => {
+            userTransactions = [];
+            const statuses = ['pending', 'completed', 'rejected'];
+            const historyPromises = statuses.map(status => db.ref(`withdrawals/${status}`).orderByChild('userId').equalTo(tgUser.id).once('value'));
+            const snapshots = await Promise.all(historyPromises);
+            snapshots.forEach(snap => { snap.forEach(childSnap => { userTransactions.push(childSnap.val()); }); });
+            userTransactions.sort((a, b) => b.timestamp - a.timestamp);
+        };
+        
+        const renderUI = () => {
+            document.getElementById('user-photo').src = userState.photoUrl || 'https://via.placeholder.com/80';
+            
+            // د تلګرام یوزرنیم سره تایید بېج اضافه کول
+            const userNameElement = document.getElementById('user-name');
+            userNameElement.textContent = `${userState.firstName} ${userState.lastName}`;
+            if (userState.username) {
+                userNameElement.innerHTML = `${userState.firstName} ${userState.lastName} <i class="fas fa-check-circle verified-badge"></i>`;
+            }
+            
+            document.getElementById('user-balance').textContent = (userState.balance || 0).toFixed(2);
+            
+            document.getElementById('daily-ads-watched').textContent = `${userState.dailyAdCount || 0} / ${appConfig.dailyAdLimit || 0}`;
+            document.getElementById('referral-count').textContent = userState.referrals || 0;
+            document.getElementById('referral-count-page').textContent = userState.referrals || 0;
+            document.getElementById('total-ads-watched').textContent = userState.lifetimeAdCount || 0;
+            document.getElementById('total-earned').textContent = (userState.totalEarned || 0).toFixed(2);
+            document.getElementById('earning-wallet-balance').textContent = earningWalletBalance.toFixed(2);
+            document.getElementById('move-to-balance-btn').disabled = earningWalletBalance < 10;
+            
+            // د ریفریل عاید محاسبه
+            const referralEarnings = (userState.referrals || 0) * 200;
+            document.getElementById('referral-earnings').textContent = referralEarnings.toFixed(2);
+            
+            renderAdTask(); renderAdProgress(); renderDynamicTasks(); renderReferralSection(); renderWithdrawSection(); renderEarningsGraph(); renderDynamicLinks();
+            renderWithdrawalHistory();
+            renderReferralLeaderboard();
+            
+            // د ویډرا شرط ښکاره کول
+            renderWithdrawalRequirement();
+        };
+        
+        const renderWithdrawalRequirement = () => {
+            const container = document.getElementById('withdrawal-requirement-container');
+            const totalAds = userState.lifetimeAdCount || 0;
+            const adsNeeded = Math.max(0, MIN_ADS_FOR_WITHDRAWAL - totalAds);
+            const percentage = Math.min(100, (totalAds / MIN_ADS_FOR_WITHDRAWAL) * 100);
+            
+            let requirementHtml = '';
+            
+            if (totalAds >= MIN_ADS_FOR_WITHDRAWAL) {
+                requirementHtml = `
+                    <div class="withdrawal-requirement" style="background: var(--gradient-rainbow);">
+                        <div class="requirement-text">
+                            <i class="fas fa-check-circle"></i> Withdrawal Requirement Met!
+                        </div>
+                        <div class="requirement-progress">
+                            <span class="requirement-count">${totalAds} / ${MIN_ADS_FOR_WITHDRAWAL}</span>
+                            <div class="requirement-bar">
+                                <div class="requirement-fill" style="width: 100%;"></div>
+                            </div>
+                            <span class="requirement-count">100%</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.8rem;">You can now withdraw your DOGS tokens.</p>
+                    </div>
+                `;
+            } else {
+                requirementHtml = `
+                    <div class="withdrawal-requirement">
+                        <div class="requirement-text">
+                            <i class="fas fa-exclamation-circle"></i> Withdrawal Requirement
+                        </div>
+                        <div class="requirement-progress">
+                            <span class="requirement-count">${totalAds} / ${MIN_ADS_FOR_WITHDRAWAL}</span>
+                            <div class="requirement-bar">
+                                <div class="requirement-fill" style="width: ${percentage}%;"></div>
+                            </div>
+                            <span class="requirement-count">${Math.round(percentage)}%</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.8rem;">You need to watch ${adsNeeded} more ads to unlock withdrawals.</p>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = requirementHtml;
+        };
+        
+        const renderAdProgress = () => {
+            const container = document.getElementById('ad-progress-container');
+            const dailyLimit = appConfig.dailyAdLimit || 1;
+            const watchedCount = userState.dailyAdCount || 0;
+            const percentage = (watchedCount / dailyLimit) * 100;
+            container.innerHTML = `<div class="progress-info"><span>Daily Ad Progress</span><span>${watchedCount} / ${dailyLimit}</span></div><div class="progress-bar-bg"><div class="progress-bar-fg" style="width: ${percentage}%;"></div></div>`;
+        };
+        
+        const renderEarningsGraph = async () => {
+             const chartEl = document.getElementById('earnings-chart'); const labelsEl = document.getElementById('earnings-chart-labels');
+            chartEl.innerHTML = ''; labelsEl.innerHTML = '';
+            const today = new Date(); const dates = [];
+            for (let i = 6; i >= 0; i--) { const date = new Date(today); date.setDate(today.getDate() - i); dates.push(date.toISOString().slice(0, 10)); }
+            const earningsPromises = dates.map(date => firebase.database().ref(`userEarnings/${tgUser.id}/${date}`).once('value'));
+            const snapshots = await Promise.all(earningsPromises);
+            const earningsData = snapshots.map(snap => snap.val() || 0);
+            const maxEarning = Math.max(...earningsData, 1);
+            earningsData.forEach((earning, index) => {
+                const height = (earning / maxEarning) * 100;
+                const dateLabel = new Date(dates[index]).toLocaleDateString('en-US', { day: 'numeric' });
+                chartEl.innerHTML += `<div class="bar" style="height: ${height}%;"><span class="tooltip">${earning.toFixed(2)} DOGS</span></div>`;
+                labelsEl.innerHTML += `<span>${dateLabel}</span>`;
+            });
+        };
+        
+        const handleWatchAd = async () => {
+            if (userState.dailyAdCount >= appConfig.dailyAdLimit) { tg.showAlert("You have reached your daily ad watch limit."); return; }
+            const now = Date.now();
+            if (userState.breakUntil && now < userState.breakUntil) {
+                const remaining = Math.ceil((userState.breakUntil - now) / 60000);
+                tg.showAlert(`Please wait for ${remaining} more minutes.`); return;
+            }
+            
+            // د GigaPub اعلان ښکاره کول
+            showPopup(`<div class="popup-loader"><div class="spinner"></div></div><h2>Loading Ad</h2><p>Please wait a moment...</p>`);
+            
+            try {
+                // د GigaPub اعلان ښکاره کول
+                await window.showGiga();
+                
+                closePopup();
+                const adValue = appConfig.adValue || 0;
+                
+                earningWalletBalance += adValue;
+                localStorage.setItem(`earningWallet_${tgUser.id}`, earningWalletBalance.toString());
+
+                userState.dailyAdCount++;
+                userState.lifetimeAdCount++;
+                userState.totalEarned = (userState.totalEarned || 0) + adValue;
+
+                const db = firebase.database(); const userRef = db.ref(`users/${tgUser.id}`);
+                const updates = {};
+                updates.dailyAdCount = userState.dailyAdCount;
+                updates.lifetimeAdCount = userState.lifetimeAdCount;
+                updates.totalEarned = userState.totalEarned;
+                if ((userState.dailyAdCount) % appConfig.adsPerBreak === 0 && appConfig.adsPerBreak > 0) {
+                    updates.breakUntil = Date.now() + (appConfig.breakDuration * 60000);
+                    userState.breakUntil = updates.breakUntil;
+                }
+                await userRef.update(updates);
+                
+                const today = new Date().toISOString().slice(0, 10);
+                await db.ref(`userEarnings/${tgUser.id}/${today}`).set(firebase.database.ServerValue.increment(adValue));
+
+                tg.HapticFeedback.notificationOccurred('success');
+                
+                // د ریوارډ پیغام ښکاره کول
+                showPopup(`
+                    <div class="reward-message">
+                        <i class="fas fa-trophy" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h2>Congratulations!</h2>
+                        <p>You watched an ad and earned</p>
+                        <div class="reward-amount">+${adValue.toFixed(2)} DOGS</div>
+                        <p>Your earning wallet has been updated!</p>
+                    </div>
+                    <button class="popup-close-btn" style="margin-top: 20px;">Continue</button>
+                `);
+                
+                renderUI();
+
+            } catch (error) {
+                console.error("Ad failed to load:", error);
+                closePopup();
+                tg.showAlert("Ad could not be loaded. Please try again.");
+            }
+        };
+
+        const handleMoveToBalance = async () => {
+            if(earningWalletBalance < 1000) { tg.showAlert("You need at least 1000 DOGS to move."); return; }
+            const btn = document.getElementById('move-to-balance-btn'); btn.disabled = true; btn.textContent = 'Moving...';
+            try {
+                const db = firebase.database();
+                await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(earningWalletBalance));
+                userState.balance += earningWalletBalance;
+                earningWalletBalance = 0;
+                localStorage.setItem(`earningWallet_${tgUser.id}`, '0');
+                tg.HapticFeedback.notificationOccurred('success');
+                tg.showAlert("Successfully moved to main balance!");
+            } catch(error) { console.error("Failed to move balance:", error); tg.showAlert("Failed to move balance. Please try again.");
+            } finally { 
+                btn.innerHTML = `<i class="fas fa-exchange-alt"></i> Move to Main Balance`; 
+                renderUI(); 
+            }
+        };
+
+        const renderWithdrawalHistory = () => {
+            const listEl = document.getElementById('withdrawal-history-list');
+            if (userTransactions.length === 0) { 
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>No withdrawal history found.</p>
+                    </div>
+                `; 
+                return; 
+            }
+            listEl.innerHTML = userTransactions.map(item => `
+                <div class="history-item">
+                    <div class="history-details">
+                        <p>${item.amount.toFixed(2)} DOGS - ${item.method}</p>
+                        <small>${new Date(item.timestamp).toLocaleString()}</small>
+                    </div>
+                    <span class="history-status status-${item.status}">${item.status}</span>
+                </div>`).join('');
+        };
+        
+        const renderReferralLeaderboard = () => {
+            const listEl = document.getElementById('referral-leaderboard-list');
+            const data = leaderboardData.referral;
+            listEl.innerHTML = '';
+            if (data.length === 0) { 
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-trophy"></i>
+                        <p>No data available yet.</p>
+                    </div>
+                `; 
+                return; 
+            }
+            data.forEach((user, index) => {
+                const score = user.referrals || 0;
+                const item = document.createElement('li'); item.className = 'leaderboard-item';
+                
+                // د تلګرام یوزرنیم سره تایید بېج اضافه کول
+                const userName = user.username ? 
+                    `${user.firstName} <i class="fas fa-check-circle verified-badge"></i>` : 
+                    user.firstName;
+                
+                item.innerHTML = `<span class="rank">#${index + 1}</span><img src="${user.photoUrl || 'https://via.placeholder.com/40'}" alt="User"><span class="leaderboard-name">${userName}</span><span class="leaderboard-score">${score}</span>`;
+                listEl.appendChild(item);
+            });
+        };
+        
+        const setupNavigation = () => {
+            const navButtons = document.querySelectorAll('.nav-btn'); const pages = document.querySelectorAll('.page');
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const pageId = button.dataset.page;
+                    pages.forEach(page => page.classList.remove('active'));
+                    document.getElementById(pageId).classList.add('active');
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // د پاڼې پورې اړوند فعالیتونه
+                    if (pageId === 'profile-page') { 
+                        renderWithdrawalHistory(); 
+                    }
+                    if (pageId === 'referral-page') { 
+                        renderReferralLeaderboard(); 
+                    }
+                    if (pageId === 'leaderboard-page') { 
+                        renderLeaderboard(); 
+                    }
+                });
+            });
+        };
+        
+        const setupEventListeners = () => {
+            popup.addEventListener('click', (e) => { if (e.target.classList.contains('popup-close-btn') || e.target.id === 'popup') closePopup(); });
+            document.querySelector('.leaderboard-toggle').addEventListener('click', (e) => {
+                if(e.target.classList.contains('toggle-btn')) {
+                    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderLeaderboard();
+                }
+            });
+            document.getElementById('dynamic-tasks-container').addEventListener('click', (e) => handleClaimTask(e));
+            document.getElementById('profile-page').addEventListener('submit', (e) => handleWithdraw(e));
+            document.getElementById('referral-section').addEventListener('click', (e) => { if(e.target.id === 'copy-ref-link-btn') copyReferralLink(); });
+            document.getElementById('move-to-balance-btn').addEventListener('click', handleMoveToBalance);
+            
+            // د تیم تoggle اضافه کول
+            document.getElementById('theme-toggle').addEventListener('click', () => {
+                if (document.body.classList.contains('light-theme')) {
+                    document.body.classList.remove('light-theme');
+                    document.body.classList.add('dark-theme');
+                    document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    document.body.classList.add('light-theme');
+                    document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+        };
+
+        const renderAdTask = () => {
+            const container = document.getElementById('ad-task-container');
+            const now = Date.now();
+            const onBreak = userState.breakUntil && now < userState.breakUntil;
+            const limitReached = userState.dailyAdCount >= appConfig.dailyAdLimit;
+            let html = '';
+            if (onBreak) {
+                const remaining = Math.ceil((userState.breakUntil - now) / 60000);
+                html = `<div class="task-container"><div class="task-icon-img"><i class="fas fa-hourglass-half"></i></div><div class="task-info"><h3>Break Time!</h3><p>Please wait for ${remaining} more minutes.</p></div><button class="action-btn" disabled><i class="fas fa-clock"></i> Waiting</button></div>`;
+            } else if (limitReached) {
+                html = `<div class="task-container"><div class="task-icon-img"><i class="fas fa-stop-circle"></i></div><div class="task-info"><h3>Daily Limit Reached</h3><p>Come back tomorrow for more ads.</p></div><button class="action-btn" disabled><i class="fas fa-ban"></i> Limit</button></div>`;
+            } else {
+                html = `<div class="task-container"><div class="task-icon-img"><i class="fas fa-play-circle"></i></div><div class="task-info"><h3>Watch a Rewarded Ad</h3><p>Earn ${appConfig.adValue || 0} DOGS for every ad.</p></div><button id="watch-ad-btn" class="action-btn"><i class="fas fa-tv"></i> Watch Ad</button></div>`;
+            }
+            container.innerHTML = html;
+            if (!onBreak && !limitReached) { document.getElementById('watch-ad-btn').addEventListener('click', handleWatchAd); }
+        };
+
+        const handleClaimTask = async (e) => {
+            if (e.target.classList.contains('action-btn') && e.target.dataset.taskId) {
+                const taskId = e.target.dataset.taskId;
+                const task = appConfig.tasks[taskId];
+                if (!task || (userState.completedTasks && userState.completedTasks[taskId])) { tg.showAlert('You have already claimed this bonus.'); return; }
+                tg.openLink(e.target.dataset.taskUrl);
+                e.target.disabled = true; e.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Claiming...';
+                setTimeout(async () => {
+                    try {
+                        const db = firebase.database(); const userRef = db.ref(`users/${tgUser.id}`);
+                        await userRef.child(`completedTasks/${taskId}`).set(true);
+                        await userRef.child('balance').set(firebase.database.ServerValue.increment(task.reward));
+                        userState.balance += task.reward;
+                        if (!userState.completedTasks) userState.completedTasks = {};
+                        userState.completedTasks[taskId] = true;
+                        tg.HapticFeedback.notificationOccurred('success');
+                        
+                        // د ریوارډ پیغام ښکاره کول
+                        showPopup(`
+                            <div class="reward-message">
+                                <i class="fas fa-gift" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                <h2>Task Completed!</h2>
+                                <p>You completed the task and earned</p>
+                                <div class="reward-amount">+${task.reward} DOGS</div>
+                                <p>Your balance has been updated!</p>
+                            </div>
+                            <button class="popup-close-btn" style="margin-top: 20px;">Continue</button>
+                        `);
+                        
+                        renderUI();
+                    } catch (error) { 
+                        tg.showAlert('Failed to claim bonus.'); 
+                        e.target.disabled = false; 
+                        e.target.innerHTML = '<i class="fas fa-gift"></i> Claim Bonus'; 
+                    }
+                }, 5000);
+            }
+        };
+
+        const handleWithdraw = async (e) => {
+            if(e.target.id !== 'withdraw-form') return;
+            e.preventDefault();
+
+            // د ویډرا لپاره د 30 اعلاناتو شرط چک کول
+            const totalAds = userState.lifetimeAdCount || 0;
+            if (totalAds < MIN_ADS_FOR_WITHDRAWAL) {
+                const adsNeeded = MIN_ADS_FOR_WITHDRAWAL - totalAds;
+                tg.showAlert(`Withdrawal failed. You need to watch ${adsNeeded} more ads to unlock withdrawals. You have currently watched ${totalAds} ads.`);
+                return;
+            }
+
+            const minRefsRequired = appConfig.minimumWithdrawReferrals || 0;
+            const userReferrals = userState.referrals || 0;
+            
+            if (minRefsRequired > 0 && userReferrals < minRefsRequired) {
+                tg.showAlert(`Withdrawal failed. You need at least ${minRefsRequired} referrals to make a withdrawal. You currently have ${userReferrals}.`);
+                return;
+            }
+
+            const methodEl = document.getElementById('withdraw-method');
+            const accountNumber = document.getElementById('account-number').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const selectedMethod = appConfig.withdrawMethods.find(m => m.name === methodEl.value);
+            
+            if (isNaN(amount) || amount <= 0) { tg.showAlert("Please enter a valid amount."); return; }
+            if (!selectedMethod) { tg.showAlert("Invalid withdrawal method."); return; }
+            
+            if (amount < selectedMethod.min) { 
+                tg.showAlert(`Minimum withdrawal for ${selectedMethod.name} is ${selectedMethod.min} DOGS.`); 
+                return; 
+            }
+            if (amount > userState.balance) { tg.showAlert("You don't have enough balance."); return; }
+            
+            const btn = document.getElementById('withdraw-submit-btn'); btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            const db = firebase.database();
+            try {
+                const userRef = db.ref(`users/${tgUser.id}`);
+                userState.balance -= amount;
+                renderUI(); 
+                
+                await userRef.child('balance').set(firebase.database.ServerValue.increment(-amount));
+                const reqId = db.ref('withdrawals/pending').push().key;
+                
+                const newRequest = { 
+                    id: reqId, 
+                    userId: tgUser.id, 
+                    userName: `${userState.firstName} ${userState.lastName}`, 
+                    method: selectedMethod.name, 
+                    account: accountNumber, 
+                    amount: amount,
+                    currency: 'DOGS',
+                    status: 'pending', 
+                    timestamp: firebase.database.ServerValue.TIMESTAMP 
+                };
+                
+                await db.ref(`withdrawals/pending/${reqId}`).set(newRequest);
+                
+                userTransactions.unshift(newRequest);
+                renderWithdrawalHistory(); 
+
+                tg.HapticFeedback.notificationOccurred('success');
+                
+                // د ویډرا تایید پیغام ښکاره کول
+                showPopup(`
+                    <h2>Withdrawal Request Submitted!</h2>
+                    <p>Your withdrawal request for <strong>${amount} DOGS</strong> has been submitted successfully.</p>
+                    <div class="withdrawal-requirement" style="background: var(--gradient-rainbow); margin: 15px 0;">
+                        <i class="fas fa-clock"></i>
+                        <p>Your withdrawal will be processed within <strong>24 to 72 hours</strong>.</p>
+                    </div>
+                    <button class="popup-close-btn">OK</button>
+                `);
+                
+                document.getElementById('withdraw-form').reset();
+            } catch (error) {
+                userState.balance += amount;
+                tg.HapticFeedback.notificationOccurred('error'); 
+                tg.showAlert("Failed to submit request. Your balance has been restored.");
+            } finally {
+                renderUI();
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Request';
+            }
+        };
+
+        const copyReferralLink = () => {
+            const refLinkInput = document.getElementById('referral-link');
+            refLinkInput.select();
+            refLinkInput.setSelectionRange(0, 99999);
+            try {
+                navigator.clipboard.writeText(refLinkInput.value).then(() => {
+                    tg.HapticFeedback.notificationOccurred('success');
+                    tg.showAlert("Referral link copied!");
+                });
+            } catch (err) {
+                document.execCommand('copy');
+                tg.HapticFeedback.notificationOccurred('success');
+                tg.showAlert("Referral link copied!");
+            }
+        };
+
+        const renderLeaderboard = () => {
+            const activeBoard = document.querySelector('.toggle-btn.active').dataset.board;
+            const listEl = document.getElementById(activeBoard === 'referral' ? 'referral-leaderboard-list' : 'earning-leaderboard-list');
+            const data = leaderboardData[activeBoard];
+            document.getElementById('referral-board').style.display = activeBoard === 'referral' ? 'block' : 'none';
+            document.getElementById('earning-board').style.display = activeBoard === 'earning' ? 'block' : 'none';
+            listEl.innerHTML = '';
+            if (data.length === 0) { 
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-trophy"></i>
+                        <p>No data available yet.</p>
+                    </div>
+                `; 
+                return; 
+            }
+            data.forEach((user, index) => {
+                const score = activeBoard === 'referral' ? (user.referrals || 0) : (user.totalEarned || 0).toFixed(2);
+                const item = document.createElement('li'); item.className = 'leaderboard-item';
+                
+                // د تلګرام یوزرنیم سره تایید بېج اضافه کول
+                const userName = user.username ? 
+                    `${user.firstName} <i class="fas fa-check-circle verified-badge"></i>` : 
+                    user.firstName;
+                
+                item.innerHTML = `<span class="rank">#${index + 1}</span><img src="${user.photoUrl || 'https://via.placeholder.com/40'}" alt="User"><span class="leaderboard-name">${userName}</span><span class="leaderboard-score">${score}</span>`;
+                listEl.appendChild(item);
+            });
+        };
+
+        const renderDynamicTasks = () => {
+            const container = document.getElementById('dynamic-tasks-container'); container.innerHTML = '';
+            if (appConfig.tasks) {
+                const tasks = [];
+                for(const key in appConfig.tasks) { tasks.push({key, ...appConfig.tasks[key]}); }
+                tasks.reverse();
+                tasks.forEach(task => {
+                    const isCompleted = userState.completedTasks && userState.completedTasks[task.key];
+                    const el = document.createElement('div'); el.className = 'task-container';
+                    
+                    // د چینل لوګو سره ښکاره کول
+                    const taskInfo = `
+                        <div class="task-icon-img">
+                            <img src="${task.icon || 'https://via.placeholder.com/50'}" alt="Channel Logo" class="channel-logo">
+                        </div>
+                        <div class="task-info">
+                            <h3>${task.name}</h3>
+                            <p>Get ${task.reward} bonus DOGS.</p>
+                            <div class="channel-verified">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Verified Channel</span>
+                            </div>
+                        </div>
+                        <button class="action-btn" data-task-id="${task.key}" data-task-url="${task.url}" ${isCompleted ? 'disabled' : ''}>
+                            <i class="fas fa-gift"></i>
+                            ${isCompleted ? 'Claimed' : 'Claim Bonus'}
+                        </button>
+                    `;
+                    
+                    el.innerHTML = taskInfo;
+                    container.appendChild(el);
+                });
+            } else {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-tasks"></i>
+                        <p>No bonus tasks available at the moment.</p>
+                    </div>
+                `;
+            }
+        };
+
+        const renderReferralSection = () => {
+            const container = document.getElementById('referral-section');
+            const refLink = `https://t.me/${appConfig.botUsername}/app?startapp=${tgUser.id}`;
+            container.innerHTML = `
+                <div class="task-container" style="flex-direction: column; align-items: stretch;">
+                    <h3>Refer & Earn More!</h3>
+                    <p>Invite friends and earn 200 DOGS per referral.</p>
+                    <input type="text" id="referral-link" value="${refLink}" readonly style="padding: 12px 15px; text-align: center; border-radius: 50px; border: 1px dashed var(--primary-color); margin: 10px 0; background: rgba(255, 107, 53, 0.05);">
+                    <button id="copy-ref-link-btn" class="action-btn">
+                        <i class="fas fa-copy"></i>
+                        Copy Link
+                    </button>
+                </div>
+            `;
+        };
+
+        const renderWithdrawSection = () => {
+            const container = document.getElementById('withdraw-section'); 
+            let optionsHtml = '';
+            
+            if (appConfig.withdrawMethods) { 
+                appConfig.withdrawMethods.forEach(method => { 
+                    optionsHtml += `<option value="${method.name}">${method.name} (Min: ${method.min} DOGS)</option>`; 
+                }); 
+            }
+            
+            const minRefs = appConfig.minimumWithdrawReferrals || 0;
+            let referralNotice = '';
+            if (minRefs > 0) {
+                referralNotice = `<p style="font-size: 0.85rem; text-align: center; margin-bottom: 15px; opacity: 0.8;"><b>Note:</b> You need at least <b>${minRefs} referrals</b> to be eligible for withdrawal.</p>`;
+            }
+
+            container.innerHTML = `
+                <form id="withdraw-form" class="task-container" style="flex-direction: column; align-items: stretch;">
+                    <h3>Request Withdraw</h3>
+                    ${referralNotice}
+                    <div class="form-group" style="width:100%">
+                        <label for="withdraw-method">Method:</label>
+                        <select id="withdraw-method" required style="width: 100%; padding: 12px 20px; border-radius: 50px;">${optionsHtml}</select>
+                    </div>
+                    <div class="form-group" style="width:100%">
+                        <label for="account-number">Account Number/ID:</label>
+                        <input type="text" id="account-number" required style="width: 100%; padding: 12px 20px; border-radius: 50px;">
+                    </div>
+                    <div class="form-group" style="width:100%">
+                        <label for="amount">Amount (DOGS):</label>
+                        <input type="number" step="any" id="amount" required style="width: 100%; padding: 12px 20px; border-radius: 50px;">
+                    </div>
+                    <button type="submit" id="withdraw-submit-btn" class="action-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Request
+                    </button>
+                </form>
+            `;
+        };
+
+        const renderDynamicLinks = () => {
+            const container = document.getElementById('dynamic-links-container'); container.innerHTML = '';
+            if (appConfig.links) {
+                const links = [];
+                for (const key in appConfig.links) { links.push({key, ...appConfig.links[key]}); }
+                links.reverse();
+                links.forEach(link => {
+                    const el = document.createElement('div'); el.className = 'task-container';
+                    el.innerHTML = `
+                        <div class="task-icon-img">
+                            <img src="${link.icon || 'https://via.placeholder.com/50'}" alt="Link Logo" class="channel-logo">
+                        </div>
+                        <div class="task-info">
+                            <h3>${link.name}</h3>
+                        </div>
+                        <button class="action-btn" onclick="window.Telegram.WebApp.openLink('${link.url}')">
+                            <i class="fas fa-external-link-alt"></i>
+                            Visit
+                        </button>
+                    `;
+                    container.appendChild(el);
+                });
+            } else {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-link"></i>
+                        <p>No quick links available at the moment.</p>
+                    </div>
+                `;
+            }
+        };
+
+        initApp();
+    });
+    </script>
+</body>
+</html> 
