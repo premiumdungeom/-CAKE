@@ -1101,7 +1101,6 @@ bot.on('message', async (msg) => {
         const channelKeyboard = {
           inline_keyboard: [
             [
-              { text: '📢 Aivex', url: 'https://t.me/Aivexpro_bot?start=5650788149' },
               { text: '🍰 Series', url: 'https://t.me/cakeseirsssl' }
             ],
             [
