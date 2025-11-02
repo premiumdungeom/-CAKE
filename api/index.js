@@ -5137,8 +5137,8 @@ app.post('/api/bot/send-message', async (req, res) => {
 
 // ==================== TON BOT REGISTRATION API ====================
 // Separate Supabase client for TON bot registrations
-const tonSupabaseUrl = "https://wpcefsajlymoqrjmpumy.supabase.co";
-const tonSupabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwY2Vmc2FqbHltb3Fyam1wdW15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE2ODAxMTUsImV4cCI6MjA3NzI1NjExNX0.oAIC9BF7L5PR1gbjkUC7R7GEgG1uBiQwMcXAokmdjKQ";
+const tonSupabaseUrl = "https://mvjumfvswjgqhzetqtti.supabase.co";
+const tonSupabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12anVtZnZzd2pncWh6ZXRxdHRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEwMjkxNDQsImV4cCI6MjA3NjYwNTE0NH0.eRc8vT7FIWU6sPQKEDlEZP8ld-5jHz6uKx1Ztal3xKE";
 const tonSupabase = createClient(tonSupabaseUrl, tonSupabaseKey);
 
 // Helper function to get total registrations
