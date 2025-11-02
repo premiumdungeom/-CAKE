@@ -5261,6 +5261,58 @@ app.get('/api/ton/stats', async (req, res) => {
     }
 });
 
+// Add this to your existing api.js
+app.get('/api/ton/check_user', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+        
+        if (!user_id) {
+            return res.status(400).json({
+                success: false,
+                message: 'user_id is required'
+            });
+        }
+
+        const userId = parseInt(user_id);
+
+        // Check if user exists in registrations table
+        const { data, error } = await tonSupabase
+            .from('ton_bot_registrations')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
+
+        if (error && error.code !== 'PGRST116') {
+            console.error('Error checking user:', error);
+        }
+
+        if (data) {
+            res.json({
+                success: true,
+                has_registered: true,
+                user_id: userId,
+                registered_at: data.registered_at,
+                message: 'User has completed TON bot verification'
+            });
+        } else {
+            res.json({
+                success: true,
+                has_registered: false,
+                user_id: userId,
+                message: 'User has not completed TON bot verification'
+            });
+        }
+
+    } catch (error) {
+        console.error('❌ Server error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+});
+
 // Get all registrations (admin endpoint)
 app.get('/api/ton/registrations', async (req, res) => {
     try {
