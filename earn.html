@@ -2,17 +2,17 @@
  <head>
   <style>
   #loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: hsl(330 74% 98%); /* CAKE light pink background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsl(142 76% 98%); /* Light green background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
 }
 
 .loading-container {
@@ -32,17 +32,18 @@
 }
 
 .dot {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    margin-left: -4px;
-    margin-top: -4px;
-    background-color: hsl(330 74% 55%); /* CAKE pink dots */
-    border-radius: 50%;
-    transform-origin: 50% 60px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
+  background-color: hsl(142 76% 45%); /* Green dots */
+  border-radius: 50%;
+  transform-origin: 50% 60px;
 }
+
 
 .dot:nth-child(1) { transform: rotate(0deg); opacity: 0.1; }
 .dot:nth-child(2) { transform: rotate(45deg); opacity: 0.2; }
@@ -54,9 +55,9 @@
 .dot:nth-child(8) { transform: rotate(315deg); opacity: 0.9; }
 
 .loading-text {
-    font-size: 18px;
-    font-weight: bold;
-    color: hsl(330 74% 25%); /* Darker pink text */
+  font-size: 18px;
+  font-weight: bold;
+  color: hsl(142 76% 25%); /* Darker green text */
 }
 
 @keyframes rotate {
@@ -88,7 +89,7 @@ window.__vite_plugin_react_preamble_installed__ = true
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> 
   <link rel="manifest" href="/site.webmanifest"> 
   <meta name="theme-color" content="#000000"> 
-  <title>🍰 CAKE</title> 
+  <title>🌿 GREEN</title> 
   <style>
     .talos-badge {
       position: fixed;
@@ -620,48 +621,48 @@ video {
   display: none;
 }
   :root {
-  --background: 330 74% 98%;  /* Light pink background */
-  --foreground: 330 74% 5%;   /* Dark pink text */
+  --background: 142 76% 98%;  /* Light green background */
+  --foreground: 142 76% 5%;   /* Dark green text */
   --card: 0 0% 100%;          /* White cards */
-  --card-foreground: 330 74% 10%;
+  --card-foreground: 142 76% 10%;
   --popover: 0 0% 100%;
-  --popover-foreground: 330 74% 10%;
-  --primary: 330 74% 55%;     /* CAKE pink color */
+  --popover-foreground: 142 76% 10%;
+  --primary: 142 76% 45%;     /* Green primary color */
   --primary-foreground: 0 0% 100%;
-  --secondary: 330 30% 96%;
-  --secondary-foreground: 330 74% 15%;
-  --muted: 330 30% 96%;
-  --muted-foreground: 330 74% 40%;
-  --accent: 330 74% 55%;      /* CAKE pink accent */
+  --secondary: 142 30% 96%;
+  --secondary-foreground: 142 76% 15%;
+  --muted: 142 30% 96%;
+  --muted-foreground: 142 76% 40%;
+  --accent: 142 76% 45%;      /* Green accent */
   --accent-foreground: 0 0% 100%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --border: 330 30% 90%;
-  --input: 330 30% 90%;
-  --ring: 330 74% 55%;        /* CAKE pink ring */
+  --border: 142 30% 90%;
+  --input: 142 30% 90%;
+  --ring: 142 76% 45%;        /* Green ring */
   --radius: 0.5rem;
 }
 
 .dark {
-  --background: 330 74% 5%;   /* Dark pink background */
-  --foreground: 330 74% 98%;  /* Light pink text */
-  --card: 330 74% 8%;
-  --card-foreground: 330 74% 98%;
-  --popover: 330 74% 8%;
-  --popover-foreground: 330 74% 98%;
-  --primary: 330 74% 55%;     /* CAKE pink primary */
+  --background: 142 76% 5%;   /* Dark green background */
+  --foreground: 142 76% 98%;  /* Light green text */
+  --card: 142 76% 8%;
+  --card-foreground: 142 76% 98%;
+  --popover: 142 76% 8%;
+  --popover-foreground: 142 76% 98%;
+  --primary: 142 76% 45%;     /* Green primary */
   --primary-foreground: 0 0% 100%;
-  --secondary: 330 74% 15%;
-  --secondary-foreground: 330 74% 98%;
-  --muted: 330 74% 15%;
-  --muted-foreground: 330 74% 70%;
-  --accent: 330 74% 25%;
-  --accent-foreground: 330 74% 98%;
+  --secondary: 142 76% 15%;
+  --secondary-foreground: 142 76% 98%;
+  --muted: 142 76% 15%;
+  --muted-foreground: 142 76% 70%;
+  --accent: 142 76% 25%;
+  --accent-foreground: 142 76% 98%;
   --destructive: 0 62% 30%;
   --destructive-foreground: 0 0% 98%;
-  --border: 330 74% 20%;
-  --input: 330 74% 20%;
-  --ring: 330 74% 55%;        /* CAKE pink ring */
+  --border: 142 76% 20%;
+  --input: 142 76% 20%;
+  --ring: 142 76% 45%;        /* Green ring */
 }
   * {
   border-color: hsl(var(--border));
@@ -2158,7 +2159,7 @@ video {
    <div class="flex flex-col min-h-screen bg-background">
     <header class="bg-primary text-primary-foreground p-4">
      <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold">🍰 CAKE</h1>
+      <h1 class="text-xl font-bold">🌿 GREEN</h1>
       <div class="flex items-center gap-3 text-right" id="user-profile">
        <div>
         <p class="font-semibold" id="user-fullname">Full Name</p>
@@ -2259,12 +2260,19 @@ video {
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
-      <div class="loading-text">🍰 CAKE</div>
+      <div class="loading-text">🌿 GREEN</div>
     </div>
   `;
   
   document.body.appendChild(loadingOverlay);
   
+  // Supabase configuration (same as your settings.html)
+  const SUPABASE_URL = "https://mvjumfvswjgqhzetqtti.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12anVtZnZzd2pncWh6ZXRxdHRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEwMjkxNDQsImV4cCI6MjA3NjYwNTE0NH0.eRc8vT7FIWU6sPQKEDlEZP8ld-5jHz6uKx1Ztal3xKE";
+  
+  // Initialize Supabase client
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
   document.addEventListener('DOMContentLoaded', async function() {
     setTimeout(() => {
         loadingOverlay.style.opacity = '0';
@@ -2311,17 +2319,13 @@ video {
         return;
     }
     
-    // Initialize daily rewards system with Firebase
+    // Initialize daily rewards system with direct database access
     await initializeDailyRewards();
 });
-  
-  // Daily Rewards System
-  // Daily Rewards System with Firebase
-function initializeDailyRewards() {
-    updateRewardsDisplay();
-    loadClaimHistory();
-}
 
+// ==================== DIRECT DATABASE FUNCTIONS ====================
+
+// Get user ID from localStorage
 function getUserId() {
     const userData = localStorage.getItem('telegramUser');
     if (userData) {
@@ -2335,29 +2339,50 @@ function getUserId() {
     return 'default';
 }
 
-// Load claims configuration from Firebase
+// Get claims configuration directly from database
 async function getClaimsConfig() {
     try {
-        const response = await fetch('/api/config/get-all');
-        if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.configs.claims) {
-                return data.configs.claims;
-            }
+        const { data, error } = await supabaseClient
+            .from('configurations')
+            .select('config')
+            .eq('id', 'claims')
+            .single();
+
+        if (error) {
+            console.error('Error loading claims config:', error);
+            // Fallback to defaults
+            return {
+                dailyClaimsLimit: 2,
+                minClaimAmount: 10,
+                maxClaimAmount: 100,
+                bonusClaimsPerFriend: 1,
+                friendsRequiredForBonus: 5
+            };
         }
+
+        if (data && data.config) {
+            console.log('✅ Claims config loaded from database:', data.config);
+            return data.config;
+        }
+
+        // Fallback to defaults if no config found
+        return {
+            dailyClaimsLimit: 2,
+            minClaimAmount: 10,
+            maxClaimAmount: 100,
+            bonusClaimsPerFriend: 1,
+            friendsRequiredForBonus: 5
+        };
     } catch (error) {
-        console.error('Error loading claims config:', error);
+        console.error('Error getting claims config:', error);
+        return {
+            dailyClaimsLimit: 2,
+            minClaimAmount: 10,
+            maxClaimAmount: 100,
+            bonusClaimsPerFriend: 1,
+            friendsRequiredForBonus: 5
+        };
     }
-    
-    // Fallback to localStorage or defaults
-    const config = JSON.parse(localStorage.getItem('claimsConfig') || '{}');
-    return {
-        dailyClaimsLimit: parseInt(config.dailyClaimsLimit) || 2,
-        minClaimAmount: parseInt(config.minClaimAmount) || 10,
-        maxClaimAmount: parseInt(config.maxClaimAmount) || 100,
-        bonusClaimsPerFriend: parseInt(config.bonusClaimsPerFriend) || 1,
-        friendsRequiredForBonus: parseInt(config.friendsRequiredForBonus) || 5
-    };
 }
 
 function getTodayDateString() {
@@ -2365,128 +2390,195 @@ function getTodayDateString() {
     return today.toISOString().split('T')[0];
 }
 
-// Get daily rewards data from Firebase
-// Get daily rewards data from Firebase
+// Get daily rewards data directly from database
 async function getDailyRewardsData() {
-  const userId = getUserId();
-  
-  try {
-    const response = await fetch(`/api/user/daily-rewards-data?userId=${userId}`);
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        console.log('📥 Retrieved daily rewards data from Firebase:', data.dailyRewardsData);
-        return data.dailyRewardsData;
-      }
+    const userId = getUserId();
+    
+    try {
+        const { data, error } = await supabaseClient
+            .from('users')
+            .select('daily_rewards_data')
+            .eq('id', userId.toString())
+            .single();
+
+        if (error) {
+            console.error('❌ Error getting daily rewards data:', error);
+            return getDefaultDailyRewardsData();
+        }
+
+        if (data && data.daily_rewards_data) {
+            console.log('📥 Retrieved daily rewards data from database:', data.daily_rewards_data);
+            return data.daily_rewards_data;
+        }
+
+        console.log('⚠️ No daily rewards data found, using defaults');
+        return getDefaultDailyRewardsData();
+    } catch (error) {
+        console.error('❌ Error getting daily rewards data:', error);
+        return getDefaultDailyRewardsData();
     }
-  } catch (error) {
-    console.error('❌ Error getting daily rewards data from Firebase:', error);
-  }
-  
-  console.log('⚠️ Falling back to default daily rewards data');
-  return getDefaultDailyRewardsData();
 }
 
-// Save daily rewards data to Firebase
-// Enhanced saveDailyRewardsData with retry
-// Enhanced saveDailyRewardsData with better error handling
+// Save daily rewards data directly to database
 async function saveDailyRewardsData(data, retryCount = 3) {
-  const userId = getUserId();
-  if (userId === 'default') {
-    console.log('⚠️ Using default user ID, cannot save to Firebase');
-    return false;
-  }
-  
-  for (let attempt = 1; attempt <= retryCount; attempt++) {
-    try {
-      console.log(`💾 Saving daily rewards data (attempt ${attempt}/${retryCount})...`);
-      console.log('📦 Data being saved:', data);
-      
-      const response = await fetch('/api/user/save-daily-rewards-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: userId,
-          dailyRewardsData: data
-        })
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        console.log('✅ Daily rewards data saved successfully:', result);
-        return true;
-      } else {
-        const errorText = await response.text();
-        console.warn(`⚠️ Save attempt ${attempt} failed:`, errorText);
-      }
-    } catch (error) {
-      console.error(`❌ Save attempt ${attempt} error:`, error);
+    const userId = getUserId();
+    if (userId === 'default') {
+        console.log('⚠️ Using default user ID, cannot save to database');
+        return false;
     }
     
-    // Wait before retry (exponential backoff)
-    if (attempt < retryCount) {
-      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+    for (let attempt = 1; attempt <= retryCount; attempt++) {
+        try {
+            console.log(`💾 Saving daily rewards data (attempt ${attempt}/${retryCount})...`);
+            console.log('📦 Data being saved:', data);
+            
+            const { error } = await supabaseClient
+                .from('users')
+                .update({
+                    daily_rewards_data: data,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', userId.toString());
+
+            if (error) {
+                console.warn(`⚠️ Save attempt ${attempt} failed:`, error);
+                continue;
+            }
+
+            console.log('✅ Daily rewards data saved successfully');
+            return true;
+        } catch (error) {
+            console.error(`❌ Save attempt ${attempt} error:`, error);
+        }
+        
+        // Wait before retry (exponential backoff)
+        if (attempt < retryCount) {
+            await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
     }
-  }
-  
-  console.error('❌ All save attempts failed');
-  return false;
+    
+    console.error('❌ All save attempts failed');
+    return false;
 }
 
 function getDefaultDailyRewardsData() {
-  const today = getTodayDateString();
-  return {
-    lastClaimDate: today, // Set to today by default
-    claimsToday: 0,
-    totalClaims: 0,
-    history: []
-  };
+    const today = getTodayDateString();
+    return {
+        lastClaimDate: today,
+        claimsToday: 0,
+        totalClaims: 0,
+        history: []
+    };
+}
+
+// Update user balance directly in database
+async function updateUserBalanceDirect(amount, description, type = 'daily_reward') {
+    const userId = getUserId();
+    
+    try {
+        console.log(`💰 Updating balance directly: User ${userId}, Amount: ${amount}, Type: ${type}`);
+        
+        // First get current user data
+        const { data: user, error: userError } = await supabaseClient
+            .from('users')
+            .select('balance, transactions')
+            .eq('id', userId.toString())
+            .single();
+
+        if (userError) {
+            console.error('❌ Error getting user data:', userError);
+            return false;
+        }
+
+        const currentBalance = user.balance || 0;
+        const newBalance = currentBalance + parseInt(amount);
+        
+        // Create transaction data
+        const transaction = {
+            type: type,
+            amount: parseInt(amount),
+            description: description,
+            timestamp: new Date().toISOString(),
+            balanceBefore: currentBalance,
+            balanceAfter: newBalance
+        };
+
+        const transactions = user.transactions || [];
+        transactions.push(transaction);
+
+        // Update balance and transactions
+        const { error: updateError } = await supabaseClient
+            .from('users')
+            .update({
+                balance: newBalance,
+                transactions: transactions,
+                last_activity: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', userId.toString());
+
+        if (updateError) {
+            console.error('❌ Error updating balance:', updateError);
+            return false;
+        }
+
+        console.log(`✅ Balance updated successfully! New balance: ${newBalance}`);
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Error in updateUserBalanceDirect:', error);
+        return false;
+    }
+}
+
+// Daily Rewards System
+async function initializeDailyRewards() {
+    await updateRewardsDisplay();
+    await loadClaimHistory();
 }
 
 async function updateRewardsDisplay() {
-  const config = await getClaimsConfig();
-  const rewardsData = await getDailyRewardsData();
-  const today = getTodayDateString();
-  
-  console.log('📊 Current rewards data:', rewardsData);
-  console.log('📅 Today:', today);
-  
-  // Reset claims if it's a new day
-  if (rewardsData.lastClaimDate !== today) {
-    console.log('🔄 New day detected, resetting claims');
-    rewardsData.claimsToday = 0;
-    rewardsData.lastClaimDate = today;
+    const config = await getClaimsConfig();
+    const rewardsData = await getDailyRewardsData();
+    const today = getTodayDateString();
     
-    // Save the reset immediately
-    await saveDailyRewardsData(rewardsData);
-    console.log('✅ Claims reset for new day');
-  }
-  
-  // Update rewards remaining display
-  const remaining = Math.max(0, config.dailyClaimsLimit - rewardsData.claimsToday);
-  document.getElementById('rewards-remaining').textContent = `${remaining}/${config.dailyClaimsLimit}`;
-  
-  console.log('🎯 Remaining claims:', remaining);
-  
-  // Update reward range display
-  document.getElementById('reward-range').textContent = 
-    `Click unlock to receive random rewards (${config.minClaimAmount}-${config.maxClaimAmount} points)`;
-  
-  // Update button state
-  const unlockButton = document.getElementById('unlock-button');
-  if (remaining > 0) {
-    unlockButton.disabled = false;
-    unlockButton.classList.remove('bg-gray-400');
-    unlockButton.classList.add('bg-primary', 'hover:bg-primary/90');
-    unlockButton.textContent = 'Unlock';
-  } else {
-    unlockButton.disabled = true;
-    unlockButton.classList.remove('bg-primary', 'hover:bg-primary/90');
-    unlockButton.classList.add('bg-gray-400');
-    unlockButton.textContent = 'Claimed Today';
-  }
+    console.log('📊 Current rewards data:', rewardsData);
+    console.log('📅 Today:', today);
+    
+    // Reset claims if it's a new day
+    if (rewardsData.lastClaimDate !== today) {
+        console.log('🔄 New day detected, resetting claims');
+        rewardsData.claimsToday = 0;
+        rewardsData.lastClaimDate = today;
+        
+        // Save the reset immediately
+        await saveDailyRewardsData(rewardsData);
+        console.log('✅ Claims reset for new day');
+    }
+    
+    // Update rewards remaining display
+    const remaining = Math.max(0, config.dailyClaimsLimit - rewardsData.claimsToday);
+    document.getElementById('rewards-remaining').textContent = `${remaining}/${config.dailyClaimsLimit}`;
+    
+    console.log('🎯 Remaining claims:', remaining);
+    
+    // Update reward range display
+    document.getElementById('reward-range').textContent = 
+        `Click unlock to receive random rewards (${config.minClaimAmount}-${config.maxClaimAmount} points)`;
+    
+    // Update button state
+    const unlockButton = document.getElementById('unlock-button');
+    if (remaining > 0) {
+        unlockButton.disabled = false;
+        unlockButton.classList.remove('bg-gray-400');
+        unlockButton.classList.add('bg-primary', 'hover:bg-primary/90');
+        unlockButton.textContent = 'Unlock';
+    } else {
+        unlockButton.disabled = true;
+        unlockButton.classList.remove('bg-primary', 'hover:bg-primary/90');
+        unlockButton.classList.add('bg-gray-400');
+        unlockButton.textContent = 'Claimed Today';
+    }
 }
 
 async function loadClaimHistory() {
@@ -2494,39 +2586,23 @@ async function loadClaimHistory() {
     updateClaimHistoryDisplay(rewardsData.history || []);
 }
 
-// Log earning to Firebase
-// Enhanced logEarning function
-async function logEarning(userId, type, amount) {
-    try {
-        console.log(`💰 Logging earning: ${type} - ${amount} points`);
-        
-        const response = await fetch('/api/user/add-balance', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: userId,
-                amount: parseInt(amount),
-                description: `${type} reward`,
-                type: type.toLowerCase().replace(' ', '_')
-            })
-        });
-        
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('❌ Failed to log earning:', errorText);
-            return false;
-        }
-        
-        const result = await response.json();
-        console.log('✅ Earning logged successfully:', result);
-        return true;
-        
-    } catch (error) {
-        console.error('❌ Error logging earning:', error);
-        return false;
+function updateClaimHistoryDisplay(history) {
+    const historyContainer = document.getElementById('claim-history');
+    
+    if (history.length === 0) {
+        historyContainer.innerHTML = '<p class="text-center text-muted-foreground">No claims yet</p>';
+        return;
     }
+    
+    historyContainer.innerHTML = history.map(claim => `
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="font-semibold">Daily Reward</p>
+                <p class="text-sm text-muted-foreground">${claim.displayDate}</p>
+            </div>
+            <p class="text-green-500 font-bold">+${claim.amount}</p>
+        </div>
+    `).join('');
 }
 
 let isClaiming = false;
@@ -2620,20 +2696,7 @@ async function claimDailyReward() {
         });
 }
 
-function revertButtonState(button, remaining) {
-    button.disabled = false;
-    button.innerHTML = 'Unlock';
-    button.classList.remove('bg-yellow-500', 'cursor-not-allowed');
-    
-    if (remaining > 0) {
-        button.classList.add('bg-primary', 'hover:bg-primary/90');
-    } else {
-        button.classList.add('bg-gray-400');
-        button.innerHTML = 'Claimed Today';
-    }
-}
-
-// ✅ NEW FUNCTION: Process reward in background
+// ✅ PROCESS DAILY REWARD IN BACKGROUND WITH DIRECT DATABASE ACCESS
 async function processDailyRewardInBackground(originalData, newClaimsToday, today, rewardAmount, claimEntry) {
     try {
         console.log('🔄 Processing daily reward in background...');
@@ -2652,21 +2715,13 @@ async function processDailyRewardInBackground(originalData, newClaimsToday, toda
             updatedData.history = updatedData.history.slice(0, 50);
         }
 
-        // ✅ BACKGROUND TASK 1: Save to Firebase
+        // ✅ BACKGROUND TASK 1: Save to database directly
         await saveDailyRewardsData(updatedData);
-        console.log('✅ Daily rewards data saved to Firebase');
+        console.log('✅ Daily rewards data saved to database');
 
-        // ✅ BACKGROUND TASK 2: Update balance via API
-        const userData = localStorage.getItem('telegramUser');
-        if (userData) {
-            const user = JSON.parse(userData);
-            await logEarning(user.id, 'Daily Reward', rewardAmount);
-            console.log('✅ Balance updated via API');
-        }
-
-        // ✅ BACKGROUND TASK 3: Send DM via bot
-        await sendDailyRewardDM(rewardAmount);
-        console.log('✅ DM sent to user');
+        // ✅ BACKGROUND TASK 2: Update balance directly in database
+        await updateUserBalanceDirect(rewardAmount, 'Daily Reward', 'daily_reward');
+        console.log('✅ Balance updated directly in database');
 
         console.log('🎉 Background processing completed successfully');
 
@@ -2676,57 +2731,8 @@ async function processDailyRewardInBackground(originalData, newClaimsToday, toda
         // User got their reward experience immediately
     }
 }
+</script>
 
-// ✅ NEW FUNCTION: Send DM for daily reward
-async function sendDailyRewardDM(rewardAmount) {
-    try {
-        const userData = localStorage.getItem('telegramUser');
-        if (userData) {
-            const user = JSON.parse(userData);
-            const config = await getClaimsConfig();
-            const rewardsData = await getDailyRewardsData();
-            
-            const remaining = Math.max(0, config.dailyClaimsLimit - rewardsData.claimsToday);
-            const message = `🎉 Daily Reward Claimed ${rewardsData.claimsToday}/${config.dailyClaimsLimit}\n\n+${rewardAmount} points added to your balance!\n\n📊 Remaining today: ${remaining}/${config.dailyClaimsLimit}\n💰 Keep earning!`;
-
-            await fetch('/api/bot/send-message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userId: user.id,
-                    message: message
-                })
-            });
-        }
-    } catch (error) {
-        console.error('Error sending DM:', error);
-        // Don't throw - DM failure shouldn't affect the reward
-    }
-}
-
-// ✅ NEW FUNCTION: Update claim history display instantly
-function updateClaimHistoryDisplay(history) {
-    const historyContainer = document.getElementById('claim-history');
-    
-    if (history.length === 0) {
-        historyContainer.innerHTML = '<p class="text-center text-muted-foreground">No claims yet</p>';
-        return;
-    }
-    
-    historyContainer.innerHTML = history.map(claim => `
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="font-semibold">Daily Reward</p>
-                <p class="text-sm text-muted-foreground">${claim.displayDate}</p>
-            </div>
-            <p class="text-green-500 font-bold">+${claim.amount}</p>
-        </div>
-    `).join('');
-}
-  </script>
-  
-  <script src="common.js"></script>
+<script src="common.js"></script>
 </body>
 </html>
